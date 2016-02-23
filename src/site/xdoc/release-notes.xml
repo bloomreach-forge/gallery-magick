@@ -27,13 +27,13 @@
           </th>
         </tr>
         <tr>
-          <td>1.0.x</td>
+          <td>0.3.x</td>
           <td>10.x</td>
         </tr>
       </table>
     </section>
     <section name="Release Notes">
-      <subsection name="1.0.0">
+      <subsection name="0.3.0">
         <ul>
           <li>
             Planning...
