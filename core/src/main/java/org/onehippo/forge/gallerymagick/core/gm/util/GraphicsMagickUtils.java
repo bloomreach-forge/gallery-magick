@@ -24,6 +24,8 @@ import org.onehippo.forge.gallerymagick.core.gm.command.GraphicsMagickExecuteExc
 
 public class GraphicsMagickUtils {
 
+    private static final String GM_EXECUTABLE = "org.onehippo.forge.gallerymagick.core.gm.executable";
+
     private GraphicsMagickUtils() {
     }
 
@@ -35,6 +37,12 @@ public class GraphicsMagickUtils {
     public static void resizeImage(File sourceFile, File targetFile, int width, int height, String ... extraOptions)
             throws GraphicsMagickExecuteException, IOException {
         GraphicsMagickCommand cmd = new GraphicsMagickCommand("convert");
+
+        final String executable = getExecutableFromSysProps();
+
+        if (executable != null) {
+            cmd.setExecutable(executable);
+        }
 
         final File tempFolder = getTempFolder();
 
@@ -55,6 +63,17 @@ public class GraphicsMagickUtils {
         cmd.addArgument(targetFile.getCanonicalPath());
 
         cmd.execute();
+    }
+
+    private static String getExecutableFromSysProps() {
+        String executable = null;
+        final String value = System.getProperty(GM_EXECUTABLE);
+
+        if (StringUtils.isNotBlank(value)) {
+            executable = value;
+        }
+
+        return executable;
     }
 
     private static File getTempFolder() {
