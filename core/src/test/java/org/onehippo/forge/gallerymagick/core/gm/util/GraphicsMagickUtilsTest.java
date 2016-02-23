@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.command;
+package org.onehippo.forge.gallerymagick.core.gm.util;
 
 import java.io.File;
 import java.net.URL;
@@ -23,13 +23,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GraphicsMagickCommandTest {
+public class GraphicsMagickUtilsTest {
 
-    private static Logger log = LoggerFactory.getLogger(GraphicsMagickCommandTest.class);
+    private static Logger log = LoggerFactory.getLogger(GraphicsMagickUtilsTest.class);
 
     private static boolean _gmCommandAvailable;
 
-    private URL HIPPO_79_JPG = GraphicsMagickCommandTest.class.getResource("/hippo-79.jpg");
+    private URL HIPPO_79_JPG = GraphicsMagickUtilsTest.class.getResource("/hippo-79.jpg");
 
     @BeforeClass
     public static void beforeClass() throws Exception {
@@ -50,26 +50,14 @@ public class GraphicsMagickCommandTest {
     }
 
     @Test
-    public void testGraphicsMagickConvert() throws Exception {
+    public void testGraphicsMagickResizeImage() throws Exception {
         if (!isGraphicsMagickAvailable()) {
             return;
         }
 
-        GraphicsMagickCommand cmd = new GraphicsMagickCommand("convert");
-        cmd.setWorkingDirectory(new File("target"));
-        File hippo79File = new File(HIPPO_79_JPG.toURI());
-        cmd.addArgument(hippo79File.getCanonicalPath());
-        cmd.addArgument("-resize");
-        cmd.addArgument("120x120");
-        cmd.addArgument("+profile");
-        cmd.addArgument("*");
-        cmd.addArgument(GraphicsMagickCommandTest.class.getSimpleName() + "-thumbnail.jpg");
-
-        try {
-            cmd.execute();
-        } catch (Exception e) {
-            log.error("Execution failure.", e);
-        }
+        File sourceFile = new File(HIPPO_79_JPG.toURI());
+        File targetFile = new File("target/" + GraphicsMagickUtilsTest.class.getSimpleName() + "-thumbnail.jpg");
+        GraphicsMagickUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
     }
 
     private static boolean isGraphicsMagickAvailable() {

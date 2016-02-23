@@ -2,9 +2,11 @@
 core/pom.xml -text
 core/src/main/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickCommand.java -text svneol=unset#text/plain
 core/src/main/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickExecuteException.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/gm/util/GraphicsMagickUtils.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickCommandTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/gm/util/GraphicsMagickUtilsTest.java -text svneol=unset#text/plain
+core/src/test/resources/hippo-79.jpg -text
 core/src/test/resources/log4j.xml -text
-core/src/test/resources/org/onehippo/forge/gallerymagick/core/gm/command/hippo-79.jpg -text
 /pom.xml -text
 src/site/site.xml -text
 src/site/xdoc/build-from-source.xml -text
