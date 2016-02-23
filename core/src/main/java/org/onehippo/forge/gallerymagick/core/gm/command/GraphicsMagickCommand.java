@@ -88,7 +88,7 @@ public class GraphicsMagickCommand {
         }
     }
 
-    public void execute() throws ExecuteException, IOException {
+    public void execute() throws GraphicsMagickExecuteException, IOException {
         CommandLine cmdLine = new CommandLine(getExecutable());
         cmdLine.addArgument(getSubCommand());
 
