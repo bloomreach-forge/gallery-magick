@@ -23,12 +23,29 @@ import org.apache.commons.io.FilenameUtils;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+import org.onehippo.forge.gallerymagick.core.ImageDimension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest {
+
+    private static Logger log = LoggerFactory.getLogger(ImageMagickCommandUtilsTest.class);
 
     @Before
     public void before() throws Exception {
         Assume.assumeTrue(isImageMagickAvailable());
+    }
+
+    @Test
+    public void testImageMagickIdentifyDimension() throws Exception {
+        ImageDimension dimension;
+
+        for (File sourceFile : getTestImageFiles()) {
+            dimension = ImageMagickCommandUtils.identifyDimension(sourceFile);
+            log.debug("Dimension of {} : {}", sourceFile, dimension);
+            assertTrue(dimension.getWidth() > 0);
+            assertTrue(dimension.getHeight() > 0);
+        }
     }
 
     @Test
@@ -45,7 +62,7 @@ public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest 
             long sourceLength = sourceFile.length();
             File targetFile = new File("target/testImageMagickResizeImage-" + targetFileName);
 
-            ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+            ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"), "+profile", "*");
 
             assertTrue(targetFile.isFile());
             assertTrue(targetFile.length() > 0L);

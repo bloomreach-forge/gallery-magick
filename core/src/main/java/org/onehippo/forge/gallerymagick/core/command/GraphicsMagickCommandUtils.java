@@ -15,10 +15,12 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
+import org.onehippo.forge.gallerymagick.core.ImageDimension;
 
 /**
  * Utility to run Graphics Magick Commands.
@@ -29,18 +31,44 @@ public class GraphicsMagickCommandUtils {
     }
 
     /**
+     * Execute <code>identify</code> sub-command and return an {@link ImageDimension} instance from the output.
+     * @param sourceFile source image file
+     * @return Execute <code>identify</code> sub-command and return an {@link ImageDimension} instance from the output
+     * @throws MagickExecuteException if execution exception occurs
+     * @throws IOException if IO exception occurs
+     */
+    public static ImageDimension identifyDimension(File sourceFile) throws MagickExecuteException, IOException {
+        GraphicsMagickCommand cmd = new GraphicsMagickCommand(null, "identify");
+
+        final File tempFolder = getTempFolder();
+
+        if (tempFolder != null) {
+            cmd.setWorkingDirectory(tempFolder);
+        }
+
+        cmd.addArgument("-format");
+        cmd.addArgument("%wx%h");
+        cmd.addArgument(sourceFile.getCanonicalPath());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(40);
+        cmd.execute(baos);
+        String output = StringUtils.trim(baos.toString("UTF-8"));
+
+        return ImageDimension.from(output);
+    }
+
+    /**
      * Resize the given image {@code sourceFile} with resizing it to {@code width} and {@code height}
      * and store the resized image to {@code targetFile}.
      * @param sourceFile source image file
      * @param targetFile target image file
-     * @param width resize width in pixels
-     * @param height reisze height in pixels
+     * @param dimension image dimension
      * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public static void resizeImage(File sourceFile, File targetFile, int width, int height)
+    public static void resizeImage(File sourceFile, File targetFile, ImageDimension dimension)
             throws MagickExecuteException, IOException {
-        resizeImage(sourceFile, targetFile, width, height, (String []) null);
+        resizeImage(sourceFile, targetFile, dimension, (String []) null);
     }
 
     /**
@@ -48,14 +76,17 @@ public class GraphicsMagickCommandUtils {
      * and store the resized image to {@code targetFile}, with appending {@code extraOptions} in the command line if provided.
      * @param sourceFile source image file
      * @param targetFile target image file
-     * @param width resize width in pixels
-     * @param height reisze height in pixels
+     * @param dimension image dimension
      * @param extraOptions extra command line options
      * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public static void resizeImage(File sourceFile, File targetFile, int width, int height, String ... extraOptions)
+    public static void resizeImage(File sourceFile, File targetFile, ImageDimension dimension, String ... extraOptions)
             throws MagickExecuteException, IOException {
+        if (dimension == null) {
+            throw new IllegalArgumentException("Invalid dimension: " + dimension);
+        }
+
         GraphicsMagickCommand cmd = new GraphicsMagickCommand(null, "convert");
 
         final File tempFolder = getTempFolder();
@@ -66,7 +97,7 @@ public class GraphicsMagickCommandUtils {
 
         cmd.addArgument(sourceFile.getCanonicalPath());
         cmd.addArgument("-resize");
-        cmd.addArgument("" + width + "x" + height);
+        cmd.addArgument(dimension.toString());
 
         if (extraOptions != null) {
             for (String extraOption : extraOptions) {

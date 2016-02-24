@@ -34,7 +34,7 @@
           <source><![CDATA[
     File sourceFile = new File("hippo.jpg");
     File targetFile = new File("hippo-thumbnail.jpg");
-    GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+    GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"), "+profile", "*");
           ]]></source>
         </div>
         <p>
@@ -67,7 +67,7 @@ $ gm convert hippo.jpg -resize 120x120 +profile "*" hippo-thumbnail.jpg
           <source><![CDATA[
     File sourceFile = new File("hippo.jpg");
     File targetFile = new File("hippo-thumbnail.jpg");
-    ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+    ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"), "+profile", "*");
           ]]></source>
         </div>
         <p>

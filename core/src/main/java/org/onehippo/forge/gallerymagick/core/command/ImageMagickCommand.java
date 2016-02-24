@@ -32,8 +32,8 @@ public class ImageMagickCommand extends AbstractMagickCommand {
      * Constructor with an {@code executable} and a {@code subCommand}.
      * If {@code executable} is null, it tries to find it from a system property keyed by {@link #PROP_EXECUTABLE_CONVERT}.
      * If not found from the system property, it uses the default Image Magick convert command executable, {@link #DEFAULT_SUBCOMMAND_CONVERT}.
-     * @param executable executable of Graphics Magick command
-     * @param subCommand sub-command of <code>gm</code> command
+     * @param executable (optional) executable of ImageMagick command
+     * @param subCommand sub-command
      */
     public ImageMagickCommand(final String executable, final String subCommand) {
         super(StringUtils.defaultIfBlank(getExecutableFromSystemProperty(subCommand), executable),

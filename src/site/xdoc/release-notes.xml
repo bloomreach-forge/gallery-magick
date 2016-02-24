@@ -33,6 +33,13 @@
       </table>
     </section>
     <section name="Release Notes">
+      <subsection name="1.0.1">
+        <ul>
+          <li>
+            Supports utility to identify dimension of image file.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="1.0.0">
         <ul>
           <li>
