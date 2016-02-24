@@ -20,7 +20,7 @@ import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-abstract public class AbstractImageMagickCommandTest {
+abstract public class AbstractImageMagickCommandTest extends AbstractMagickCommandTest {
 
     private static Logger log = LoggerFactory.getLogger(GraphicsMagickCommandUtilsTest.class);
 

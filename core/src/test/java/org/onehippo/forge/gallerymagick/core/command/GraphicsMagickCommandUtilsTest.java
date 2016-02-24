@@ -18,16 +18,18 @@ package org.onehippo.forge.gallerymagick.core.command;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.net.URL;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-import org.onehippo.forge.gallerymagick.core.command.GraphicsMagickCommandUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickCommandTest {
 
-    private URL HIPPO_79_JPG = GraphicsMagickCommandUtilsTest.class.getResource("/hippo-79.jpg");
+    private static Logger log = LoggerFactory.getLogger(GraphicsMagickCommandUtilsTest.class);
 
     @Before
     public void before() throws Exception {
@@ -36,15 +38,30 @@ public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickComman
 
     @Test
     public void testGraphicsMagickResizeImage() throws Exception {
-        File sourceFile = new File(HIPPO_79_JPG.toURI());
-        long sourceLength = sourceFile.length();
-        File targetFile = new File("target/" + GraphicsMagickCommandUtilsTest.class.getSimpleName() + "-thumbnail.jpg");
+        String sourceFileName;
+        String sourceExtension;
+        String targetFileName;
 
-        GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+        for (File sourceFile : getTestImageFiles()) {
+            sourceFileName = sourceFile.getName();
+            sourceExtension = FilenameUtils.getExtension(sourceFileName);
 
-        assertTrue(targetFile.isFile());
-        assertTrue(targetFile.length() > 0L);
-        assertTrue(targetFile.length() < sourceLength);
+            if (StringUtils.equals("tiff", sourceExtension)) {
+                log.warn("GraphicsMagick requires tiff-v3.5.4.tar.gz or later to support tiff files.");
+                continue;
+            }
+
+            targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
+
+            long sourceLength = sourceFile.length();
+            File targetFile = new File("target/" + targetFileName);
+
+            GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+
+            assertTrue(targetFile.isFile());
+            assertTrue(targetFile.length() > 0L);
+            assertTrue(targetFile.length() < sourceLength);
+        }
     }
 
 }

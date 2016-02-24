@@ -8,11 +8,16 @@ core/src/main/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickComm
 core/src/main/java/org/onehippo/forge/gallerymagick/core/command/MagickExecuteException.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractGraphicsMagickCommandTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractImageMagickCommandTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractMagickCommandTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandUtilsTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandUtilsTest.java -text svneol=unset#text/plain
-core/src/test/resources/hippo-79.jpg -text
+core/src/test/resources/hippo.bmp -text
+core/src/test/resources/hippo.gif -text
+core/src/test/resources/hippo.jpg -text
+core/src/test/resources/hippo.png -text
+core/src/test/resources/hippo.tiff -text
 core/src/test/resources/log4j.xml -text
 /pom.xml -text
 src/site/site.xml -text

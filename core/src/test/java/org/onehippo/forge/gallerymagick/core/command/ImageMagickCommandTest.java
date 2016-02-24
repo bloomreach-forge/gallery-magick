@@ -18,15 +18,13 @@ package org.onehippo.forge.gallerymagick.core.command;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.net.URL;
 
+import org.apache.commons.io.FilenameUtils;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ImageMagickCommandTest extends AbstractImageMagickCommandTest {
-
-    private URL HIPPO_79_JPG = ImageMagickCommandTest.class.getResource("/hippo-79.jpg");
 
     @Before
     public void before() throws Exception {
@@ -35,23 +33,32 @@ public class ImageMagickCommandTest extends AbstractImageMagickCommandTest {
 
     @Test
     public void testImageMagickConvert() throws Exception {
-        File sourceFile = new File(HIPPO_79_JPG.toURI());
-        long sourceLength = sourceFile.length();
-        File targetFile = new File("target/" + ImageMagickCommandTest.class.getSimpleName() + "-thumbnail.jpg");
+        String sourceFileName;
+        String sourceExtension;
+        String targetFileName;
 
-        ImageMagickCommand cmd = new ImageMagickCommand(null, "convert");
-        cmd.setWorkingDirectory(new File("target"));
-        cmd.addArgument(sourceFile.getCanonicalPath());
-        cmd.addArgument("-resize");
-        cmd.addArgument("120x120");
-        cmd.addArgument("+profile");
-        cmd.addArgument("*");
-        cmd.addArgument(targetFile.getCanonicalPath());
-        cmd.execute();
+        for (File sourceFile : getTestImageFiles()) {
+            sourceFileName = sourceFile.getName();
+            sourceExtension = FilenameUtils.getExtension(sourceFileName);
+            targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
-        assertTrue(targetFile.isFile());
-        assertTrue(targetFile.length() > 0L);
-        assertTrue(targetFile.length() < sourceLength);
+            long sourceLength = sourceFile.length();
+            File targetFile = new File("target/" + targetFileName);
+
+            ImageMagickCommand cmd = new ImageMagickCommand(null, "convert");
+            cmd.setWorkingDirectory(new File("target"));
+            cmd.addArgument(sourceFile.getCanonicalPath());
+            cmd.addArgument("-resize");
+            cmd.addArgument("120x120");
+            cmd.addArgument("+profile");
+            cmd.addArgument("*");
+            cmd.addArgument(targetFile.getCanonicalPath());
+            cmd.execute();
+
+            assertTrue(targetFile.isFile());
+            assertTrue(targetFile.length() > 0L);
+            assertTrue(targetFile.length() < sourceLength);
+        }
     }
 
 }

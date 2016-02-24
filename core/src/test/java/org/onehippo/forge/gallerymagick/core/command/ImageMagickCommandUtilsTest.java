@@ -18,15 +18,13 @@ package org.onehippo.forge.gallerymagick.core.command;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.net.URL;
 
+import org.apache.commons.io.FilenameUtils;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest {
-
-    private URL HIPPO_79_JPG = ImageMagickCommandUtilsTest.class.getResource("/hippo-79.jpg");
 
     @Before
     public void before() throws Exception {
@@ -35,15 +33,24 @@ public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest 
 
     @Test
     public void testImageMagickResizeImage() throws Exception {
-        File sourceFile = new File(HIPPO_79_JPG.toURI());
-        long sourceLength = sourceFile.length();
-        File targetFile = new File("target/" + ImageMagickCommandUtilsTest.class.getSimpleName() + "-thumbnail.jpg");
+        String sourceFileName;
+        String sourceExtension;
+        String targetFileName;
 
-        ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+        for (File sourceFile : getTestImageFiles()) {
+            sourceFileName = sourceFile.getName();
+            sourceExtension = FilenameUtils.getExtension(sourceFileName);
+            targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
-        assertTrue(targetFile.isFile());
-        assertTrue(targetFile.length() > 0L);
-        assertTrue(targetFile.length() < sourceLength);
+            long sourceLength = sourceFile.length();
+            File targetFile = new File("target/" + targetFileName);
+
+            ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+
+            assertTrue(targetFile.isFile());
+            assertTrue(targetFile.length() > 0L);
+            assertTrue(targetFile.length() < sourceLength);
+        }
     }
 
 }
