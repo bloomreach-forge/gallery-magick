@@ -29,39 +29,88 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * Encapsulation of <a href="http://www.graphicsmagick.org/utilities.html">Graphics Magick Command Utilities</a>.
+ */
 public class GraphicsMagickCommand {
 
-    private static final String DEFAULT_EXECUTABLE = "gm";
+    /**
+     * Default Graphics Magick command executable.
+     */
+    public static final String DEFAULT_EXECUTABLE = "gm";
 
+    /**
+     * Working directory of a command execution.
+     */
     private File workingDirectory;
+
+    /**
+     * Command executable. e.g, <code>gm</code>, <code>/usr/bin/gm</code> or <code>/usr/local/bin/gm</code>.
+     */
     private String executable = DEFAULT_EXECUTABLE;
+
+    /**
+     * Sub-command of <code>gm</code> command. e.g, <code>convert</code>.
+     */
     private final String subCommand;
+
+    /**
+     * Command line arguments after the sub-command.
+     */
     private List<String> arguments;
 
+    /**
+     * Constructor with a sub-command.
+     * @param subCommand sub-command of <code>gm</code> command
+     */
     public GraphicsMagickCommand(final String subCommand) {
         this.subCommand = subCommand;
     }
 
+    /**
+     * Returns working directory.
+     * @return working directory
+     */
     public File getWorkingDirectory() {
         return workingDirectory;
     }
 
+    /**
+     * Sets working directory
+     * @param workingDirectory working directory
+     */
     public void setWorkingDirectory(File workingDirectory) {
         this.workingDirectory = workingDirectory;
     }
 
+    /**
+     * Returns the executable of Graphics Magick command.
+     * @return the executable of Graphics Magick command
+     */
     public String getExecutable() {
         return executable;
     }
 
+    /**
+     * Sets the executable of Graphics Magick command.
+     * @param executable the executable of Graphics Magick command
+     */
     public void setExecutable(String executable) {
         this.executable = executable;
     }
 
+    /**
+     * Returns the sub-command of Graphics Magick command.
+     * @return the sub-command of Graphics Magick command
+     */
     public String getSubCommand() {
         return subCommand;
     }
 
+    /**
+     * Returns the command line arguments after the sub-command.
+     * @return the command line arguments after the sub-command
+     */
     public List<String> getArguments() {
         if (arguments == null) {
             return Collections.emptyList();
@@ -70,6 +119,10 @@ public class GraphicsMagickCommand {
         return Collections.unmodifiableList(arguments);
     }
 
+    /**
+     * Add a command line argument to Graphics Magick command.
+     * @param argument a command line argument to Graphics Magick command
+     */
     public void addArgument(final String argument) {
         if (StringUtils.isBlank(argument)) {
             throw new IllegalArgumentException("Blank argument.");
@@ -82,12 +135,20 @@ public class GraphicsMagickCommand {
         arguments.add(argument);
     }
 
+    /**
+     * Remove all the Graphics Magick command line arguments.
+     */
     public void clearArguments() {
         if (arguments != null) {
             arguments.clear();
         }
     }
 
+    /**
+     * Execute the Graphics Magick command with the sub-command and arguments.
+     * @throws GraphicsMagickExecuteException if an execution exception occurs
+     * @throws IOException if IO exception occurs
+     */
     public void execute() throws GraphicsMagickExecuteException, IOException {
         CommandLine cmdLine = new CommandLine(getExecutable());
         cmdLine.addArgument(getSubCommand());

@@ -17,6 +17,9 @@ package org.onehippo.forge.gallerymagick.core.gm.command;
 
 import org.apache.commons.exec.ExecuteException;
 
+/**
+ * An exception indicating that the executing a Graphics Magick processe failed.
+ */
 public class GraphicsMagickExecuteException extends ExecuteException {
 
     private static final long serialVersionUID = 1L;

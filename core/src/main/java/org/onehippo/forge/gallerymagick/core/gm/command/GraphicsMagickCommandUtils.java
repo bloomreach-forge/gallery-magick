@@ -20,18 +20,46 @@ import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * Utility to run Graphics Magick Commands.
+ */
 public class GraphicsMagickCommandUtils {
 
-    private static final String GM_EXECUTABLE = "org.onehippo.forge.gallerymagick.core.gm.executable";
+    /**
+     * System property name for Graphics Magick command executable.
+     * The default value is {@link GraphicsMagickCommand#DEFAULT_EXECUTABLE}.
+     */
+    public static final String PROP_EXECUTABLE = "org.onehippo.forge.gallerymagick.core.gm.executable";
 
     private GraphicsMagickCommandUtils() {
     }
 
+    /**
+     * Resize the given image {@code sourceFile} with resizing it to {@code width} and {@code height}
+     * and store the resized image to {@code targetFile}.
+     * @param sourceFile source image file
+     * @param targetFile target image file
+     * @param width resize width in pixels
+     * @param height reisze height in pixels
+     * @throws GraphicsMagickExecuteException if execution exception occurs
+     * @throws IOException if IO exception occurs
+     */
     public static void resizeImage(File sourceFile, File targetFile, int width, int height)
             throws GraphicsMagickExecuteException, IOException {
         resizeImage(sourceFile, targetFile, width, height, (String []) null);
     }
 
+    /**
+     * Resize the given image {@code sourceFile} with resizing it to {@code width} and {@code height}
+     * and store the resized image to {@code targetFile}, with appending {@code extraOptions} in the command line if provided.
+     * @param sourceFile source image file
+     * @param targetFile target image file
+     * @param width resize width in pixels
+     * @param height reisze height in pixels
+     * @param extraOptions extra command line options
+     * @throws GraphicsMagickExecuteException if execution exception occurs
+     * @throws IOException if IO exception occurs
+     */
     public static void resizeImage(File sourceFile, File targetFile, int width, int height, String ... extraOptions)
             throws GraphicsMagickExecuteException, IOException {
         GraphicsMagickCommand cmd = new GraphicsMagickCommand("convert");
@@ -63,9 +91,14 @@ public class GraphicsMagickCommandUtils {
         cmd.execute();
     }
 
+    /**
+     * Finds the Graphics Magick command executable by finding it from the system property, {@link #PROP_EXECUTABLE},
+     * and returns it if found.
+     * @return Graphics Magick command executable
+     */
     public static String getExecutableFromSystemProperty() {
         String executable = null;
-        final String value = System.getProperty(GM_EXECUTABLE);
+        final String value = System.getProperty(PROP_EXECUTABLE);
 
         if (StringUtils.isNotBlank(value)) {
             executable = value;
@@ -74,6 +107,10 @@ public class GraphicsMagickCommandUtils {
         return executable;
     }
 
+    /**
+     * Returns the temporary folder file.
+     * @return the temporary foler file
+     */
     private static File getTempFolder() {
         File tempFolder = null;
         final String tmpDirPath = System.getProperty("java.io.tmpdir");
