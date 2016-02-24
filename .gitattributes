@@ -22,6 +22,7 @@ core/src/test/resources/log4j.xml -text
 /pom.xml -text
 src/site/site.xml -text
 src/site/xdoc/build-from-source.xml -text
+src/site/xdoc/dev-howto.xml -text svneol=unset#text/plain
 src/site/xdoc/index.xml -text
 src/site/xdoc/install.xml -text
 src/site/xdoc/release-notes.xml -text

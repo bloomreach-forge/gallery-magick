@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC
+  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<!--
+    Copyright 2016 Hippo
+
+    Licensed under the Apache License, Version 2.0 (the  "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+  <properties>
+    <title>Developer's How-to</title>
+  </properties>
+  <body>
+
+    <section name="Developer's How-to">
+
+      <subsection name="Creating a Thumbnail Image Using GraphicsMagick Command Utility">
+        <p>
+          The following example simply uses <code>GraphicsMagickCommandUtils</code> to generate
+          a thumbnail image from the source image file with dimension, <code>120x120</code>.
+        </p>
+        <div class="brush: java">
+          <source><![CDATA[
+    File sourceFile = new File("hippo.jpg");
+    File targetFile = new File("hippo-thumbnail.jpg");
+    GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+          ]]></source>
+        </div>
+        <p>
+          This example is equivalent to executing the following GraphicsMagick command:
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ gm convert hippo.jpg -resize 120x120 +profile "*" hippo-thumbnail.jpg
+          ]]></source>
+        </div>
+        <p>
+          Please refer to the <a href="http://www.graphicsmagick.org/convert.html"><code>Convert</code> manual of GraphicsMagick utilities</a>
+          for details.
+        </p>
+        <p>
+          Also, for more control, you may use
+          <a href="apidocs/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommand.html">GraphicsMagickCommand</a>
+          instead of this utility class.
+          See a unit test, <a href="xref-test/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandTest.html">GraphicsMagickCommandTest</a>
+          for an example on how to use the command class directly.
+        </p>
+      </subsection>
+
+      <subsection name="Creating a Thumbnail Image Using ImageMagick Command Utility">
+        <p>
+          The following example simply uses <code>ImageMagickCommandUtils</code> to generate
+          a thumbnail image from the source image file with dimension, <code>120x120</code>.
+        </p>
+        <div class="brush: java">
+          <source><![CDATA[
+    File sourceFile = new File("hippo.jpg");
+    File targetFile = new File("hippo-thumbnail.jpg");
+    ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+          ]]></source>
+        </div>
+        <p>
+          This example is equivalent to executing the following ImageMagick command:
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ convert hippo.jpg -resize 120x120 +profile "*" hippo-thumbnail.jpg
+          ]]></source>
+        </div>
+        <p>
+          Please refer to the <a href="http://www.imagemagick.org/script/command-line-processing.php">ImageMagick: Command-line Processing</a>
+          for details.
+        </p>
+        <p>
+          Also, for more control, you may use
+          <a href="apidocs/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommand.html">ImageMagickCommand</a>
+          instead of this utility class.
+          See a unit test, <a href="xref-test/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandTest.html">ImageMagickCommandTest</a>
+          for an example on how to use the command class directly.
+        </p>
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
