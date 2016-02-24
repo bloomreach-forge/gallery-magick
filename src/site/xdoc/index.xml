@@ -19,15 +19,65 @@
     <section name="Introduction">
       <subsection name="What is Gallery Magick Image Processing?">
         <p>
-          Gallery Image Processing Library is an image file processing library for Hippo CMS,
+          Gallery Image Processing basically provides an image file processing library,
           using <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
           or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
         </p>
         <p>
-          TODO: more description
+          Gallery Image Processing aims to provide the following:
         </p>
+        <ul>
+          <li>
+            <strong>Gallery Image Processing Library Core</strong> :
+            programmatic Utilities to process image files.
+            <em>(Note: available since 1.0.0)</em>
+          </li>
+          <li>
+            <strong>Gallery Image Processing Plugins for Hippo CMS</strong> :
+            Hippo CMS Plugins such as a Custom Gallery Processor using
+            <strong>Gallery Image Processing Library Core</strong>
+            <em>(Note: not available yet)</em>
+          </li>
+        </ul>
       </subsection>
     </section>
+
+    <section name="Gallery Image Processing Library Core">
+      <p>
+        Gallery Image Processing Core is an image file processing library
+        which <strong>executes</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
+        either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
+      </p>
+      <p>
+        Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        or <a href="http://www.imagemagick.org/">ImageMagick</a> MUST be installed on the system.
+      </p>
+      <p>
+        This library provides the following components and utilities:
+      </p>
+      <ul>
+        <li>
+          <strong>GraphicsMagickCommand</strong> : encapsulation to execute
+          <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> commands such as <code>gm convert</code>.
+        </li>
+        <li>
+          <strong>GraphicsMagickCommandUtils</strong> : utility for simpler invocations on <strong>GraphicsMagickCommand</strong>.
+        </li>
+        <li>
+          <strong>ImageMagickCommand</strong> : encapsulation to execute
+          <a href="http://www.imagemagick.org/">ImageMagick</a> commands such as <code>convert</code>.
+        </li>
+        <li>
+          <strong>ImageMagickCommandUtils</strong> : utility for simpler invocations on <strong>ImageMagickCommand</strong>.
+        </li>
+      </ul>
+      <p>
+        For more details and examples, please see <a href="apidocs/index.html">API JavaDocs</a>
+        and <a href="xref-test/index.html">Unit Tests</a>.
+      </p>
+    </section>
+
     <section name="Project status">
       <p>
         Please see <a href="release-notes.html">Release Notes</a>.

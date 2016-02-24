@@ -23,14 +23,62 @@
   </properties>
   <body>
 
-    <section name="Installing Gallery Magick Image Processing">
+    <section name="Prerequisites">
+      <p>
+        Gallery Image Processing provides an image file processing library
+        which <strong>executes</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
+        either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
+      </p>
+      <p>
+        Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        or <a href="http://www.imagemagick.org/">ImageMagick</a> must be installed on the system.
+      </p>
 
-      <subsection name="Add Dependencies">
+      <subsection name="Installing GraphicsMagick">
         <p>
-          Make sure you have the forge Maven2 repository reference and dependency definition in the root pom.xml of your project.
+          Please see <a href="http://www.graphicsmagick.org/README.html">Installing GraphicsMagick</a> page.
         </p>
-        <div class="brush: xml">
+        <p>
+          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
+          <a href="http://brewformulas.org/Graphicsmagick">Graphicsmagick - BrewFormulas</a> like the following examples:
+        </p>
+        <div class="brush: bash">
           <source><![CDATA[
+$ brew install graphicsmagick
+          ]]></source>
+        </div>
+        or
+        <div class="brush: bash">
+          <source><![CDATA[
+$ brew reinstall graphicsmagick --with-libtiff
+          ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="Installing ImageMagick">
+        <p>
+          Please see <a href="http://www.imagemagick.org/script/binary-releases.php">ImageMagick: Install from Binary Distribution</a> page.
+        </p>
+        <p>
+          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
+          <a href="http://brewformulas.org/Imagemagick">Imagemagick - BrewFormulas</a> like the following examples:
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ brew install imagemagick
+          ]]></source>
+        </div>
+      </subsection>
+
+    </section>
+
+    <section name="Maven Repository for Gallery Magick Image Processing">
+      <p>
+        Make sure you have the forge Maven2 repository reference in the root pom.xml of your project.
+      </p>
+      <div class="brush: xml">
+        <source><![CDATA[
     <repositories>
 
       <!-- SNIP -->
@@ -44,9 +92,19 @@
       <!-- SNIP -->
 
     </repositories>
+        ]]></source>
+      </div>
 
-    <!-- SNIP -->
+    </section>
 
+    <section name="Installing Gallery Magick Image Processing Core Library">
+
+      <subsection name="Add Dependencies">
+        <p>
+          Make sure you have dependency definition in the root pom.xml of your project.
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
     <dependencyManagement>
 
       <!-- SNIP -->
@@ -72,7 +130,7 @@
     ]]></source>
         </div>
         <p>
-          And add the following dependency reference into your CMS application subproject.
+          And add the following dependency reference into your a web application (e.g, cms/) subproject.
         </p>
         <div class="brush: xml">
           <source><![CDATA[
