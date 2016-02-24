@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.command;
+package org.onehippo.forge.gallerymagick.core.command;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -30,14 +30,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Encapsulation of <a href="http://www.graphicsmagick.org/utilities.html">Graphics Magick Command Utilities</a>.
+ * Abstract *Magick Command.
  */
-public class GraphicsMagickCommand {
+abstract public class AbstractMagickCommand {
 
     /**
      * Default Graphics Magick command executable.
      */
-    public static final String DEFAULT_EXECUTABLE = "gm";
+    public static final String DEFAULT_SUBCOMMAND_CONVERT = "convert";
 
     /**
      * Working directory of a command execution.
@@ -47,7 +47,7 @@ public class GraphicsMagickCommand {
     /**
      * Command executable. e.g, <code>gm</code>, <code>/usr/bin/gm</code> or <code>/usr/local/bin/gm</code>.
      */
-    private String executable = DEFAULT_EXECUTABLE;
+    private final String executable;
 
     /**
      * Sub-command of <code>gm</code> command. e.g, <code>convert</code>.
@@ -61,9 +61,11 @@ public class GraphicsMagickCommand {
 
     /**
      * Constructor with a sub-command.
-     * @param subCommand sub-command of <code>gm</code> command
+     * @param executable executable of Magick command
+     * @param subCommand sub-command
      */
-    public GraphicsMagickCommand(final String subCommand) {
+    public AbstractMagickCommand(final String executable, final String subCommand) {
+        this.executable = executable;
         this.subCommand = subCommand;
     }
 
@@ -84,19 +86,11 @@ public class GraphicsMagickCommand {
     }
 
     /**
-     * Returns the executable of Graphics Magick command.
-     * @return the executable of Graphics Magick command
+     * Returns the executable of Magick command.
+     * @return the executable of Magick command
      */
     public String getExecutable() {
         return executable;
-    }
-
-    /**
-     * Sets the executable of Graphics Magick command.
-     * @param executable the executable of Graphics Magick command
-     */
-    public void setExecutable(String executable) {
-        this.executable = executable;
     }
 
     /**
@@ -120,8 +114,8 @@ public class GraphicsMagickCommand {
     }
 
     /**
-     * Add a command line argument to Graphics Magick command.
-     * @param argument a command line argument to Graphics Magick command
+     * Add a command line argument to Magick command.
+     * @param argument a command line argument to Magick command
      */
     public void addArgument(final String argument) {
         if (StringUtils.isBlank(argument)) {
@@ -136,7 +130,7 @@ public class GraphicsMagickCommand {
     }
 
     /**
-     * Remove all the Graphics Magick command line arguments.
+     * Remove all the Magick command line arguments.
      */
     public void clearArguments() {
         if (arguments != null) {
@@ -145,18 +139,12 @@ public class GraphicsMagickCommand {
     }
 
     /**
-     * Execute the Graphics Magick command with the sub-command and arguments.
-     * @throws GraphicsMagickExecuteException if an execution exception occurs
+     * Execute the Magick command with the sub-command and arguments.
+     * @throws MagickExecuteException if an execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public void execute() throws GraphicsMagickExecuteException, IOException {
-        CommandLine cmdLine = new CommandLine(getExecutable());
-        cmdLine.addArgument(getSubCommand());
-
-        for (String argument : getArguments()) {
-            cmdLine.addArgument(argument);
-        }
-
+    public void execute() throws MagickExecuteException, IOException {
+        CommandLine cmdLine = createCommandLine();
         ByteArrayOutputStream errStream = null;
 
         try {
@@ -177,12 +165,19 @@ public class GraphicsMagickCommand {
             sbMsg.append(". ").append(e.getMessage());
 
             if (e.getCause() == null) {
-                throw new GraphicsMagickExecuteException(sbMsg.toString(), e.getExitValue());
+                throw new MagickExecuteException(sbMsg.toString(), e.getExitValue());
             } else {
-                throw new GraphicsMagickExecuteException(sbMsg.toString(), e.getExitValue(), e.getCause());
+                throw new MagickExecuteException(sbMsg.toString(), e.getExitValue(), e.getCause());
             }
         } finally {
             IOUtils.closeQuietly(errStream);
         }
     }
+
+    /**
+     * Create a {@link CommandLine} from executable and arguments.
+     * @return a {@link CommandLine} from executable and arguments
+     */
+    abstract protected CommandLine createCommandLine();
+
 }

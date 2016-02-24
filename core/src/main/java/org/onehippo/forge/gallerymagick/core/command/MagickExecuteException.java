@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.command;
+package org.onehippo.forge.gallerymagick.core.command;
 
 import org.apache.commons.exec.ExecuteException;
 
 /**
- * An exception indicating that the executing a Graphics Magick processe failed.
+ * An exception indicating that the executing a Magick processe failed.
  */
-public class GraphicsMagickExecuteException extends ExecuteException {
+public class MagickExecuteException extends ExecuteException {
 
     private static final long serialVersionUID = 1L;
 
-    public GraphicsMagickExecuteException(final String message, final int exitValue) {
+    public MagickExecuteException(final String message, final int exitValue) {
         super(message, exitValue);
     }
 
-    public GraphicsMagickExecuteException(final String message, final int exitValue, final Throwable cause) {
+    public MagickExecuteException(final String message, final int exitValue, final Throwable cause) {
         super(message, exitValue, cause);
     }
 

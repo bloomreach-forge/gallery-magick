@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.command;
+package org.onehippo.forge.gallerymagick.core.command;
 
 import java.io.File;
 
@@ -27,7 +27,7 @@ abstract public class AbstractGraphicsMagickCommandTest {
     private static boolean _gmCommandAvailable;
 
     static {
-        final String executableFromSysProp = GraphicsMagickCommandUtils.getExecutableFromSystemProperty();
+        final String executableFromSysProp = GraphicsMagickCommand.getExecutableFromSystemProperty();
 
         if (executableFromSysProp != null) {
             _gmCommandAvailable = new File(executableFromSysProp).exists();

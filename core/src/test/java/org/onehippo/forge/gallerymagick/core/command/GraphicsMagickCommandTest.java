@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.command;
+package org.onehippo.forge.gallerymagick.core.command;
 
 import static org.junit.Assert.assertTrue;
 
@@ -23,6 +23,7 @@ import java.net.URL;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+import org.onehippo.forge.gallerymagick.core.command.GraphicsMagickCommand;
 
 public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest {
 
@@ -39,7 +40,7 @@ public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest
         long sourceLength = sourceFile.length();
         File targetFile = new File("target/" + GraphicsMagickCommandTest.class.getSimpleName() + "-thumbnail.jpg");
 
-        GraphicsMagickCommand cmd = new GraphicsMagickCommand("convert");
+        GraphicsMagickCommand cmd = new GraphicsMagickCommand(null, "convert");
         cmd.setWorkingDirectory(new File("target"));
         cmd.addArgument(sourceFile.getCanonicalPath());
         cmd.addArgument("-resize");

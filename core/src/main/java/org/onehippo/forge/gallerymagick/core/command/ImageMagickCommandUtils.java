@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.command;
+package org.onehippo.forge.gallerymagick.core.command;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,17 +21,11 @@ import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Utility to run Graphics Magick Commands.
+ * Utility to run Image Magick Commands.
  */
-public class GraphicsMagickCommandUtils {
+public class ImageMagickCommandUtils {
 
-    /**
-     * System property name for Graphics Magick command executable.
-     * The default value is {@link GraphicsMagickCommand#DEFAULT_EXECUTABLE}.
-     */
-    public static final String PROP_EXECUTABLE = "org.onehippo.forge.gallerymagick.core.gm.executable";
-
-    private GraphicsMagickCommandUtils() {
+    private ImageMagickCommandUtils() {
     }
 
     /**
@@ -41,11 +35,11 @@ public class GraphicsMagickCommandUtils {
      * @param targetFile target image file
      * @param width resize width in pixels
      * @param height reisze height in pixels
-     * @throws GraphicsMagickExecuteException if execution exception occurs
+     * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
     public static void resizeImage(File sourceFile, File targetFile, int width, int height)
-            throws GraphicsMagickExecuteException, IOException {
+            throws MagickExecuteException, IOException {
         resizeImage(sourceFile, targetFile, width, height, (String []) null);
     }
 
@@ -57,18 +51,12 @@ public class GraphicsMagickCommandUtils {
      * @param width resize width in pixels
      * @param height reisze height in pixels
      * @param extraOptions extra command line options
-     * @throws GraphicsMagickExecuteException if execution exception occurs
+     * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
     public static void resizeImage(File sourceFile, File targetFile, int width, int height, String ... extraOptions)
-            throws GraphicsMagickExecuteException, IOException {
-        GraphicsMagickCommand cmd = new GraphicsMagickCommand("convert");
-
-        final String executable = getExecutableFromSystemProperty();
-
-        if (executable != null) {
-            cmd.setExecutable(executable);
-        }
+            throws MagickExecuteException, IOException {
+        ImageMagickCommand cmd = new ImageMagickCommand(null, "convert");
 
         final File tempFolder = getTempFolder();
 
@@ -89,22 +77,6 @@ public class GraphicsMagickCommandUtils {
         cmd.addArgument(targetFile.getCanonicalPath());
 
         cmd.execute();
-    }
-
-    /**
-     * Finds the Graphics Magick command executable by finding it from the system property, {@link #PROP_EXECUTABLE},
-     * and returns it if found.
-     * @return Graphics Magick command executable
-     */
-    public static String getExecutableFromSystemProperty() {
-        String executable = null;
-        final String value = System.getProperty(PROP_EXECUTABLE);
-
-        if (StringUtils.isNotBlank(value)) {
-            executable = value;
-        }
-
-        return executable;
     }
 
     /**

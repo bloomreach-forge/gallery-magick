@@ -1,11 +1,17 @@
 * text=auto !eol
 core/pom.xml -text
-core/src/main/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickCommand.java -text svneol=unset#text/plain
-core/src/main/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickCommandUtils.java -text svneol=unset#text/plain
-core/src/main/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickExecuteException.java -text svneol=unset#text/plain
-core/src/test/java/org/onehippo/forge/gallerymagick/core/gm/command/AbstractGraphicsMagickCommandTest.java -text svneol=unset#text/plain
-core/src/test/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickCommandTest.java -text svneol=unset#text/plain
-core/src/test/java/org/onehippo/forge/gallerymagick/core/gm/command/GraphicsMagickCommandUtilsTest.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/command/AbstractMagickCommand.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommand.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandUtils.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommand.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandUtils.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/command/MagickExecuteException.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractGraphicsMagickCommandTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractImageMagickCommandTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandUtilsTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandUtilsTest.java -text svneol=unset#text/plain
 core/src/test/resources/hippo-79.jpg -text
 core/src/test/resources/log4j.xml -text
 /pom.xml -text

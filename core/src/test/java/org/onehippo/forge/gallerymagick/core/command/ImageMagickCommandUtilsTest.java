@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.command;
+package org.onehippo.forge.gallerymagick.core.command;
 
 import static org.junit.Assert.assertTrue;
 
@@ -24,22 +24,22 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickCommandTest {
+public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest {
 
-    private URL HIPPO_79_JPG = GraphicsMagickCommandUtilsTest.class.getResource("/hippo-79.jpg");
+    private URL HIPPO_79_JPG = ImageMagickCommandUtilsTest.class.getResource("/hippo-79.jpg");
 
     @Before
     public void before() throws Exception {
-        Assume.assumeTrue(isGraphicsMagickAvailable());
+        Assume.assumeTrue(isImageMagickAvailable());
     }
 
     @Test
-    public void testGraphicsMagickResizeImage() throws Exception {
+    public void testImageMagickResizeImage() throws Exception {
         File sourceFile = new File(HIPPO_79_JPG.toURI());
         long sourceLength = sourceFile.length();
-        File targetFile = new File("target/" + GraphicsMagickCommandUtilsTest.class.getSimpleName() + "-thumbnail.jpg");
+        File targetFile = new File("target/" + ImageMagickCommandUtilsTest.class.getSimpleName() + "-thumbnail.jpg");
 
-        GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
+        ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
 
         assertTrue(targetFile.isFile());
         assertTrue(targetFile.length() > 0L);
