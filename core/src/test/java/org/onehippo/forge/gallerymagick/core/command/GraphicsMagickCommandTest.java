@@ -20,16 +20,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest {
-
-    private static Logger log = LoggerFactory.getLogger(GraphicsMagickCommandTest.class);
 
     @Before
     public void before() throws Exception {
@@ -45,16 +40,10 @@ public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest
         for (File sourceFile : getTestImageFiles()) {
             sourceFileName = sourceFile.getName();
             sourceExtension = FilenameUtils.getExtension(sourceFileName);
-
-            if (StringUtils.equals("tiff", sourceExtension)) {
-                log.warn("GraphicsMagick requires tiff-v3.5.4.tar.gz or later to support tiff files.");
-                continue;
-            }
-
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
             long sourceLength = sourceFile.length();
-            File targetFile = new File("target/" + targetFileName);
+            File targetFile = new File("target/testGraphicsMagickConvert-" + targetFileName);
 
             GraphicsMagickCommand cmd = new GraphicsMagickCommand(null, "convert");
             cmd.setWorkingDirectory(new File("target"));

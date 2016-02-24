@@ -18,6 +18,7 @@ package org.onehippo.forge.gallerymagick.core.command;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
+import org.apache.commons.exec.ExecuteStreamHandler;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -144,6 +146,16 @@ abstract public class AbstractMagickCommand {
      * @throws IOException if IO exception occurs
      */
     public void execute() throws MagickExecuteException, IOException {
+        execute(null);
+    }
+
+    /**
+     * Execute the Magick command with the sub-command and arguments.
+     * @param stdOut standard output stream
+     * @throws MagickExecuteException if an execution exception occurs
+     * @throws IOException if IO exception occurs
+     */
+    public void execute(final OutputStream stdOut) throws MagickExecuteException, IOException {
         CommandLine cmdLine = createCommandLine();
         ByteArrayOutputStream errStream = null;
 
@@ -151,7 +163,15 @@ abstract public class AbstractMagickCommand {
             errStream = new ByteArrayOutputStream(512);
 
             final DefaultExecutor executor = new DefaultExecutor();
-            executor.setStreamHandler(new PumpStreamHandler(System.out, errStream));
+            ExecuteStreamHandler streamHandler = null;
+
+            if (stdOut != null) {
+                streamHandler = new PumpStreamHandler(stdOut, errStream);
+            } else {
+                streamHandler = new PumpStreamHandler(System.out, errStream);
+            }
+
+            executor.setStreamHandler(streamHandler);
 
             if (getWorkingDirectory() != null) {
                 executor.setWorkingDirectory(getWorkingDirectory());

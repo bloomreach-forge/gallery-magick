@@ -20,7 +20,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,16 +44,10 @@ public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickComman
         for (File sourceFile : getTestImageFiles()) {
             sourceFileName = sourceFile.getName();
             sourceExtension = FilenameUtils.getExtension(sourceFileName);
-
-            if (StringUtils.equals("tiff", sourceExtension)) {
-                log.warn("GraphicsMagick requires tiff-v3.5.4.tar.gz or later to support tiff files.");
-                continue;
-            }
-
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
             long sourceLength = sourceFile.length();
-            File targetFile = new File("target/" + targetFileName);
+            File targetFile = new File("target/testGraphicsMagickResizeImage-" + targetFileName);
 
             GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
 

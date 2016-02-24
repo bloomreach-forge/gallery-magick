@@ -43,7 +43,7 @@ public class ImageMagickCommandTest extends AbstractImageMagickCommandTest {
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
             long sourceLength = sourceFile.length();
-            File targetFile = new File("target/" + targetFileName);
+            File targetFile = new File("target/testImageMagickConvert-" + targetFileName);
 
             ImageMagickCommand cmd = new ImageMagickCommand(null, "convert");
             cmd.setWorkingDirectory(new File("target"));

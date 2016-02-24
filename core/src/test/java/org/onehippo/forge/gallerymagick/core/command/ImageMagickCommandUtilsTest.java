@@ -43,7 +43,7 @@ public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest 
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
             long sourceLength = sourceFile.length();
-            File targetFile = new File("target/" + targetFileName);
+            File targetFile = new File("target/testImageMagickResizeImage-" + targetFileName);
 
             ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
 
