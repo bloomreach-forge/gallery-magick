@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.gallerymagick.core.gm.util;
+package org.onehippo.forge.gallerymagick.core.gm.command;
 
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.onehippo.forge.gallerymagick.core.gm.command.GraphicsMagickCommand;
-import org.onehippo.forge.gallerymagick.core.gm.command.GraphicsMagickExecuteException;
 
-public class GraphicsMagickUtils {
+public class GraphicsMagickCommandUtils {
 
     private static final String GM_EXECUTABLE = "org.onehippo.forge.gallerymagick.core.gm.executable";
 
-    private GraphicsMagickUtils() {
+    private GraphicsMagickCommandUtils() {
     }
 
     public static void resizeImage(File sourceFile, File targetFile, int width, int height)
@@ -38,7 +36,7 @@ public class GraphicsMagickUtils {
             throws GraphicsMagickExecuteException, IOException {
         GraphicsMagickCommand cmd = new GraphicsMagickCommand("convert");
 
-        final String executable = getExecutableFromSysProps();
+        final String executable = getExecutableFromSystemProperty();
 
         if (executable != null) {
             cmd.setExecutable(executable);
@@ -65,7 +63,7 @@ public class GraphicsMagickUtils {
         cmd.execute();
     }
 
-    private static String getExecutableFromSysProps() {
+    public static String getExecutableFromSystemProperty() {
         String executable = null;
         final String value = System.getProperty(GM_EXECUTABLE);
 

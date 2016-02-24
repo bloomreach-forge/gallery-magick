@@ -19,7 +19,11 @@
     <section name="Introduction">
       <subsection name="What is Gallery Magick Image Processing?">
         <p>
-          TODO
+          Gallery Image Processing Library is an image file processing library for Hippo CMS.
+          It uses <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> to manipulate image files.
+        </p>
+        <p>
+          TODO: more description
         </p>
       </subsection>
     </section>

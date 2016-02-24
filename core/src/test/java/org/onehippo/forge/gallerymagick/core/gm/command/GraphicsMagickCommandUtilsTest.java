@@ -24,9 +24,9 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest {
+public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickCommandTest {
 
-    private URL HIPPO_79_JPG = GraphicsMagickCommandTest.class.getResource("/hippo-79.jpg");
+    private URL HIPPO_79_JPG = GraphicsMagickCommandUtilsTest.class.getResource("/hippo-79.jpg");
 
     @Before
     public void before() throws Exception {
@@ -34,20 +34,12 @@ public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest
     }
 
     @Test
-    public void testGraphicsMagickConvert() throws Exception {
+    public void testGraphicsMagickResizeImage() throws Exception {
         File sourceFile = new File(HIPPO_79_JPG.toURI());
         long sourceLength = sourceFile.length();
-        File targetFile = new File("target/" + GraphicsMagickCommandTest.class.getSimpleName() + "-thumbnail.jpg");
+        File targetFile = new File("target/" + GraphicsMagickCommandUtilsTest.class.getSimpleName() + "-thumbnail.jpg");
 
-        GraphicsMagickCommand cmd = new GraphicsMagickCommand("convert");
-        cmd.setWorkingDirectory(new File("target"));
-        cmd.addArgument(sourceFile.getCanonicalPath());
-        cmd.addArgument("-resize");
-        cmd.addArgument("120x120");
-        cmd.addArgument("+profile");
-        cmd.addArgument("*");
-        cmd.addArgument(targetFile.getCanonicalPath());
-        cmd.execute();
+        GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, 120, 120, "+profile", "*");
 
         assertTrue(targetFile.isFile());
         assertTrue(targetFile.length() > 0L);
