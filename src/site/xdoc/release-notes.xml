@@ -33,10 +33,10 @@
       </table>
     </section>
     <section name="Release Notes">
-      <subsection name="0.3.0">
+      <subsection name="1.0.0">
         <ul>
           <li>
-            Planning...
+            Initial release.
           </li>
         </ul>
       </subsection>
