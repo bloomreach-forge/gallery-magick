@@ -1,4 +1,7 @@
 * text=auto !eol
+cms/pom.xml -text svneol=unset#text/plain
+cms/src/main/java/org/onehippo/forge/gallerymagick/cms/plugins/gallery/processor/MagickCommandGalleryProcessor.java -text svneol=unset#text/plain
+cms/src/main/java/org/onehippo/forge/gallerymagick/cms/plugins/gallery/processor/MagickCommandGalleryProcessorPlugin.java -text svneol=unset#text/plain
 core/pom.xml -text
 core/src/main/java/org/onehippo/forge/gallerymagick/core/ImageDimension.java -text svneol=unset#text/plain
 core/src/main/java/org/onehippo/forge/gallerymagick/core/command/AbstractMagickCommand.java -text svneol=unset#text/plain

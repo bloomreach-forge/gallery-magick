@@ -23,11 +23,53 @@
     <version>1.0.2-SNAPSHOT</version>
   </parent>
 
-  <name>Gallery Magick Image Processing Core</name>
-  <description>Gallery Magick Image Processing Core</description>
-  <artifactId>gallery-magick-core</artifactId>
+  <name>Gallery Magick Image Processing CMS</name>
+  <description>Gallery Magick Image Processing CMS</description>
+  <artifactId>gallery-magick-cms</artifactId>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.onehippo.forge.gallery-magick</groupId>
+      <artifactId>gallery-magick-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-repository-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-repository-builtin</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-services</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-cms-gallery-frontend</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -51,6 +93,12 @@
     </dependency>
 
     <!-- TEST DEPENDENCIES -->
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-repository-testutils</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
