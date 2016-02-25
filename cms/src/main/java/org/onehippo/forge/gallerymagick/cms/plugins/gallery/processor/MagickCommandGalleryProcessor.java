@@ -20,6 +20,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
@@ -32,6 +33,7 @@ import javax.jcr.RepositoryException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hippoecm.frontend.editor.plugins.resource.ResourceHelper;
 import org.hippoecm.frontend.plugins.gallery.imageutil.ScalingParameters;
 import org.hippoecm.frontend.plugins.gallery.model.GalleryException;
@@ -48,6 +50,8 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
 
     private static final Logger log = LoggerFactory.getLogger(MagickCommandGalleryProcessor.class);
 
+    private static ThreadLocal<File> tlSourceDataFile = new ThreadLocal<>();
+
     private final Map<String, ScalingParameters> scalingParametersMap = new HashMap<>();
 
     public MagickCommandGalleryProcessor(final Map<String, ScalingParameters> initScalingParametersMap) {
@@ -63,6 +67,33 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     }
 
     @Override
+    public void makeImage(Node node, InputStream data, String mimeType, String fileName)
+            throws GalleryException, RepositoryException {
+        File sourceFile = null;
+        OutputStream sourceFileOut = null;
+
+        try {
+            sourceFile = File.createTempFile("_magickproc", "." + FilenameUtils.getExtension(fileName));
+            sourceFileOut = new FileOutputStream(sourceFile);
+            IOUtils.copy(data, sourceFileOut);
+            sourceFileOut.close();
+            sourceFileOut = null;
+            tlSourceDataFile.set(sourceFile);
+            super.makeImage(node, data, mimeType, fileName);
+        } catch (IOException e) {
+            throw new GalleryException(e.toString(), e);
+        } finally {
+            IOUtils.closeQuietly(sourceFileOut);
+
+            if (sourceFile != null) {
+                sourceFile.delete();
+            }
+
+            tlSourceDataFile.remove();
+        }
+    }
+
+    @Override
     public void initGalleryResource(final Node node, final InputStream data, final String mimeType,
             final String fileName, final Calendar lastModified) throws RepositoryException {
         node.setProperty("jcr:mimeType", mimeType);
@@ -71,21 +102,15 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         final String nodeName = node.getName();
         final ScalingParameters scalingParameters = getScalingParametersMap().get(nodeName);
 
-        File sourceFile = null;
         File targetFile = null;
-        OutputStream sourceFileOut = null;
         InputStream targetFileIn = null;
         BufferedInputStream targetBufIn = null;
         Binary targetBinary = null;
 
         try {
-            sourceFile = File.createTempFile("_magickcmd", "." + FilenameUtils.getExtension(fileName));
-            sourceFileOut = new FileOutputStream(sourceFile);
-            IOUtils.copy(data, sourceFileOut);
-            sourceFileOut.close();
-            sourceFileOut = null;
-
-            targetFile = File.createTempFile("_magickcmd-" + nodeName, "." + FilenameUtils.getExtension(fileName));
+            File sourceFile = tlSourceDataFile.get();
+            targetFile = File.createTempFile("_magickproc_" + StringUtils.replace(nodeName, ":", "_"),
+                    "." + FilenameUtils.getExtension(fileName));
 
             GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile,
                     ImageDimension.from(scalingParameters.getWidth(), scalingParameters.getHeight()));
@@ -110,10 +135,10 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
 
             IOUtils.closeQuietly(targetBufIn);
             IOUtils.closeQuietly(targetFileIn);
-            IOUtils.closeQuietly(sourceFileOut);
 
-            targetFile.delete();
-            sourceFile.delete();
+            if (targetFile != null) {
+                targetFile.delete();
+            }
         }
     }
 
