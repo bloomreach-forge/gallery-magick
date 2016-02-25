@@ -36,8 +36,9 @@ public class MagickCommandGalleryProcessorPlugin extends Plugin {
     public MagickCommandGalleryProcessorPlugin(final IPluginContext context, final IPluginConfig config) {
         super(context, config);
         final GalleryProcessor processor = createGalleryProcessor(config);
-        final String serviceName = config.getString("gallery.processor.id", "service.magick-command.gallery.processor");
-        context.registerService(processor, serviceName);
+        final String id = config.getString(GalleryProcessor.GALLERY_PROCESSOR_ID,
+                GalleryProcessor.DEFAULT_GALLERY_PROCESSOR_ID);
+        context.registerService(processor, id);
     }
 
     private GalleryProcessor createGalleryProcessor(IPluginConfig config) {
