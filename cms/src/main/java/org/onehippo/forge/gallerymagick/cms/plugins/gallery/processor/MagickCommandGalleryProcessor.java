@@ -229,11 +229,11 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         return scalingParametersMap;
     }
 
-    private boolean isImageMagickImageProcessor() {
+    protected boolean isImageMagickImageProcessor() {
         return StringUtils.equalsIgnoreCase("ImageMagick", magickImageProcessor);
     }
 
-    private void resizeImage(File sourceFile, File targetFile, ImageDimension dimension) throws MagickExecuteException, IOException {
+    protected void resizeImage(File sourceFile, File targetFile, ImageDimension dimension) throws MagickExecuteException, IOException {
         if (isImageMagickImageProcessor()) {
             ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, dimension);
         } else {
@@ -241,7 +241,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         }
     }
 
-    private ImageDimension identifyDimension(File sourceFile) throws MagickExecuteException, IOException {
+    protected ImageDimension identifyDimension(File sourceFile) throws MagickExecuteException, IOException {
         if (isImageMagickImageProcessor()) {
             return ImageMagickCommandUtils.identifyDimension(sourceFile);
         } else {

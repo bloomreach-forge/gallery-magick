@@ -36,7 +36,7 @@ public class MagickCommandGalleryProcessorPlugin extends Plugin {
 
     private static final Logger log = LoggerFactory.getLogger(MagickCommandGalleryProcessorPlugin.class);
 
-    public String MAGICK_IMAGE_PROCESSOR = "magick.image.processor";
+    public static final String MAGICK_IMAGE_PROCESSOR = "magick.image.processor";
 
     public MagickCommandGalleryProcessorPlugin(final IPluginContext context, final IPluginConfig config) {
         super(context, config);
@@ -46,7 +46,7 @@ public class MagickCommandGalleryProcessorPlugin extends Plugin {
         context.registerService(processor, id);
     }
 
-    private GalleryProcessor createGalleryProcessor(IPluginConfig config) {
+    protected GalleryProcessor createGalleryProcessor(IPluginConfig config) {
         final String magickImageProcessor = StringUtils.trim(config.getString(MAGICK_IMAGE_PROCESSOR, null));
 
         final Map<String, ScalingParameters> initScalingParametersMap = new HashMap<>();
@@ -63,6 +63,10 @@ public class MagickCommandGalleryProcessorPlugin extends Plugin {
             }
         }
 
+        return createGalleryProcessor(magickImageProcessor, initScalingParametersMap);
+    }
+
+    protected GalleryProcessor createGalleryProcessor(final String magickImageProcessor, final Map<String, ScalingParameters> initScalingParametersMap) {
         return new MagickCommandGalleryProcessor(magickImageProcessor, initScalingParametersMap);
     }
 }
