@@ -22,7 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,16 +76,11 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     public void makeImage(Node node, InputStream data, String mimeType, String fileName)
             throws GalleryException, RepositoryException {
         File sourceFile = null;
-        OutputStream sourceFileOut = null;
 
         try {
-            sourceFile = File.createTempFile(MAGICK_COMMAND_TEMP_FILE_PREFIX,
-                    "." + FilenameUtils.getExtension(fileName));
-            sourceFileOut = new FileOutputStream(sourceFile);
-            IOUtils.copy(data, sourceFileOut);
-            sourceFileOut.close();
-            sourceFileOut = null;
+            sourceFile = saveOriginalImageDataToFile(data, fileName);
 
+            // replace data by the source file for super method.
             data.close();
             data = null;
             data = new FileInputStream(sourceFile);
@@ -97,8 +91,6 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         } catch (IOException e) {
             throw new GalleryException(e.toString(), e);
         } finally {
-            IOUtils.closeQuietly(sourceFileOut);
-
             if (sourceFile != null) {
                 log.debug("Removing the original image file at '{}'.", sourceFile);
                 sourceFile.delete();
@@ -115,10 +107,17 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         node.setProperty("jcr:lastModified", lastModified);
 
         final String nodeName = node.getName();
-        final File sourceFile = tlSourceDataFile.get();
+        boolean sourceFileCreated = false;
+        File sourceFile = tlSourceDataFile.get();
 
         if (sourceFile == null) {
-            throw new IllegalStateException("Original image source file not provided.");
+            // sourceFile can be null sometimes when a user clicks on 'Restore' button to restore thumbnail in UI.
+            try {
+                sourceFile = saveOriginalImageDataToFile(data, fileName);
+                sourceFileCreated = true;
+            } catch (IOException e) {
+                throw new RuntimeException(e.toString(), e);
+            }
         }
 
         File targetFile = null;
@@ -197,6 +196,11 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
                 log.debug("Removing the resized target image file at '{}'.", targetFile);
                 targetFile.delete();
             }
+
+            if (sourceFileCreated && sourceFile != null) {
+                log.debug("Removing the original source image file at '{}'.", sourceFile);
+                sourceFile.delete();
+            }
         }
     }
 
@@ -217,5 +221,22 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     @Override
     public Map<String, ScalingParameters> getScalingParametersMap() throws RepositoryException {
         return scalingParametersMap;
+    }
+
+    private File saveOriginalImageDataToFile(final InputStream dataIput, final String fileName) throws IOException {
+        File sourceFile = null;
+        FileOutputStream fos = null;
+
+        try {
+            sourceFile = File.createTempFile(MAGICK_COMMAND_TEMP_FILE_PREFIX,
+                    "." + FilenameUtils.getExtension(fileName));
+            fos = new FileOutputStream(sourceFile);
+            log.debug("Storing original image source file ('{}') to '{}'.", fileName, sourceFile);
+            IOUtils.copy(dataIput, fos);
+        } finally {
+            IOUtils.closeQuietly(fos);
+        }
+
+        return sourceFile;
     }
 }
