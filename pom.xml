@@ -262,6 +262,7 @@
   <modules>
     <module>core</module>
     <module>cms</module>
+    <module>bootstrap</module>
   </modules>
 
   <reporting>

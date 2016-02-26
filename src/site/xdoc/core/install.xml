@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC
+  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<!--
+    Copyright 2016 Hippo
+
+    Licensed under the Apache License, Version 2.0 (the  "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+  <properties>
+    <title>Installing Gallery Magick Image Processing</title>
+  </properties>
+  <body>
+
+    <section name="Prerequisites">
+      <p>
+        Gallery Image Processing provides an image file processing library
+        which <strong>executes</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
+        either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
+      </p>
+      <p>
+        Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        or <a href="http://www.imagemagick.org/">ImageMagick</a> must be installed on the system.
+      </p>
+
+      <subsection name="Installing GraphicsMagick">
+        <p>
+          Please see <a href="http://www.graphicsmagick.org/README.html">Installing GraphicsMagick</a> page.
+        </p>
+        <p>
+          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
+          <a href="http://brewformulas.org/Graphicsmagick">Graphicsmagick - BrewFormulas</a> like the following examples:
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ brew install graphicsmagick
+          ]]></source>
+        </div>
+        or
+        <div class="brush: bash">
+          <source><![CDATA[
+$ brew reinstall graphicsmagick --with-libtiff
+          ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="Installing ImageMagick">
+        <p>
+          Please see <a href="http://www.imagemagick.org/script/binary-releases.php">ImageMagick: Install from Binary Distribution</a> page.
+        </p>
+        <p>
+          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
+          <a href="http://brewformulas.org/Imagemagick">Imagemagick - BrewFormulas</a> like the following examples:
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ brew install imagemagick
+          ]]></source>
+        </div>
+      </subsection>
+
+    </section>
+
+    <section name="Maven Repository for Gallery Magick Image Processing">
+      <p>
+        Make sure you have the forge Maven2 repository reference in the root pom.xml of your project.
+      </p>
+      <div class="brush: xml">
+        <source><![CDATA[
+    <repositories>
+
+      <!-- SNIP -->
+
+      <repository>
+        <id>gallery-magick-maven-repo</id>
+        <name>Gallery Magick Maven 2 Repository</name>
+        <url>http://forge.onehippo.org/svn/gallery-magick/maven2/</url>
+      </repository>
+
+      <!-- SNIP -->
+
+    </repositories>
+        ]]></source>
+      </div>
+
+    </section>
+
+    <section name="Installing Gallery Magick Image Processing Core Library">
+
+      <subsection name="Add Dependencies">
+        <p>
+          Make sure you have dependency definition in the root pom.xml of your project.
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
+    <dependencyManagement>
+
+      <!-- SNIP -->
+
+      <dependencies>
+
+        <!-- SNIP -->
+
+        <!-- NOTE: You should set a property named 'forge.gallery-magick.version' to a version of this plugin! -->
+        <dependency>
+          <groupId>org.onehippo.forge.gallery-magick</groupId>
+          <artifactId>gallery-magick-core</artifactId>
+          <version>${forge.gallery-magick.version}</version>
+        </dependency>
+
+        <!-- SNIP -->
+
+      </dependencies>
+
+      <!-- SNIP -->
+
+    </dependencyManagement>
+    ]]></source>
+        </div>
+        <p>
+          And add the following dependency reference into your a web application (e.g, cms/) subproject.
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
+    <dependencies>
+
+      <!-- SNIP -->
+
+      <dependency>
+        <groupId>org.onehippo.forge.gallery-magick</groupId>
+        <artifactId>gallery-magick-core</artifactId>
+      </dependency>
+
+      <!-- SNIP -->
+
+    </dependencies>
+    ]]></source>
+        </div>
+        <p>
+          Now, you're ready to use the library!
+        </p>
+      </subsection>
+    </section>
+  </body>
+</document>

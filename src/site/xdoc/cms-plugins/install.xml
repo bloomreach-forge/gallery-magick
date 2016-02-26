@@ -34,43 +34,9 @@
         Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
         or <a href="http://www.imagemagick.org/">ImageMagick</a> must be installed on the system.
       </p>
-
-      <subsection name="Installing GraphicsMagick">
-        <p>
-          Please see <a href="http://www.graphicsmagick.org/README.html">Installing GraphicsMagick</a> page.
-        </p>
-        <p>
-          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
-          <a href="http://brewformulas.org/Graphicsmagick">Graphicsmagick - BrewFormulas</a> like the following examples:
-        </p>
-        <div class="brush: bash">
-          <source><![CDATA[
-$ brew install graphicsmagick
-          ]]></source>
-        </div>
-        or
-        <div class="brush: bash">
-          <source><![CDATA[
-$ brew reinstall graphicsmagick --with-libtiff
-          ]]></source>
-        </div>
-      </subsection>
-
-      <subsection name="Installing ImageMagick">
-        <p>
-          Please see <a href="http://www.imagemagick.org/script/binary-releases.php">ImageMagick: Install from Binary Distribution</a> page.
-        </p>
-        <p>
-          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
-          <a href="http://brewformulas.org/Imagemagick">Imagemagick - BrewFormulas</a> like the following examples:
-        </p>
-        <div class="brush: bash">
-          <source><![CDATA[
-$ brew install imagemagick
-          ]]></source>
-        </div>
-      </subsection>
-
+      <p>
+        See <a href="../core/install.html#Prerequisites">Gallery Image Processing Installation</a> page for detail.
+      </p>
     </section>
 
     <section name="Maven Repository for Gallery Magick Image Processing">
@@ -116,7 +82,7 @@ $ brew install imagemagick
         <!-- NOTE: You should set a property named 'forge.gallery-magick.version' to a version of this plugin! -->
         <dependency>
           <groupId>org.onehippo.forge.gallery-magick</groupId>
-          <artifactId>gallery-magick-core</artifactId>
+          <artifactId>gallery-magick-cms</artifactId>
           <version>${forge.gallery-magick.version}</version>
         </dependency>
 
@@ -130,7 +96,7 @@ $ brew install imagemagick
     ]]></source>
         </div>
         <p>
-          And add the following dependency reference into your a web application (e.g, cms/) subproject.
+          And add the following dependency reference into your CMS web application subproject.
         </p>
         <div class="brush: xml">
           <source><![CDATA[
@@ -140,7 +106,7 @@ $ brew install imagemagick
 
       <dependency>
         <groupId>org.onehippo.forge.gallery-magick</groupId>
-        <artifactId>gallery-magick-core</artifactId>
+        <artifactId>gallery-magick-cms</artifactId>
       </dependency>
 
       <!-- SNIP -->

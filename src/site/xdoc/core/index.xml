@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright 2016 Hippo Licensed under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+    applicable law or agreed to in writing, software distributed under
+    the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
+    OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and
+    limitations under the License.
+  --><!DOCTYPE document PUBLIC "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+  <properties>
+    <title>Gallery Magick Image Core Library</title>
+  </properties>
+  <body>
+    <section name="Gallery Magick Image Core Library">
+      <subsection name="Introduction">
+        <p>
+          Gallery Image Processing Core is an image file processing library
+          which <strong>executes</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
+          either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
+        </p>
+        <p>
+          Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          or <a href="http://www.imagemagick.org/">ImageMagick</a> MUST be installed on the system.
+        </p>
+        <p>
+          This library provides the following components and utilities:
+        </p>
+        <ul>
+          <li>
+            <strong>GraphicsMagickCommand</strong> : encapsulation to execute
+            <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> commands such as <code>gm convert</code>.
+          </li>
+          <li>
+            <strong>GraphicsMagickCommandUtils</strong> : utility for simpler invocations on <strong>GraphicsMagickCommand</strong>.
+          </li>
+          <li>
+            <strong>ImageMagickCommand</strong> : encapsulation to execute
+            <a href="http://www.imagemagick.org/">ImageMagick</a> commands such as <code>convert</code>.
+          </li>
+          <li>
+            <strong>ImageMagickCommandUtils</strong> : utility for simpler invocations on <strong>ImageMagickCommand</strong>.
+          </li>
+        </ul>
+        <p>
+          For more details and examples, please see <a href="../apidocs/index.html">API JavaDocs</a>
+          and <a href="../xref-test/index.html">Unit Tests</a>.
+        </p>
+      </subsection>
+    </section>
+
+  </body>
+</document>

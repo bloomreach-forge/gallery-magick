@@ -1,4 +1,7 @@
 * text=auto !eol
+bootstrap/pom.xml -text svneol=unset#text/plain
+bootstrap/src/main/resources/configuration/frontend/cms/cms-services/magick-command-gallery-processor-service.xml -text svneol=unset#text/plain
+bootstrap/src/main/resources/hippoecm-extension.xml -text svneol=unset#text/plain
 cms/pom.xml -text svneol=unset#text/plain
 cms/src/main/java/org/onehippo/forge/gallerymagick/cms/plugins/gallery/processor/MagickCommandGalleryProcessor.java -text svneol=unset#text/plain
 cms/src/main/java/org/onehippo/forge/gallerymagick/cms/plugins/gallery/processor/MagickCommandGalleryProcessorPlugin.java -text svneol=unset#text/plain
@@ -26,7 +29,11 @@ core/src/test/resources/log4j.xml -text
 /pom.xml -text
 src/site/site.xml -text
 src/site/xdoc/build-from-source.xml -text
-src/site/xdoc/dev-howto.xml -text svneol=unset#text/plain
+src/site/xdoc/cms-plugins/dev-howto.xml -text svneol=unset#text/plain
+src/site/xdoc/cms-plugins/index.xml -text svneol=unset#text/plain
+src/site/xdoc/cms-plugins/install.xml -text svneol=unset#text/plain
+src/site/xdoc/core/dev-howto.xml -text svneol=unset#text/plain
+src/site/xdoc/core/index.xml -text svneol=unset#text/plain
+src/site/xdoc/core/install.xml -text
 src/site/xdoc/index.xml -text
-src/site/xdoc/install.xml -text
 src/site/xdoc/release-notes.xml -text
