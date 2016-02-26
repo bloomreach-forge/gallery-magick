@@ -27,6 +27,9 @@ import org.hippoecm.frontend.plugins.gallery.model.GalleryProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * CMS Plugin to register the {@link GalleryProcessor} service using Gallery Magick Forge library.
+ */
 public class MagickCommandGalleryProcessorPlugin extends Plugin {
 
     private static final long serialVersionUID = 1L;
