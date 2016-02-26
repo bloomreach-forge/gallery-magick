@@ -42,6 +42,8 @@ import org.hippoecm.frontend.plugins.gallery.processor.AbstractGalleryProcessor;
 import org.hippoecm.repository.gallery.HippoGalleryNodeType;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
 import org.onehippo.forge.gallerymagick.core.command.GraphicsMagickCommandUtils;
+import org.onehippo.forge.gallerymagick.core.command.ImageMagickCommandUtils;
+import org.onehippo.forge.gallerymagick.core.command.MagickExecuteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +62,11 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
 
     private final Map<String, ScalingParameters> scalingParametersMap = new HashMap<>();
 
-    public MagickCommandGalleryProcessor(final Map<String, ScalingParameters> initScalingParametersMap) {
+    private final String magickImageProcessor;
+
+    public MagickCommandGalleryProcessor(final String magickImageProcessor, final Map<String, ScalingParameters> initScalingParametersMap) {
+        this.magickImageProcessor = magickImageProcessor;
+
         if (initScalingParametersMap != null) {
             scalingParametersMap.putAll(initScalingParametersMap);
         }
@@ -136,7 +142,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
                             scalingParameters.getHeight());
                     log.debug("Resizing the original image file ('{}') to '{}' with dimension, {}.", sourceFile,
                             targetTempFile, dimension);
-                    GraphicsMagickCommandUtils.resizeImage(sourceFile, targetTempFile, dimension);
+                    resizeImage(sourceFile, targetTempFile, dimension);
                     targetFile = targetTempFile;
                     targetTempFile = null;
                 } catch (Exception e) {
@@ -158,10 +164,10 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
 
         try {
             if (targetFile != null) {
-                dimension = GraphicsMagickCommandUtils.identifyDimension(targetFile);
+                dimension = identifyDimension(targetFile);
                 imageFileIn = new FileInputStream(targetFile);
             } else {
-                dimension = GraphicsMagickCommandUtils.identifyDimension(sourceFile);
+                dimension = identifyDimension(sourceFile);
                 imageFileIn = new FileInputStream(sourceFile);
             }
 
@@ -221,6 +227,26 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     @Override
     public Map<String, ScalingParameters> getScalingParametersMap() throws RepositoryException {
         return scalingParametersMap;
+    }
+
+    private boolean isImageMagickImageProcessor() {
+        return StringUtils.equalsIgnoreCase("ImageMagick", magickImageProcessor);
+    }
+
+    private void resizeImage(File sourceFile, File targetFile, ImageDimension dimension) throws MagickExecuteException, IOException {
+        if (isImageMagickImageProcessor()) {
+            ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, dimension);
+        } else {
+            GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, dimension);
+        }
+    }
+
+    private ImageDimension identifyDimension(File sourceFile) throws MagickExecuteException, IOException {
+        if (isImageMagickImageProcessor()) {
+            return ImageMagickCommandUtils.identifyDimension(sourceFile);
+        } else {
+            return GraphicsMagickCommandUtils.identifyDimension(sourceFile);
+        }
     }
 
     private File saveOriginalImageDataToFile(final InputStream dataIput, final String fileName) throws IOException {
