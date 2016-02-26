@@ -38,6 +38,7 @@ import org.hippoecm.frontend.editor.plugins.resource.MimeTypeHelper;
 import org.hippoecm.frontend.editor.plugins.resource.ResourceHelper;
 import org.hippoecm.frontend.plugins.gallery.imageutil.ScalingParameters;
 import org.hippoecm.frontend.plugins.gallery.model.GalleryException;
+import org.hippoecm.frontend.plugins.gallery.model.GalleryProcessor;
 import org.hippoecm.frontend.plugins.gallery.processor.AbstractGalleryProcessor;
 import org.hippoecm.repository.gallery.HippoGalleryNodeType;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
@@ -188,10 +189,12 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
             IOUtils.closeQuietly(imageFileIn);
 
             if (targetTempFile != null) {
+                log.debug("Removing the temporary resized target image file at '{}'.", targetTempFile);
                 targetTempFile.delete();
             }
 
             if (targetFile != null) {
+                log.debug("Removing the resized target image file at '{}'.", targetFile);
                 targetFile.delete();
             }
         }
