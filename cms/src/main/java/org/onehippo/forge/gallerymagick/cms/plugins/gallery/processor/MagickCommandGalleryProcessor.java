@@ -82,27 +82,25 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     public void makeImage(Node node, InputStream data, String mimeType, String fileName)
             throws GalleryException, RepositoryException {
         File sourceFile = null;
+        InputStream sourceFileInput = null;
 
         try {
             sourceFile = saveOriginalImageDataToFile(data, fileName);
-
-            // replace data by the source file for super method.
-            data.close();
-            data = null;
-            data = new FileInputStream(sourceFile);
-
+            sourceFileInput = new FileInputStream(sourceFile);
             tlSourceDataFile.set(sourceFile);
-
-            super.makeImage(node, data, mimeType, fileName);
+            super.makeImage(node, sourceFileInput, mimeType, fileName);
         } catch (IOException e) {
             throw new GalleryException(e.toString(), e);
         } finally {
+            tlSourceDataFile.remove();
+
+            IOUtils.closeQuietly(sourceFileInput);
+            IOUtils.closeQuietly(data);
+
             if (sourceFile != null) {
-                log.debug("Removing the original image file at '{}'.", sourceFile);
+                log.debug("Deleting the original image file at '{}'.", sourceFile);
                 sourceFile.delete();
             }
-
-            tlSourceDataFile.remove();
         }
     }
 
@@ -194,17 +192,17 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
             IOUtils.closeQuietly(imageFileIn);
 
             if (targetTempFile != null) {
-                log.debug("Removing the temporary resized target image file at '{}'.", targetTempFile);
+                log.debug("Deleting the temporary resized target image file at '{}'.", targetTempFile);
                 targetTempFile.delete();
             }
 
             if (targetFile != null) {
-                log.debug("Removing the resized target image file at '{}'.", targetFile);
+                log.debug("Deleting the resized target image file at '{}'.", targetFile);
                 targetFile.delete();
             }
 
             if (sourceFileCreated && sourceFile != null) {
-                log.debug("Removing the original source image file at '{}'.", sourceFile);
+                log.debug("Deleting the original source image file at '{}'.", sourceFile);
                 sourceFile.delete();
             }
         }
