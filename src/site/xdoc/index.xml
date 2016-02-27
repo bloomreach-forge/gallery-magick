@@ -19,24 +19,23 @@
     <section name="Introduction">
       <subsection name="What is Gallery Magick Image Processing?">
         <p>
-          Gallery Image Processing basically provides an image file processing library,
+          Gallery Image Processing provides an image file processing library
+          and CMS plugins,
           using <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
           or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
         </p>
         <p>
-          Gallery Image Processing aims to provide the following:
+          Gallery Image Processing basically aims to provide the following:
         </p>
         <ul>
           <li>
             <a href="core/index.html"><strong>Gallery Image Processing Core Library</strong> </a> :
             programmatic Utilities to process image files.
-            <em>(Note: available since 1.0.0)</em>
           </li>
           <li>
             <a href="cms-plugins/index.html"><strong>Gallery Image Processing CMS Plugins</strong></a> :
-            Hippo CMS Plugins such as a Custom Gallery Processor using
-            <strong>Gallery Image Processing Library Core</strong>
-            <em>(Note: not available yet)</em>
+            Hippo CMS Plugins such as a new Gallery Processor using
+            <strong>Gallery Image Processing Core Library</strong>
           </li>
         </ul>
       </subsection>

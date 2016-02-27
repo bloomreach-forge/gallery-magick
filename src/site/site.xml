@@ -23,13 +23,14 @@
 
     <menu name="Home">
       <item name="Introduction" href="index.html" />
+      <item name="Prerequisites" href="prerequisites.html" />
       <item name="Gallery Image Processing Core" href="core/index.html">
         <item name="Installation" href="core/install.html" />
         <item name="Developer's How-to" href="core/dev-howto.html" />
       </item>
       <item name="Gallery Image Processing CMS Plugins" href="cms-plugins/index.html">
         <item name="Installation" href="cms-plugins/install.html" />
-        <item name="Developer's How-to" href="cms-plugins/dev-howto.html" />
+        <item name="Configuration" href="cms-plugins/configuration.html" />
       </item>
       <item name="Build from source" href="build-from-source.html" />
       <item name="JavaDocs" href="apidocs/index.html" />

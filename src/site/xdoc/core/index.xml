@@ -25,10 +25,6 @@
           or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
         </p>
         <p>
-          Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
-          or <a href="http://www.imagemagick.org/">ImageMagick</a> MUST be installed on the system.
-        </p>
-        <p>
           This library provides the following components and utilities:
         </p>
         <ul>

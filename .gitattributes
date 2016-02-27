@@ -29,11 +29,12 @@ core/src/test/resources/log4j.xml -text
 /pom.xml -text
 src/site/site.xml -text
 src/site/xdoc/build-from-source.xml -text
-src/site/xdoc/cms-plugins/dev-howto.xml -text svneol=unset#text/plain
+src/site/xdoc/cms-plugins/configuration.xml -text svneol=unset#text/plain
 src/site/xdoc/cms-plugins/index.xml -text svneol=unset#text/plain
 src/site/xdoc/cms-plugins/install.xml -text svneol=unset#text/plain
 src/site/xdoc/core/dev-howto.xml -text svneol=unset#text/plain
 src/site/xdoc/core/index.xml -text svneol=unset#text/plain
 src/site/xdoc/core/install.xml -text
 src/site/xdoc/index.xml -text
+src/site/xdoc/prerequisites.xml -text svneol=unset#text/plain
 src/site/xdoc/release-notes.xml -text

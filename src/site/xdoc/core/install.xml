@@ -19,58 +19,14 @@
 -->
 <document>
   <properties>
-    <title>Installing Gallery Magick Image Processing</title>
+    <title>Installing Gallery Magick Image Processing Core Library</title>
   </properties>
   <body>
 
     <section name="Prerequisites">
       <p>
-        Gallery Image Processing provides an image file processing library
-        which <strong>executes</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
-        either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
-        or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
+        <em>Note:</em> Please make sure to install <a href="../prerequisites.html">Prerequisites</a> on the system.
       </p>
-      <p>
-        Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
-        or <a href="http://www.imagemagick.org/">ImageMagick</a> must be installed on the system.
-      </p>
-
-      <subsection name="Installing GraphicsMagick">
-        <p>
-          Please see <a href="http://www.graphicsmagick.org/README.html">Installing GraphicsMagick</a> page.
-        </p>
-        <p>
-          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
-          <a href="http://brewformulas.org/Graphicsmagick">Graphicsmagick - BrewFormulas</a> like the following examples:
-        </p>
-        <div class="brush: bash">
-          <source><![CDATA[
-$ brew install graphicsmagick
-          ]]></source>
-        </div>
-        or
-        <div class="brush: bash">
-          <source><![CDATA[
-$ brew reinstall graphicsmagick --with-libtiff
-          ]]></source>
-        </div>
-      </subsection>
-
-      <subsection name="Installing ImageMagick">
-        <p>
-          Please see <a href="http://www.imagemagick.org/script/binary-releases.php">ImageMagick: Install from Binary Distribution</a> page.
-        </p>
-        <p>
-          You can also use <strong>Homebrew</strong> to install it on OSX as explained in
-          <a href="http://brewformulas.org/Imagemagick">Imagemagick - BrewFormulas</a> like the following examples:
-        </p>
-        <div class="brush: bash">
-          <source><![CDATA[
-$ brew install imagemagick
-          ]]></source>
-        </div>
-      </subsection>
-
     </section>
 
     <section name="Maven Repository for Gallery Magick Image Processing">

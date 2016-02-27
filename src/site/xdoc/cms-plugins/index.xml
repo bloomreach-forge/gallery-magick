@@ -21,9 +21,6 @@
         <p>
           Gallery Image Processing CMS Plugins provides plugins for Hippo CMS Authoring application,
           using <a href="../core/index.html">Gallery Image Processing Core Library</a>.
-          Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
-          or <a href="http://www.imagemagick.org/">ImageMagick</a> MUST be installed on the system
-          to use the plugins.
         </p>
         <p>
           This library provides the following plugin components:
@@ -39,8 +36,7 @@
           </li>
         </ul>
         <p>
-          For more details and examples, please see <a href="../apidocs/index.html">API JavaDocs</a>
-          and <a href="../xref-test/index.html">Unit Tests</a>.
+          For more detail, please see <a href="../apidocs/index.html">API JavaDocs</a>.
         </p>
       </subsection>
     </section>

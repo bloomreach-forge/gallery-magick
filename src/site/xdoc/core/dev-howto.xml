@@ -51,9 +51,9 @@ $ gm convert hippo.jpg -resize 120x120 +profile "*" hippo-thumbnail.jpg
         </p>
         <p>
           Also, for more control, you may use
-          <a href="apidocs/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommand.html">GraphicsMagickCommand</a>
+          <a href="../apidocs/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommand.html">GraphicsMagickCommand</a>
           instead of this utility class.
-          See a unit test, <a href="xref-test/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandTest.html">GraphicsMagickCommandTest</a>
+          See a unit test, <a href="../xref-test/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandTest.html">GraphicsMagickCommandTest</a>
           for an example on how to use the command class directly.
         </p>
       </subsection>
@@ -84,9 +84,9 @@ $ convert hippo.jpg -resize 120x120 +profile "*" hippo-thumbnail.jpg
         </p>
         <p>
           Also, for more control, you may use
-          <a href="apidocs/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommand.html">ImageMagickCommand</a>
+          <a href="../apidocs/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommand.html">ImageMagickCommand</a>
           instead of this utility class.
-          See a unit test, <a href="xref-test/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandTest.html">ImageMagickCommandTest</a>
+          See a unit test, <a href="../xref-test/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandTest.html">ImageMagickCommandTest</a>
           for an example on how to use the command class directly.
         </p>
       </subsection>

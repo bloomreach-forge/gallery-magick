@@ -19,23 +19,13 @@
 -->
 <document>
   <properties>
-    <title>Installing Gallery Magick Image Processing</title>
+    <title>Installing Gallery Magick Image Processing CMS Plugins</title>
   </properties>
   <body>
 
     <section name="Prerequisites">
       <p>
-        Gallery Image Processing provides an image file processing library
-        which <strong>executes</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
-        either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
-        or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
-      </p>
-      <p>
-        Therefore, either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
-        or <a href="http://www.imagemagick.org/">ImageMagick</a> must be installed on the system.
-      </p>
-      <p>
-        See <a href="../core/install.html#Prerequisites">Gallery Image Processing Installation</a> page for detail.
+        <em>Note:</em> Please make sure to install <a href="../prerequisites.html">Prerequisites</a> on the system.
       </p>
     </section>
 
@@ -63,7 +53,7 @@
 
     </section>
 
-    <section name="Installing Gallery Magick Image Processing Core Library">
+    <section name="Installing Gallery Magick Image Processing CMS Plugins">
 
       <subsection name="Add Dependencies">
         <p>
@@ -80,6 +70,15 @@
         <!-- SNIP -->
 
         <!-- NOTE: You should set a property named 'forge.gallery-magick.version' to a version of this plugin! -->
+
+        <!-- gallery-magick-bootstrap module registers a new Gallery Processor with ID, "service.magick.command.gallery.processor", in Repository. -->
+        <dependency>
+          <groupId>org.onehippo.forge.gallery-magick</groupId>
+          <artifactId>gallery-magick-bootstrap</artifactId>
+          <version>${forge.gallery-magick.version}</version>
+        </dependency>
+
+        <!-- gallery-magick-cms contains CMS Plugin components. -->
         <dependency>
           <groupId>org.onehippo.forge.gallery-magick</groupId>
           <artifactId>gallery-magick-cms</artifactId>
@@ -106,6 +105,11 @@
 
       <dependency>
         <groupId>org.onehippo.forge.gallery-magick</groupId>
+        <artifactId>gallery-magick-bootstrap</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>org.onehippo.forge.gallery-magick</groupId>
         <artifactId>gallery-magick-cms</artifactId>
       </dependency>
 
@@ -115,9 +119,127 @@
     ]]></source>
         </div>
         <p>
-          Now, you're ready to use the plugin!
+          <strong>gallery-magick-bootstrap</strong> module registers a new Gallery Processor with ID,
+          <code>service.magick.command.gallery.processor</code>, in your Hippo Repository.
+          It doesn't replace the default Gallery Processor (ID: <code>service.gallery.processor</code>).
+          Because this bootstrap module doesn't change any Gallery Processor reference confgurations automatically,
+          it would not make any changes on your system yet.
+          To replace all the Gallery Processor reference configurations in your system,
+          you should include more property setting bootstrap initialize items in your project
+          (typically in <code>bootstrap/configuration/src/main/resources/hippoecm-extension.xml</code>)
+          as explained in the next section.
         </p>
       </subsection>
     </section>
+
+    <section name="Bootstrapping to Replace the Default Gallery Processor">
+
+      <p>
+        There are several Gallery Processor reference configurations in the repository.
+        Here is the list:
+      </p>
+
+      <ul>
+        <li><code>/hippo:configuration/hippo:workflows/gallery/image-gallery/frontend:renderer/gallery.processor.id</code></li>
+        <li><code>/hippo:namespaces/hippogallery/image/editor:templates/_default_/upload/gallery.processor.id</code></li>
+        <li><code>/hippo:namespaces/hippogallery/image/editor:templates/_default_/crop/gallery.processor.id</code></li>
+        <li><code>/hippo:namespaces/hippogallery/image/editor:templates/_default_/regenerate/gallery.processor.id</code></li>
+      </ul>
+
+      <p>
+        All of those listed above are pointing to JCR properties which are set to the default Gallery Processor ID,
+        <code>service.gallery.processor</code>.
+      </p>
+
+      <p>
+        Now, in order to use the Magick Command Gallery Processor instead of the default Gallery Processor component,
+        we need to replace those property values by <code>service.magick.command.gallery.processor</code>.
+      </p>
+
+      <p>
+        To replace all of those Gallery Processor reference configurations,
+        you can use <strong>Single Property Setting Bootstrap Initialization</strong> technique in your project.
+        (Reference: 
+          <a href="http://www.onehippo.org/library/concepts/content-repository/repository-initialization.html">Repository Initialization Instructions</a>.
+          See the <strong>Set a Single Property</strong> section.
+        )
+      </p>
+      <p>
+        These initialization items should be typically added in <code>bootstrap/configuration/src/main/resources/hippoecm-extension.xml</code>
+        in your project.
+      </p>
+
+      <div class="brush: xml">
+        <source><![CDATA[
+  <!-- Replacing the default gallery processor configurations with Magick Command Gallery Processor configurations. -->
+
+  <sv:node sv:name="gallery-magick-demo-configuration-workflows-gallery-image-gallery-renderer-gallery-processor-id">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>32000.1</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:configuration/hippo:workflows/gallery/image-gallery/frontend:renderer/gallery.processor.id</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentpropset" sv:type="String">
+      <sv:value>service.magick.command.gallery.processor</sv:value>
+    </sv:property> 
+  </sv:node>
+
+  <sv:node sv:name="gallery-magick-demo-namespaces-hippogallery-image-templates-default-upload-gallery-processor-id">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>32000.2</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:namespaces/hippogallery/image/editor:templates/_default_/upload/gallery.processor.id</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentpropset" sv:type="String">
+      <sv:value>service.magick.command.gallery.processor</sv:value>
+    </sv:property> 
+  </sv:node>
+
+  <sv:node sv:name="gallery-magick-demo-namespaces-hippogallery-image-templates-default-crop-gallery-processor-id">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>32000.3</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:namespaces/hippogallery/image/editor:templates/_default_/crop/gallery.processor.id</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentpropset" sv:type="String">
+      <sv:value>service.magick.command.gallery.processor</sv:value>
+    </sv:property> 
+  </sv:node>
+
+  <sv:node sv:name="gallery-magick-demo-namespaces-hippogallery-image-templates-default-regenerate-gallery-processor-id">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>hippo:initializeitem</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:sequence" sv:type="Double">
+      <sv:value>32000.4</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentroot" sv:type="String">
+      <sv:value>/hippo:namespaces/hippogallery/image/editor:templates/_default_/regenerate/gallery.processor.id</sv:value>
+    </sv:property>
+    <sv:property sv:name="hippo:contentpropset" sv:type="String">
+      <sv:value>service.magick.command.gallery.processor</sv:value>
+    </sv:property> 
+  </sv:node>
+        ]]></source>
+      </div>
+
+      <p>
+        Now, you're ready to use the plugin!
+      </p>
+
+    </section>
+
   </body>
 </document>

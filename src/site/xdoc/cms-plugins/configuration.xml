@@ -19,11 +19,11 @@
 -->
 <document>
   <properties>
-    <title>Developer's How-to</title>
+    <title>Configuring Gallery Magick Image CMS Plugins</title>
   </properties>
   <body>
 
-    <section name="Developer's How-to">
+    <section name="Configuring Magick Command Gallery Processor Plugin">
 
       <subsection name="Introduction">
         <p>
