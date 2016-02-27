@@ -51,7 +51,7 @@
         <tr>
           <th>Java System Property Name</th>
           <th>Description</th>
-          <th>Example Value</th>
+          <th>Example</th>
         </tr>
         <tr>
           <td><code>org.onehippo.forge.gallerymagick.core.command.gm</code></td>
@@ -59,7 +59,7 @@
             The path of the executable command of <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>.
             If not specified, it simply executes <code>gm</code>, expecting to find it from <code>PATH</code>.
           </td>
-          <td><code>/home/test/bin/gm</code></td>
+          <td><code>-Dorg.onehippo.forge.gallerymagick.core.command.gm=/home/test/bin/gm</code></td>
         </tr>
         <tr>
           <td><code>org.onehippo.forge.gallerymagick.core.command.im.convert</code></td>
@@ -67,7 +67,15 @@
             The path of the <code>convert</code> executable command of <a href="http://www.imagemagick.org/">ImageMagick</a>.
             If not specified, it simply executes <code>convert</code>, expecting to find it from <code>PATH</code>.
           </td>
-          <td><code>/home/test/bin/convert</code></td>
+          <td><code>-Dorg.onehippo.forge.gallerymagick.core.command.im.convert=/home/test/bin/convert</code></td>
+        </tr>
+        <tr>
+          <td><code>org.onehippo.forge.gallerymagick.core.command.im.identify</code></td>
+          <td>
+            The path of the <code>identify</code> executable command of <a href="http://www.imagemagick.org/">ImageMagick</a>.
+            If not specified, it simply executes <code>identify</code>, expecting to find it from <code>PATH</code>.
+          </td>
+          <td><code>-Dorg.onehippo.forge.gallerymagick.core.command.im.identify=/home/test/bin/identify</code></td>
         </tr>
       </table>
 

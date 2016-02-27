@@ -4,11 +4,14 @@
   <sv:property sv:name="jcr:primaryType" sv:type="Name">
     <sv:value>frontend:plugin</sv:value>
   </sv:property>
+  <sv:property sv:name="plugin.class" sv:type="String">
+    <sv:value>org.onehippo.forge.gallerymagick.cms.plugins.gallery.processor.MagickCommandGalleryProcessorPlugin</sv:value>
+  </sv:property>
   <sv:property sv:name="gallery.processor.id" sv:type="String">
     <sv:value>service.magick.command.gallery.processor</sv:value>
   </sv:property>
-  <sv:property sv:name="plugin.class" sv:type="String">
-    <sv:value>org.onehippo.forge.gallerymagick.cms.plugins.gallery.processor.MagickCommandGalleryProcessorPlugin</sv:value>
+  <sv:property sv:name="magick.image.processor" sv:type="String">
+    <sv:value>GraphicsMagick</sv:value>
   </sv:property>
   <sv:node sv:name="hippogallery:thumbnail">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">

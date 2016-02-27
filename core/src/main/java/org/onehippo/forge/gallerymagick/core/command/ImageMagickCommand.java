@@ -24,9 +24,14 @@ import org.apache.commons.lang.StringUtils;
 public class ImageMagickCommand extends AbstractMagickCommand {
 
     /**
-     * System property name for Image Magick command executable.
+     * System property name for Image Magick command executable, convert.
      */
     public static final String PROP_EXECUTABLE_CONVERT = "org.onehippo.forge.gallerymagick.core.command.im.convert";
+
+    /**
+     * System property name for Image Magick command executable, identify.
+     */
+    public static final String PROP_EXECUTABLE_IDENTIFY = "org.onehippo.forge.gallerymagick.core.command.im.identify";
 
     /**
      * Constructor with an {@code executable} and a {@code subCommand}.
@@ -70,6 +75,11 @@ public class ImageMagickCommand extends AbstractMagickCommand {
 
         if (StringUtils.equals("convert", subCommand)) {
             final String value = System.getProperty(PROP_EXECUTABLE_CONVERT);
+            if (StringUtils.isNotBlank(value)) {
+                executable = value;
+            }
+        } else if (StringUtils.equals("identify", subCommand)) {
+            final String value = System.getProperty(PROP_EXECUTABLE_IDENTIFY);
             if (StringUtils.isNotBlank(value)) {
                 executable = value;
             }

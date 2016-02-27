@@ -51,11 +51,10 @@
               If this is set to "ImageMagick" (case-insensitive), then the plugin will execute
               command(s) of <a href="http://www.imagemagick.org/">ImageMagick</a> on the server.
               Otherwise, it uses <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> by default.
+              This value is case-insensitive.
             </td>
-            <td>
-              "GraphicsMagick" (case-insensitive)
-            </td>
-            <td></td>
+            <td>ImageMagick</td>
+            <td>GraphicsMagick</td>
           </tr>
         </table>
 
