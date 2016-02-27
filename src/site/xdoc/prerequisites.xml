@@ -35,6 +35,41 @@
         Therefore, <strong>either</strong> <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
         or <a href="http://www.imagemagick.org/">ImageMagick</a> <strong>must</strong> be installed on the system.
       </p>
+      <p>
+        By intallaing either <strong>either</strong> <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        or <a href="http://www.imagemagick.org/">ImageMagick</a>,
+        it means either the executable command of <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> (i.e., <code>gm</code>)
+        or the executable commands of <a href="http://www.imagemagick.org/">ImageMagick</a> (such as <code>convert</code>)
+        should be available to execute.
+        For example, the executable command(s) can be added <code>PATH</code> environment variable to execute.
+      </p>
+      <p>
+        However, for some reasons, if you can have the executable command(s) in the <code>PATH</code> environment variable,
+        then you can set Java System property like the following:
+      </p>
+      <table>
+        <tr>
+          <th>Java System Property Name</th>
+          <th>Description</th>
+          <th>Example Value</th>
+        </tr>
+        <tr>
+          <td><code>org.onehippo.forge.gallerymagick.core.command.gm</code></td>
+          <td>
+            The path of the executable command of <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>.
+            If not specified, it simply executes <code>gm</code>, expecting to find it from <code>PATH</code>.
+          </td>
+          <td><code>/home/test/bin/gm</code></td>
+        </tr>
+        <tr>
+          <td><code>org.onehippo.forge.gallerymagick.core.command.im.convert</code></td>
+          <td>
+            The path of the <code>convert</code> executable command of <a href="http://www.imagemagick.org/">ImageMagick</a>.
+            If not specified, it simply executes <code>convert</code>, expecting to find it from <code>PATH</code>.
+          </td>
+          <td><code>/home/test/bin/convert</code></td>
+        </tr>
+      </table>
 
       <subsection name="Installing GraphicsMagick">
         <p>
