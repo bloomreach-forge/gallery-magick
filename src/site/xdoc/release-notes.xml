@@ -33,6 +33,13 @@
       </table>
     </section>
     <section name="Release Notes">
+      <subsection name="1.0.4">
+        <ul>
+          <li>
+            Exposing system property, org.onehippo.forge.gallerymagick.core.command.im.identify.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="1.0.3">
         <ul>
           <li>
