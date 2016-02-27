@@ -36,7 +36,7 @@
         or <a href="http://www.imagemagick.org/">ImageMagick</a> <strong>must</strong> be installed on the system.
       </p>
       <p>
-        By intallaing either <strong>either</strong> <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+        By intallaing either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
         or <a href="http://www.imagemagick.org/">ImageMagick</a>,
         it means either the executable command of <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> (i.e., <code>gm</code>)
         or the executable commands of <a href="http://www.imagemagick.org/">ImageMagick</a> (such as <code>convert</code>)
