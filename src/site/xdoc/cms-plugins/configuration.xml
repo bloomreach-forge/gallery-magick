@@ -27,8 +27,90 @@
 
       <subsection name="Introduction">
         <p>
-          TODO
+          The configuration of the Magick Command Gallery Processor resides under the node at
+          <code>/hippo:configuration/hippo:frontend/cms/cms-services/magickCommandGalleryProcessorService</code>.
         </p>
+        <p>
+          You can configure which command should be used: Either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          or <a href="http://www.imagemagick.org/">ImageMagick</a>.
+        </p>
+
+        <table>
+          <tr>
+            <th>Property Name</th>
+            <th>Property Type</th>
+            <th>Description</th>
+            <th>Example Value</th>
+            <th>Default Value</th>
+          </tr>
+          <tr>
+            <td>magick.image.processor</td>
+            <td>String</td>
+            <td>
+              The backend image processing module name.
+              If this is set to "ImageMagick" (case-insensitive), then the plugin will execute
+              command(s) of <a href="http://www.imagemagick.org/">ImageMagick</a> on the server.
+              Otherwise, it uses <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> by default.
+            </td>
+            <td>
+              "GraphicsMagick" (case-insensitive)
+            </td>
+            <td></td>
+          </tr>
+        </table>
+
+        <p>
+          All image variants in an image set are created by a Gallery Processor.
+          When an image variant node is added or updated, a Gallery Processor should be told what size to scale the original image to.
+        </p>
+
+        <p>
+          Like the default Hippo Gallery Processor, there are image variant nodes defined
+          under <code>/hippo:configuration/hippo:frontend/cms/cms-services/magickCommandGalleryProcessorService</code>.
+          And there are two image variant definition nodes by default: <code>hippogallery:original</code> and <code>hippogallery:thumbnail</code>.
+          The former one is for the original image and the latter is for thumbnail image variant.
+          Each child node may contain the following properties:
+        </p>
+        <table>
+          <tr>
+            <th>Property Name</th>
+            <th>Property Type</th>
+            <th>Description</th>
+            <th>Example Value</th>
+            <th>Default Value</th>
+          </tr>
+          <tr>
+            <td>width</td>
+            <td>Long</td>
+            <td>
+              The width of a bounding box in pixels.
+              The original image is scaled such that it fits in this bounding box while maintaining the original aspect ratio.
+              If width is 0 or less, then the image is not scaled at all but the original image is merely copied to the image variant node.
+            </td>
+            <td>
+              60
+            </td>
+            <td>
+              0
+            </td>
+          </tr>
+          <tr>
+            <td>height</td>
+            <td>Long</td>
+            <td>
+              The height of a bounding box in pixels.
+              The original image is scaled such that it fits in this bounding box while maintaining the original aspect ratio.
+              If height is 0 or less, then the image is not scaled at all but the original image is merely copied to the image variant node.
+              The default value is 0.
+            </td>
+            <td>
+              60
+            </td>
+            <td>
+              0
+            </td>
+          </tr>
+        </table>
       </subsection>
 
     </section>
