@@ -44,8 +44,8 @@
         For example, the executable command(s) can be added <code>PATH</code> environment variable to execute.
       </p>
       <p>
-        However, for some reasons, if you can have the executable command(s) in the <code>PATH</code> environment variable,
-        then you can set Java System property like the following:
+        However, for some reason, if you cannot have the executable command(s) available by the <code>PATH</code> environment variable,
+        then you can set Java System property like the following instead to specify exact paths of the executables:
       </p>
       <table>
         <tr>
