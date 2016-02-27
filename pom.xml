@@ -53,7 +53,7 @@
     <plugin.javadoc.version>2.10.1</plugin.javadoc.version>
     <plugin.jxr.version>2.3</plugin.jxr.version>
     <plugin.pmd.version>3.1</plugin.pmd.version>
-    <plugin.project-info-reports.version>2.7</plugin.project-info-reports.version>
+    <plugin.project-info-reports.version>2.8.1</plugin.project-info-reports.version>
     <plugin.release.version>2.5</plugin.release.version>
     <plugin.resources.version>2.6</plugin.resources.version>
     <plugin.site.version>3.4</plugin.site.version>
@@ -285,6 +285,7 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <skip>false</skip>
           <aggregate>true</aggregate>
+          <excludePackageNames>org.onehippo.forge.gallerymagick.cms.plugins.gallery.processor</excludePackageNames>
         </configuration>
         <reportSets>
           <reportSet>

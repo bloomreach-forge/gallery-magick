@@ -35,9 +35,6 @@
             <strong>MagickCommandGalleryProcessor</strong> : <code>GalleryProcessor</code> service component implementation.
           </li>
         </ul>
-        <p>
-          For more detail, please see <a href="../apidocs/index.html">API JavaDocs</a>.
-        </p>
       </subsection>
     </section>
 
