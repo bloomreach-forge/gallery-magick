@@ -21,24 +21,86 @@
         <p>
           Gallery Image Processing provides an image file processing library
           and CMS plugins,
-          using <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          using either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
           or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
         </p>
+        <img alt="Gallery Magick Image Processing" src="images/gallery-magick.png" />
         <p>
           Gallery Image Processing basically aims to provide the following:
         </p>
         <ul>
           <li>
             <a href="core/index.html"><strong>Gallery Image Processing Core Library</strong> </a> :
-            programmatic Utilities to process image files.
+            Programmatic Utilities to process image files.
           </li>
           <li>
             <a href="cms-plugins/index.html"><strong>Gallery Image Processing CMS Plugins</strong></a> :
-            Hippo CMS Plugins such as a new Gallery Processor using
+            Hippo CMS Plugins such as Magick Command Gallery Processor using
             <strong>Gallery Image Processing Core Library</strong>
           </li>
         </ul>
       </subsection>
+    </section>
+
+    <section name="Demo Application">
+
+      <subsection name="Demo Application with Hippo CMS 10">
+        <p>You can check out, build and run demo application, which configures <strong>Magick Command Gallery Processor Plugin</strong>.</p>
+        <p>Here are example commands to check out, build and run demo application:</p>
+        <div class="brush: bash">
+        <source><![CDATA[
+$ svn checkout https://forge.onehippo.org/svn/gallery-magick/gallery-magick-demo/trunk gallery-magick-demo-TRUNK
+$ cd gallery-magick-demo-TRUNK
+$ mvn clean verify
+$ mvn -P cargo.run
+        ]]></source>
+        </div>
+        <p>
+          Visit http://localhost:8080/cms/, move to the "Content" perspective and select "Images".
+        </p>
+        <p>
+          And select a folder and try to upload an image.
+        </p>
+        <img alt="Uploading Image" src="images/upload-image1.png" />
+        <p>
+          If you click on the "Upload" button, you will see the image being uploaded.
+        </p>
+        <img alt="Uploaded Image" src="images/upload-image2.png" />
+        <p>
+          You don't see anything new yet. :-)
+          It's basically working like how the default Gallery Processor works, so the functionally is almost the same.
+        </p>
+        <p>
+          However, if you take a look at the logs
+          (the demo project is configured to leave logs in DEBUG level for the plugin related code by default),
+          you will see the following which shows <i>clues</i> about how the plugin works under the hood!
+        </p>
+        <div class="brush: plain">
+        <source><![CDATA[
+DEBUG Storing original image source file ('hippo.jpg') to '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg'.
+DEBUG Resizing the original image file ('/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg') to '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc_hippogallery_thumbnail3045475676360292044.jpg' with dimension, 60x60.
+DEBUG Storing an image binary at '/content/gallery/gallerymagickdemo/samples/hippo.jpg/hippo.jpg/hippogallery:thumbnail' from file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc_hippogallery_thumbnail3045475676360292044.jpg'.
+DEBUG Removing the resized target image file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc_hippogallery_thumbnail3045475676360292044.jpg'.
+DEBUG No scaling parameters specified for hippogallery:original or width or height is zero or negative. So use original image
+DEBUG Storing an image binary at '/content/gallery/gallerymagickdemo/samples/hippo.jpg/hippo.jpg/hippogallery:original' from file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg'.
+DEBUG Removing the original image file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg'.
+        ]]></source>
+        </div>
+        <p>
+          <em>Note:</em> the log data shown above were minified for readability.
+        </p>
+        <p>
+          Basically, the plugin copies the original image data to a temporary file and resizes the temporary file of the original image
+          for a thumbnail image by executing commands of either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          or <a href="http://www.imagemagick.org/">ImageMagick</a>.
+          After executing the commands, it deletes all the temporary files.
+        </p>
+        <p>
+          Also, try to crop and restore thumbnails in the CMS UI to get more clues.
+        </p>
+
+      </subsection>
+
     </section>
 
     <section name="Project status">
