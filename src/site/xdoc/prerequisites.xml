@@ -73,7 +73,8 @@
 
       <subsection name="Installing GraphicsMagick">
         <p>
-          Please see <a href="http://www.graphicsmagick.org/README.html">Installing GraphicsMagick</a> page.
+          Please see <a href="http://www.graphicsmagick.org/README.html">Installing GraphicsMagick</a> page,
+          or <a href="http://www.graphicsmagick.org/download.html">GraphicsMagick Download</a> page.
         </p>
         <p>
           You can also use <strong>Homebrew</strong> to install it on OSX as explained in
@@ -90,6 +91,9 @@ $ brew install graphicsmagick
 $ brew reinstall graphicsmagick --with-libtiff
           ]]></source>
         </div>
+        <p>
+          You can also find a port provided by <a href="https://www.macports.org/ports.php?by=name&amp;substr=GraphicsMagick">MacPorts</a>.
+        </p>
       </subsection>
 
       <subsection name="Installing ImageMagick">
@@ -105,6 +109,9 @@ $ brew reinstall graphicsmagick --with-libtiff
 $ brew install imagemagick
           ]]></source>
         </div>
+        <p>
+          You can also find a port provided by <a href="https://www.macports.org/ports.php?by=name&amp;substr=ImageMagick">MacPorts</a>.
+        </p>
       </subsection>
 
     </section>
