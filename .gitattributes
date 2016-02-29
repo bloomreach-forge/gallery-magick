@@ -38,6 +38,7 @@ src/site/xdoc/cms-plugins/install.xml -text svneol=unset#text/plain
 src/site/xdoc/core/dev-howto.xml -text svneol=unset#text/plain
 src/site/xdoc/core/index.xml -text svneol=unset#text/plain
 src/site/xdoc/core/install.xml -text
+src/site/xdoc/faq.xml -text svneol=unset#text/plain
 src/site/xdoc/index.xml -text
 src/site/xdoc/prerequisites.xml -text svneol=unset#text/plain
 src/site/xdoc/release-notes.xml -text

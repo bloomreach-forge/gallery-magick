@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright 2016 Hippo Licensed under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+    applicable law or agreed to in writing, software distributed under
+    the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
+    OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and
+    limitations under the License.
+  --><!DOCTYPE document PUBLIC "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<document>
+  <properties>
+    <title>FAQ</title>
+  </properties>
+  <body>
+    <section name="FAQ">
+      <subsection name="What are the pros and cons comparing with the default GalleryProcessor?">
+        <p>
+          Good question. The default <code>GalleryProcessor</code> of Hippo CMS Autoring Tier uses
+          <a href="https://github.com/thebuzzmedia/imgscalr">imgscalr</a> library to scale images.
+        </p>
+        <p>
+          The default <code>GalleryProcessor</code> of Hippo CMS Autoring Tier has the following advantages:
+        </p>
+        <ul>
+          <li>
+            <a href="https://github.com/thebuzzmedia/imgscalr">imgscalr</a> is known as one of the best and most efficient
+            libraries available in pure Java image processiong solutions.
+          </li>
+          <li>It also implementing the optimized incremental scaling algorithms.</li>
+          <li>
+            It requires a Java standard buffered image object (such as <code>javax.imageio.ImageIO</code>) to resize images.
+            Many Java programmers are familiar with the APIs in pure Java-based image processing.
+          </li>
+        </ul>
+        <p>
+          However, there are some disadvantages, too:
+        </p>
+        <ul>
+          <li>
+            It is well known that most pure Java-based image processing libraries are not as good as
+            <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> or <a href="http://www.imagemagick.org/">ImageMagick</a>
+            in image processing qualities and supporting various image file formats in general.
+          </li>
+          <li>
+            It loads image data into <code>javax.imageio.ImageIO</code> to resize images,
+            so it may consume much heap size in the same JVM, which might affect the Java application server
+            if the upload image size and concurrent image uploading are not controlled carefully.
+          </li>
+        </ul>
+        <p>
+          Meanwhile, <strong>Gallery Magick Image Processing Library and CMS Plugins</strong> has the following advantages:
+        </p>
+        <ul>
+          <li>
+            <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> or <a href="http://www.imagemagick.org/">ImageMagick</a>
+            has a lot better support in image processing qualities and supporting various image file formats.
+          </li>
+          <li>
+            If <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> or <a href="http://www.imagemagick.org/">ImageMagick</a>
+            is used as <i>out-of-process</i> from the JVM instead of using JNI (e.g, <a href="http://im4java.sourceforge.net/">im4java</a>),
+            then the image processing wouldn't affect the JVM heap of the Java application server.
+          </li>
+        </ul>
+        <p>
+          However, there are some disadvantages when using this project modules, too:
+        </p>
+        <ul>
+          <li>
+            It is not a pure Java-based solution, but it <i>executes</i> executable commands
+            of <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> or <a href="http://www.imagemagick.org/">ImageMagick</a> instead.
+            Therefore, the system should have one of those installed on the server environment.
+          </li>
+          <li>
+            Because it depends on <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> or <a href="http://www.imagemagick.org/">ImageMagick</a>,
+            code maintainers should have knowledge on the detail of the command executions instead of Java standard APIs.
+          </li>
+          <li>
+            Because it's not a pure Java-based solution, most Application Performance Monitoring solutions might not
+            be able to monitor the real image processing tasks properly.
+          </li>
+        </ul>
+        <div class="alert alert-info">
+          <em>Bottom line:</em>
+          In many cases, the default <code>GalleryProcessor</code> of Hippo CMS is good enough especially when you don't need to convert
+          big image files or various images in different formats.
+          However, if your site should handle big image files or support many different image formats, then
+          you may try using this plugin instead.
+        </div>
+        <p>
+          Here are some more you might want to read:
+        </p>
+        <ul>
+          <li><a href="http://paxcel.net/blog/java-thumbnail-generator-imagescalar-vs-imagemagic/">Java Thumbnail generator – ImageScalar vs ImageMagic</a></li>
+          <li><a href="http://blog.trifork.com/2014/08/06/scaling-images-quirks-and-tricks/">Scaling images – Quirks and tricks</a></li>
+          <li><a href="http://people.apache.org/~sgoeschl/presentations/devfest-2014/jipsg.pdf">Java Image Processing Survival Guide</a></li>
+          <li><a href="https://issues.onehippo.com/browse/CMS-9197">CMS-9197: CMS UI breaks when uploading large image in image picker</a></li>
+        </ul>
+      </subsection>
+
+      <subsection name="How about software license issues?">
+        <p>
+          This project is licensed under the Apache Software License, Version 2.0. (See <a href="license.html">Project License</a>).
+        </p>
+        <p>
+          <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> is distributed under the "MIT" style license.
+          See <a href="http://www.graphicsmagick.org/Copyright.html">GraphicsMagick Copyrights and Licenses</a> for detail.
+        </p>
+        <p>
+          <a href="http://www.imagemagick.org/">ImageMagick</a> is distributed under the Apache Software License, Version 2.0.
+          See <a href="http://www.imagemagick.org/script/license.php">Terms and Conditions for Use, Reproduction, and Distribution * How to Apply the License to your Work</a> for detail.
+        </p>
+      </subsection>
+
+    </section>
+  </body>
+</document>
