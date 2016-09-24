@@ -13,6 +13,7 @@ core/src/main/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickC
 core/src/main/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommand.java -text svneol=unset#text/plain
 core/src/main/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandUtils.java -text svneol=unset#text/plain
 core/src/main/java/org/onehippo/forge/gallerymagick/core/command/MagickExecuteException.java -text svneol=unset#text/plain
+core/src/main/java/org/onehippo/forge/gallerymagick/core/command/ScalrProcessorUtils.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractGraphicsMagickCommandTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractImageMagickCommandTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/AbstractMagickCommandTest.java -text svneol=unset#text/plain
@@ -20,6 +21,7 @@ core/src/test/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickC
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/GraphicsMagickCommandUtilsTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandTest.java -text svneol=unset#text/plain
 core/src/test/java/org/onehippo/forge/gallerymagick/core/command/ImageMagickCommandUtilsTest.java -text svneol=unset#text/plain
+core/src/test/java/org/onehippo/forge/gallerymagick/core/command/ScalrProcessorUtilsTest.java -text svneol=unset#text/plain
 core/src/test/resources/hippo.bmp -text
 core/src/test/resources/hippo.gif -text
 core/src/test/resources/hippo.jpg -text

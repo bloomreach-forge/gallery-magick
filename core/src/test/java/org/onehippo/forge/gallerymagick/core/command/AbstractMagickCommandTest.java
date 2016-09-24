@@ -25,23 +25,24 @@ import java.util.List;
  */
 abstract public class AbstractMagickCommandTest {
 
+    protected static final String [] DEFAULT_TEST_IMAGE_FILE_EXTENSIONS = { "jpg", "png", "gif", "bmp", "tiff" };
+
     private List<File> testImageFiles;
+
+    protected String [] getTestImageFileExtensions() {
+        return DEFAULT_TEST_IMAGE_FILE_EXTENSIONS;
+    }
 
     protected List<File> getTestImageFiles() throws URISyntaxException {
         if (testImageFiles == null) {
             testImageFiles = new ArrayList<>();
-            testImageFiles.add(new File(AbstractMagickCommandTest.class.getResource("/hippo.jpg").toURI()));
-            testImageFiles.add(new File(AbstractMagickCommandTest.class.getResource("/hippo.png").toURI()));
-            testImageFiles.add(new File(AbstractMagickCommandTest.class.getResource("/hippo.gif").toURI()));
-            testImageFiles.add(new File(AbstractMagickCommandTest.class.getResource("/hippo.bmp").toURI()));
-            testImageFiles.add(new File(AbstractMagickCommandTest.class.getResource("/hippo.tiff").toURI()));
+
+            for (String extension : getTestImageFileExtensions()) {
+                testImageFiles.add(new File(AbstractMagickCommandTest.class.getResource("/hippo." + extension).toURI()));
+            }
         }
 
         return testImageFiles;
-    }
-
-    protected void setTestImageFiles(List<File> testImageFiles) {
-        this.testImageFiles = testImageFiles;
     }
 
 }

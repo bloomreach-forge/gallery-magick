@@ -28,9 +28,8 @@
     </layout>
   </appender>
 
-  <category additivity="false" name="org.onehippo.forge.gallerymagick.core">
+  <category name="org.onehippo.forge.gallerymagick.core">
     <level value="debug"/>
-    <appender-ref ref="console"/>
   </category>
 
   <root>

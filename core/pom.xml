@@ -50,6 +50,11 @@
       <artifactId>commons-exec</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.imgscalr</groupId>
+      <artifactId>imgscalr-lib</artifactId>
+    </dependency>
+
     <!-- TEST DEPENDENCIES -->
 
     <dependency>
