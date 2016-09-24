@@ -25,6 +25,24 @@
 
     <section name="Developer's How-to">
 
+      <subsection name="Creating a Thumbnail Image Using ScalrProcessorUtils">
+        <p>
+          <code>org.onehippo.forge.gallerymagick.core.command.ScalrProcessorUtils</code> utility class
+          provides a pure Java based image identifying/resizing solution.
+        </p>
+        <p>
+          The following example simply uses <code>ScalrProcessorUtils</code> to generate
+          a thumbnail image from the source image file with dimension, <code>120x120</code>.
+        </p>
+        <div class="brush: java">
+          <source><![CDATA[
+    File sourceFile = new File("hippo.jpg");
+    File targetFile = new File("hippo-thumbnail.jpg");
+    ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"));
+          ]]></source>
+        </div>
+      </subsection>
+
       <subsection name="Creating a Thumbnail Image Using GraphicsMagick Command Utility">
         <p>
           The following example simply uses <code>GraphicsMagickCommandUtils</code> to generate

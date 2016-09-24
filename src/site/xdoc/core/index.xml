@@ -20,14 +20,32 @@
       <subsection name="Introduction">
         <p>
           Gallery Image Processing Core is an image file processing library
-          which <strong>executes</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
-          either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          which achieves the goals using any of these:
+        </p>
+        <ul>
+          <li><a href="https://github.com/rkalla/imgscalr">imgscalr - Java Image-Scaling Library</a></li>
+          <li><a href="http://www.graphicsmagick.org/">GraphicsMagick</a></li>
+          <li><a href="http://www.imagemagick.org/">ImageMagick</a></li>
+        </ul>
+        <p>
+          <code>org.onehippo.forge.gallerymagick.core.command.ScalrProcessorUtils</code> utility class
+          provides a pure Java based image identifying/resizing solution.
+        </p>
+        <p>
+          When using a non-Java based solution (either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          or <a href="http://www.imagemagick.org/">ImageMagick</a>), it <strong>executes</strong> commands
+          (such as <code>gm convert</code> or <code>convert</code>) of either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
           or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
         </p>
         <p>
           This library provides the following components and utilities:
         </p>
         <ul>
+          <li>
+            <strong>ScalrProcessorUtils</strong> : utility for simple invocations on
+            <a href="https://github.com/rkalla/imgscalr">imgscalr - Java Image-Scaling Library</a> library
+            to identify or resize an image file.
+          </li>
           <li>
             <strong>GraphicsMagickCommand</strong> : encapsulation to execute
             <a href="http://www.graphicsmagick.org/">GraphicsMagick</a> commands such as <code>gm convert</code>.

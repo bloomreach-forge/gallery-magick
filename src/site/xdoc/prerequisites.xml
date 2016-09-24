@@ -25,6 +25,11 @@
 
     <section name="Prerequisites to use Gallery Magick Image Processing modules">
       <p>
+        <em>Note: </em> If you use only <code>org.onehippo.forge.gallerymagick.core.command.ScalrProcessorUtils</code>,
+        then the prerequisites in the following can be ignored because the utility class is a pure Java based solution,
+        using <a href="https://github.com/rkalla/imgscalr">imgscalr - Java Image-Scaling Library</a>.
+      </p>
+      <p>
         Gallery Image Processing modules provide an image file processing library
         and Hippo CMS Plugins,
         which in the end <strong>execute</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of

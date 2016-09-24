@@ -33,6 +33,14 @@
       </table>
     </section>
     <section name="Release Notes">
+      <subsection name="1.0.5">
+        <ul>
+          <li>
+            Supporting pure Java image resizing processor utility, <code>org.onehippo.forge.gallerymagick.core.command.ScalrProcessorUtils</code>,
+            using Scalr library which is used by Hippo CMS Gallery Processor as well.
+          </li>
+        </ul>
+      </subsection>
       <subsection name="1.0.4">
         <ul>
           <li>

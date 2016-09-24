@@ -19,24 +19,39 @@
     <section name="Introduction">
       <subsection name="What is Gallery Magick Image Processing?">
         <p>
-          Gallery Image Processing provides an image file processing library
-          and CMS plugins,
-          using either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
-          or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.
+          Gallery Magick Image Processing provides an image file processing library
+          and CMS plugins to manipulate image files, using any of these:
+        </p>
+        <ul>
+          <li><a href="https://github.com/rkalla/imgscalr">imgscalr - Java Image-Scaling Library</a></li>
+          <li><a href="http://www.graphicsmagick.org/">GraphicsMagick</a></li>
+          <li><a href="http://www.imagemagick.org/">ImageMagick</a></li>
+        </ul>
+        <p>
+          <code>org.onehippo.forge.gallerymagick.core.command.ScalrProcessorUtils</code> utility class
+          provides a pure Java based image identifying/resizing solution.
+        </p>
+        <p>
+          When using a non-Java based solution, it executes commands of either
+          <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
+          or <a href="http://www.imagemagick.org/">ImageMagick</a>):
         </p>
         <img alt="Gallery Magick Image Processing" src="images/gallery-magick.png" />
         <p>
-          Gallery Image Processing basically aims to provide the following:
+          Gallery Magick Image Processing basically aims to provide the following:
         </p>
         <ul>
           <li>
-            <a href="core/index.html"><strong>Gallery Image Processing Core Library</strong> </a> :
-            Programmatic Utilities to process image files.
+            <a href="core/index.html"><strong>Gallery Magick Image Processing Core Library</strong> </a> :
+            Programmatic Utilities to process image files using
+            <a href="https://github.com/rkalla/imgscalr">imgscalr - Java Image-Scaling Library</a>,
+            <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>, or
+            <a href="http://www.imagemagick.org/">ImageMagick</a>.
           </li>
           <li>
-            <a href="cms-plugins/index.html"><strong>Gallery Image Processing CMS Plugins</strong></a> :
+            <a href="cms-plugins/index.html"><strong>Gallery Magick Image Processing CMS Plugins</strong></a> :
             Hippo CMS Plugins such as Magick Command Gallery Processor using
-            <strong>Gallery Image Processing Core Library</strong>
+            <strong>Gallery Image Processing Core Library</strong>.
           </li>
         </ul>
       </subsection>
@@ -90,7 +105,8 @@ DEBUG Removing the original image file at '/home/test/gallery-magick-demo-TRUNK/
           <em>Note:</em> the log data shown above were minified for readability.
         </p>
         <p>
-          Basically, the plugin copies the original image data to a temporary file and resizes the temporary file of the original image
+          Basically, when either of the non-Java based solution,
+          the plugin copies the original image data to a temporary file and resizes the temporary file of the original image
           for a thumbnail image by executing commands of either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
           or <a href="http://www.imagemagick.org/">ImageMagick</a>.
           After executing the commands, it deletes all the temporary files.
