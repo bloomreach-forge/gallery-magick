@@ -21,7 +21,7 @@
   <description>Gallery Magick Image Processing</description>
   <groupId>org.onehippo.forge.gallery-magick</groupId>
   <artifactId>gallery-magick</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>http://gallery-magick.forge.onehippo.org/</url>
 
@@ -93,9 +93,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/gallery-magick/tags/gallery-magick-1.0.5</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/gallery-magick/tags/gallery-magick-1.0.5</developerConnection>
-    <url>https://forge.onehippo.org/svn/gallery-magick/tags/gallery-magick-1.0.5</url>
+    <connection>scm:svn:https://forge.onehippo.org/svn/gallery-magick/gallery-magick/trunk</connection>
+    <developerConnection>scm:svn:https://forge.onehippo.org/svn/gallery-magick/gallery-magick/trunk</developerConnection>
+    <url>https://forge.onehippo.org/svn/gallery-magick/gallery-magick/trunk</url>
   </scm>
 
   <issueManagement>
