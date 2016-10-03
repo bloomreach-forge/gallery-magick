@@ -33,6 +33,12 @@
       </table>
     </section>
     <section name="Release Notes">
+      <subsection name="1.0.6">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/HIPPLUG-1394'>HIPPLUG-1394</a>] -         Gallery Magick: Make external process unblocking
+          </li>
+        </ul>
+      </subsection>
       <subsection name="1.0.5">
         <ul>
           <li>
