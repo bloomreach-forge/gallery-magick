@@ -51,7 +51,6 @@ abstract public class AbstractMagickCommand {
 
     /**
      * System property name for Graphics Magick command executable.
-     * The default value is {@link #DEFAULT_EXECUTABLE}.
      */
     public static final String PROP_TIMEOUT = "org.onehippo.forge.gallerymagick.core.command.timeout";
 
