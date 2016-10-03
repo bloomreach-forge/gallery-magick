@@ -33,6 +33,7 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,12 +42,23 @@ import org.slf4j.LoggerFactory;
  */
 abstract public class AbstractMagickCommand {
 
+    private static final Logger log = LoggerFactory.getLogger(AbstractMagickCommand.class);
+
     /**
      * Default Graphics Magick command executable.
      */
     public static final String DEFAULT_SUBCOMMAND_CONVERT = "convert";
-    public static final int TIMEOUT = 3 * 1000;
-    private static final Logger log = LoggerFactory.getLogger(AbstractMagickCommand.class);
+
+    /**
+     * System property name for Graphics Magick command executable.
+     * The default value is {@link #DEFAULT_EXECUTABLE}.
+     */
+    public static final String PROP_TIMEOUT = "org.onehippo.forge.gallerymagick.core.command.timeout";
+
+    /**
+     * The default command execution timeout.
+     */
+    private static final long DEFAULT_COMMAND_TIMEOUT = 3000L;
 
     /**
      * Working directory of a command execution.
@@ -165,6 +177,7 @@ abstract public class AbstractMagickCommand {
     public void execute(final OutputStream stdOut) throws IOException {
         CommandLine cmdLine = createCommandLine();
         ByteArrayOutputStream errStream = null;
+        int exitValue = 0;
         DefaultExecuteResultHandler resultHandler = null;
 
         try {
@@ -185,30 +198,35 @@ abstract public class AbstractMagickCommand {
                 executor.setWorkingDirectory(getWorkingDirectory());
             }
 
-            ExecuteWatchdog watchdog = new ExecuteWatchdog(TIMEOUT);
-            executor.setWatchdog(watchdog);
+            long timeout = NumberUtils.toLong(System.getProperty(PROP_TIMEOUT), DEFAULT_COMMAND_TIMEOUT);
 
-            resultHandler = new DefaultExecuteResultHandler();
-
-            executor.execute(cmdLine,resultHandler);
-            log.debug(cmdLine.toString());
-
-
-            resultHandler.waitFor();
-
-        } catch (ExecuteException | InterruptedException e ) {
-
-            if (e.getCause() == null) {
-                throw new MagickExecuteException(getMessage(cmdLine, errStream, e), resultHandler.getExitValue());
+            if (timeout > 0) {
+                ExecuteWatchdog watchdog = new ExecuteWatchdog(DEFAULT_COMMAND_TIMEOUT);
+                executor.setWatchdog(watchdog);
+                resultHandler = new DefaultExecuteResultHandler();
+                executor.execute(cmdLine, resultHandler);
+                log.debug("Executed with watchdog: {}", cmdLine);
+                resultHandler.waitFor();
             } else {
-                throw new MagickExecuteException(getMessage(cmdLine, errStream, e), resultHandler.getExitValue(), e.getCause());
+                exitValue = executor.execute(cmdLine);
+                log.debug("Executed without watchdog: {}", cmdLine);
             }
-        }  finally {
+        } catch (ExecuteException | InterruptedException e) {
+            if (resultHandler != null) {
+                exitValue = resultHandler.getExitValue();
+            }
+            if (e.getCause() == null) {
+                throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, e), exitValue);
+            } else {
+                throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, e), exitValue, e.getCause());
+            }
+        } finally {
             IOUtils.closeQuietly(errStream);
         }
     }
 
-    private String getMessage(final CommandLine cmdLine, final ByteArrayOutputStream errStream, final Exception e) throws UnsupportedEncodingException {
+    private String getExecutionErrorMessage(final CommandLine cmdLine, final ByteArrayOutputStream errStream,
+            final Exception e) throws UnsupportedEncodingException {
         StringBuilder sbMsg = new StringBuilder(256);
         sbMsg.append(StringUtils.trim(errStream.toString("UTF-8")));
         sbMsg.append(' ').append(cmdLine.toString());
