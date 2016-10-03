@@ -19,17 +19,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.ExecuteStreamHandler;
+import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract *Magick Command.
@@ -40,6 +45,8 @@ abstract public class AbstractMagickCommand {
      * Default Graphics Magick command executable.
      */
     public static final String DEFAULT_SUBCOMMAND_CONVERT = "convert";
+    public static final int TIMEOUT = 3 * 1000;
+    private static final Logger log = LoggerFactory.getLogger(AbstractMagickCommand.class);
 
     /**
      * Working directory of a command execution.
@@ -145,7 +152,7 @@ abstract public class AbstractMagickCommand {
      * @throws MagickExecuteException if an execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public void execute() throws MagickExecuteException, IOException {
+    public void execute() throws IOException {
         execute(null);
     }
 
@@ -155,15 +162,16 @@ abstract public class AbstractMagickCommand {
      * @throws MagickExecuteException if an execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public void execute(final OutputStream stdOut) throws MagickExecuteException, IOException {
+    public void execute(final OutputStream stdOut) throws IOException {
         CommandLine cmdLine = createCommandLine();
         ByteArrayOutputStream errStream = null;
+        DefaultExecuteResultHandler resultHandler = null;
 
         try {
             errStream = new ByteArrayOutputStream(512);
 
             final DefaultExecutor executor = new DefaultExecutor();
-            ExecuteStreamHandler streamHandler = null;
+            ExecuteStreamHandler streamHandler;
 
             if (stdOut != null) {
                 streamHandler = new PumpStreamHandler(stdOut, errStream);
@@ -177,21 +185,35 @@ abstract public class AbstractMagickCommand {
                 executor.setWorkingDirectory(getWorkingDirectory());
             }
 
-            int exitCode = executor.execute(cmdLine);
-        } catch (ExecuteException e) {
-            StringBuilder sbMsg = new StringBuilder(256);
-            sbMsg.append(StringUtils.trim(errStream.toString("UTF-8")));
-            sbMsg.append(' ').append(cmdLine.toString());
-            sbMsg.append(". ").append(e.getMessage());
+            ExecuteWatchdog watchdog = new ExecuteWatchdog(TIMEOUT);
+            executor.setWatchdog(watchdog);
+
+            resultHandler = new DefaultExecuteResultHandler();
+
+            executor.execute(cmdLine,resultHandler);
+            log.debug(cmdLine.toString());
+
+
+            resultHandler.waitFor();
+
+        } catch (ExecuteException | InterruptedException e ) {
 
             if (e.getCause() == null) {
-                throw new MagickExecuteException(sbMsg.toString(), e.getExitValue());
+                throw new MagickExecuteException(getMessage(cmdLine, errStream, e), resultHandler.getExitValue());
             } else {
-                throw new MagickExecuteException(sbMsg.toString(), e.getExitValue(), e.getCause());
+                throw new MagickExecuteException(getMessage(cmdLine, errStream, e), resultHandler.getExitValue(), e.getCause());
             }
-        } finally {
+        }  finally {
             IOUtils.closeQuietly(errStream);
         }
+    }
+
+    private String getMessage(final CommandLine cmdLine, final ByteArrayOutputStream errStream, final Exception e) throws UnsupportedEncodingException {
+        StringBuilder sbMsg = new StringBuilder(256);
+        sbMsg.append(StringUtils.trim(errStream.toString("UTF-8")));
+        sbMsg.append(' ').append(cmdLine.toString());
+        sbMsg.append(". ").append(e.getMessage());
+        return sbMsg.toString();
     }
 
     /**
