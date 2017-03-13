@@ -40,9 +40,9 @@
       <!-- SNIP -->
 
       <repository>
-        <id>gallery-magick-maven-repo</id>
-        <name>Gallery Magick Maven 2 Repository</name>
-        <url>http://forge.onehippo.org/svn/gallery-magick/maven2/</url>
+        <id>hippo-maven2-forge</id>
+        <name>Hippo Maven 2 Forge Repository</name>
+        <url>http://maven.onehippo.com/maven2-forge/</url>
       </repository>
 
       <!-- SNIP -->

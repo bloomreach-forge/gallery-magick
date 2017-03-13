@@ -27,4 +27,16 @@
   <description>Gallery Magick Image Processing Bootstrap</description>
   <artifactId>gallery-magick-bootstrap</artifactId>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

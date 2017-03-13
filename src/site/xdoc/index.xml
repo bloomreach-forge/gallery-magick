@@ -55,17 +55,20 @@
           </li>
         </ul>
       </subsection>
+
+      <subsection name="Code base on GitHub">
+        <p>The code of this project is on GitHub at <a href="https://github.com/onehippo-forge/gallery-magick/">https://github.com/onehippo-forge/gallery-magick/</a>.</p>
+      </subsection>
     </section>
 
     <section name="Demo Application">
 
       <subsection name="Demo Application with Hippo CMS 10">
-        <p>You can check out, build and run demo application, which configures <strong>Magick Command Gallery Processor Plugin</strong>.</p>
+        <p>There is a demo submodule in which you can build and run a demo application, which configures <strong>Magick Command Gallery Processor Plugin</strong>.</p>
         <p>Here are example commands to check out, build and run demo application:</p>
         <div class="brush: bash">
         <source><![CDATA[
-$ svn checkout https://forge.onehippo.org/svn/gallery-magick/gallery-magick-demo/trunk gallery-magick-demo-TRUNK
-$ cd gallery-magick-demo-TRUNK
+$ cd demo
 $ mvn clean verify
 $ mvn -P cargo.run
         ]]></source>
@@ -88,19 +91,8 @@ $ mvn -P cargo.run
         <p>
           However, if you take a look at the logs
           (the demo project is configured to leave logs in DEBUG level for the plugin related code by default),
-          you will see the following which shows <i>clues</i> about how the plugin works under the hood!
+          you will see <i>clues</i> about how the plugin works under the hood!
         </p>
-        <div class="brush: plain">
-        <source><![CDATA[
-DEBUG Storing original image source file ('hippo.jpg') to '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg'.
-DEBUG Resizing the original image file ('/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg') to '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc_hippogallery_thumbnail3045475676360292044.jpg' with dimension, 60x60.
-DEBUG Storing an image binary at '/content/gallery/gallerymagickdemo/samples/hippo.jpg/hippo.jpg/hippogallery:thumbnail' from file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc_hippogallery_thumbnail3045475676360292044.jpg'.
-DEBUG Removing the resized target image file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc_hippogallery_thumbnail3045475676360292044.jpg'.
-DEBUG No scaling parameters specified for hippogallery:original or width or height is zero or negative. So use original image
-DEBUG Storing an image binary at '/content/gallery/gallerymagickdemo/samples/hippo.jpg/hippo.jpg/hippogallery:original' from file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg'.
-DEBUG Removing the original image file at '/home/test/gallery-magick-demo-TRUNK/target/tomcat8x/temp/_magickproc4906313564750098789.jpg'.
-        ]]></source>
-        </div>
         <p>
           <em>Note:</em> the log data shown above were minified for readability.
         </p>
@@ -122,11 +114,6 @@ DEBUG Removing the original image file at '/home/test/gallery-magick-demo-TRUNK/
     <section name="Project status">
       <p>
         Please see <a href="release-notes.html">Release Notes</a>.
-      </p>
-      <p>
-        See the
-        <a href="http://forge.onehippo.org/gf/project/gallery-magick">forge project page</a>
-        for more info about the project itself.
       </p>
     </section>
   </body>
