@@ -19,6 +19,15 @@
     <version>1.04.00</version>
   </skin>
 
+  <custom>
+    <hippoSkin>
+      <!-- Add a 'Fork me on GitHub' ribbon  -->
+      <gitHub>
+        <projectId>onehippo-forge/gallery-magick</projectId>
+      </gitHub>
+    </hippoSkin>
+  </custom>
+
   <body>
 
     <menu name="Home">

@@ -3,7 +3,7 @@
   "-//Apache Software Foundation//DTD XDOC 1.0//EN"
   "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2016 Hippo
+    Copyright 2016-2017 Hippo
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -153,87 +153,15 @@
 
       <p>
         Now, in order to use the Magick Command Gallery Processor instead of the default Gallery Processor component,
-        we need to replace those property values by <code>service.magick.command.gallery.processor</code>.
+        you need to simply replace those property values by <code>service.magick.command.gallery.processor</code>. That is,
       </p>
 
-      <p>
-        To replace all of those Gallery Processor reference configurations,
-        you can use <strong>Single Property Setting Bootstrap Initialization</strong> technique in your project.
-        (Reference: 
-          <a href="http://www.onehippo.org/library/concepts/content-repository/repository-initialization.html">Repository Initialization Instructions</a>.
-          See the <strong>Set a Single Property</strong> section.
-        )
-      </p>
-      <p>
-        These initialization items should be typically added in <code>bootstrap/configuration/src/main/resources/hippoecm-extension.xml</code>
-        in your project.
-      </p>
-
-      <div class="brush: xml">
-        <source><![CDATA[
-  <!-- Replacing the default gallery processor configurations with Magick Command Gallery Processor configurations. -->
-
-  <sv:node sv:name="gallery-magick-demo-configuration-workflows-gallery-image-gallery-renderer-gallery-processor-id">
-    <sv:property sv:name="jcr:primaryType" sv:type="Name">
-      <sv:value>hippo:initializeitem</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>32000.1</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:configuration/hippo:workflows/gallery/image-gallery/frontend:renderer/gallery.processor.id</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentpropset" sv:type="String">
-      <sv:value>service.magick.command.gallery.processor</sv:value>
-    </sv:property> 
-  </sv:node>
-
-  <sv:node sv:name="gallery-magick-demo-namespaces-hippogallery-image-templates-default-upload-gallery-processor-id">
-    <sv:property sv:name="jcr:primaryType" sv:type="Name">
-      <sv:value>hippo:initializeitem</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>32000.2</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:namespaces/hippogallery/image/editor:templates/_default_/upload/gallery.processor.id</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentpropset" sv:type="String">
-      <sv:value>service.magick.command.gallery.processor</sv:value>
-    </sv:property> 
-  </sv:node>
-
-  <sv:node sv:name="gallery-magick-demo-namespaces-hippogallery-image-templates-default-crop-gallery-processor-id">
-    <sv:property sv:name="jcr:primaryType" sv:type="Name">
-      <sv:value>hippo:initializeitem</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>32000.3</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:namespaces/hippogallery/image/editor:templates/_default_/crop/gallery.processor.id</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentpropset" sv:type="String">
-      <sv:value>service.magick.command.gallery.processor</sv:value>
-    </sv:property> 
-  </sv:node>
-
-  <sv:node sv:name="gallery-magick-demo-namespaces-hippogallery-image-templates-default-regenerate-gallery-processor-id">
-    <sv:property sv:name="jcr:primaryType" sv:type="Name">
-      <sv:value>hippo:initializeitem</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:sequence" sv:type="Double">
-      <sv:value>32000.4</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentroot" sv:type="String">
-      <sv:value>/hippo:namespaces/hippogallery/image/editor:templates/_default_/regenerate/gallery.processor.id</sv:value>
-    </sv:property>
-    <sv:property sv:name="hippo:contentpropset" sv:type="String">
-      <sv:value>service.magick.command.gallery.processor</sv:value>
-    </sv:property> 
-  </sv:node>
-        ]]></source>
-      </div>
+      <ul>
+        <li><code>/hippo:configuration/hippo:workflows/gallery/image-gallery/frontend:renderer/@gallery.processor.id = "service.magick.command.gallery.processor"</code></li>
+        <li><code>/hippo:namespaces/hippogallery/image/editor:templates/_default_/upload/@gallery.processor.id = "service.magick.command.gallery.processor"</code></li>
+        <li><code>/hippo:namespaces/hippogallery/image/editor:templates/_default_/crop/@gallery.processor.id = "service.magick.command.gallery.processor"</code></li>
+        <li><code>/hippo:namespaces/hippogallery/image/editor:templates/_default_/regenerate/@gallery.processor.id = "service.magick.command.gallery.processor"</code></li>
+      </ul>
 
       <p>
         Now, you're ready to use the plugin!
