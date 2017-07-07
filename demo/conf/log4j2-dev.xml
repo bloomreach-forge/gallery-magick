@@ -121,7 +121,7 @@
     </Logger>
 
     <!-- project logging -->
-    <Logger name="org.onehippo.forge.gallerymagick.demo" level="debug"/>
+    <Logger name="org.onehippo.forge.gallerymagick" level="debug"/>
 
     <Root level="warn">
       <AppenderRef ref="site"/>
