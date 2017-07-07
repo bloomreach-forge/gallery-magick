@@ -9,7 +9,7 @@ definitions:
         jcr:primaryType: frontend:pluginconfig
         width: 60
         height: 60
-      /hippogallery:original
+      /hippogallery:original:
         jcr:primaryType: frontend:pluginconfig
         width: 0
         height: 0

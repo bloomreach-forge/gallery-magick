@@ -11,7 +11,19 @@
   <packaging>war</packaging>
   <name>Gallery Magick Image Processing Demo CMS</name>
   <description>Gallery Magick Image Processing Demo CMS</description>
+
   <dependencies>
+
+    <dependency>
+      <groupId>org.onehippo.forge.gallery-magick</groupId>
+      <artifactId>gallery-magick-bootstrap</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.forge.gallery-magick</groupId>
+      <artifactId>gallery-magick-cms</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.onehippo.cms7.hst.dependencies</groupId>
       <artifactId>hst-repository-dependencies</artifactId>

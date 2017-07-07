@@ -1,0 +1,8 @@
+definitions:
+  config:
+    /hippo:namespaces/hippogallery/image/editor:templates/_default_/crop:
+      gallery.processor.id: service.magick.command.gallery.processor
+    /hippo:namespaces/hippogallery/image/editor:templates/_default_/regenerate:
+      gallery.processor.id: service.magick.command.gallery.processor
+    /hippo:namespaces/hippogallery/image/editor:templates/_default_/upload:
+      gallery.processor.id: service.magick.command.gallery.processor
