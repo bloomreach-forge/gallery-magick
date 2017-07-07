@@ -1,0 +1,15 @@
+definitions:
+  config:
+    /hippo:configuration/hippo:frontend/cms/cms-services/magickCommandGalleryProcessorService:
+      jcr:primaryType: frontend:plugin
+      plugin.class: org.onehippo.forge.gallerymagick.cms.plugins.gallery.processor.MagickCommandGalleryProcessorPlugin
+      gallery.processor.id: service.magick.command.gallery.processor
+      magick.image.processor: GraphicsMagick
+      /hippogallery:thumbnail:
+        jcr:primaryType: frontend:pluginconfig
+        width: 60
+        height: 60
+      /hippogallery:original:
+        jcr:primaryType: frontend:pluginconfig
+        width: 0
+        height: 0
