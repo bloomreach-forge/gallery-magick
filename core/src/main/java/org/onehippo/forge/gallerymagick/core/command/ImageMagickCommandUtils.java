@@ -31,6 +31,30 @@ public class ImageMagickCommandUtils {
     }
 
     /**
+     * Execute <code>identify -verbose</code> sub-command and return a string of all extracted metadata from the output.
+     * @param sourceFile source image file
+     * @return Execute <code>identify -verbose</code> sub-command and return a string of all extracted metadata from the output
+     * @throws MagickExecuteException if execution exception occurs
+     * @throws IOException if IO exception occurs
+     */
+    public static String identifyAllMetadata(File sourceFile) throws MagickExecuteException, IOException {
+        ImageMagickCommand cmd = new ImageMagickCommand(null, "identify");
+
+        final File tempFolder = getTempFolder();
+
+        if (tempFolder != null) {
+            cmd.setWorkingDirectory(tempFolder);
+        }
+
+        cmd.addArgument("-verbose");
+        cmd.addArgument(sourceFile.getCanonicalPath());
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(8192);
+        cmd.execute(baos);
+        return StringUtils.trim(baos.toString("UTF-8"));
+    }
+
+    /**
      * Execute <code>identify</code> sub-command and return an {@link ImageDimension} instance from the output.
      * @param sourceFile source image file
      * @return Execute <code>identify</code> sub-command and return an {@link ImageDimension} instance from the output

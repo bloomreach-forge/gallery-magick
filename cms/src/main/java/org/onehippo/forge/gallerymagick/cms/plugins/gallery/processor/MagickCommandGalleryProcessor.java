@@ -39,6 +39,7 @@ import org.hippoecm.frontend.plugins.gallery.imageutil.ScalingParameters;
 import org.hippoecm.frontend.plugins.gallery.model.GalleryException;
 import org.hippoecm.frontend.plugins.gallery.model.GalleryProcessor;
 import org.hippoecm.frontend.plugins.gallery.processor.AbstractGalleryProcessor;
+import org.hippoecm.repository.HippoStdNodeType;
 import org.hippoecm.repository.gallery.HippoGalleryNodeType;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
 import org.onehippo.forge.gallerymagick.core.command.GraphicsMagickCommandUtils;
@@ -57,6 +58,8 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     private static final Logger log = LoggerFactory.getLogger(MagickCommandGalleryProcessor.class);
 
     private static final String MAGICK_COMMAND_TEMP_FILE_PREFIX = "_magickproc";
+
+    private static final String GALLERY_MAGICK_METADATA_PROP_NAME = "gallerymagick.metadata";
 
     private static ThreadLocal<File> tlSourceDataFile = new ThreadLocal<>();
 
@@ -86,6 +89,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
 
         try {
             sourceFile = saveOriginalImageDataToFile(data, fileName);
+            extractAndSaveImageMetadata(node, sourceFile);
             sourceFileInput = new FileInputStream(sourceFile);
             tlSourceDataFile.set(sourceFile);
             super.makeImage(node, sourceFileInput, mimeType, fileName);
@@ -239,11 +243,36 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         }
     }
 
+    protected String identifyAllMetadata(File sourceFile) throws MagickExecuteException, IOException {
+        if (isImageMagickImageProcessor()) {
+            return ImageMagickCommandUtils.identifyAllMetadata(sourceFile);
+        } else {
+            return GraphicsMagickCommandUtils.identifyAllMetadata(sourceFile);
+        }
+    }
+
     protected ImageDimension identifyDimension(File sourceFile) throws MagickExecuteException, IOException {
         if (isImageMagickImageProcessor()) {
             return ImageMagickCommandUtils.identifyDimension(sourceFile);
         } else {
             return GraphicsMagickCommandUtils.identifyDimension(sourceFile);
+        }
+    }
+
+    protected void extractAndSaveImageMetadata(Node node, File sourceFile) {
+        String nodePath = null;
+
+        try {
+            final String imageMetadata = identifyAllMetadata(sourceFile);
+            nodePath = node.getPath();
+
+            if (!node.isNodeType(HippoStdNodeType.NT_RELAXED)) {
+                node.addMixin(HippoStdNodeType.NT_RELAXED);
+                node.setProperty(GALLERY_MAGICK_METADATA_PROP_NAME, StringUtils.defaultString(imageMetadata));
+            }
+        } catch (Exception e) {
+            log.error("Failed to extract image metadata or failed to store the metadata in '{}' property at '{}'.",
+                    GALLERY_MAGICK_METADATA_PROP_NAME, nodePath, e);
         }
     }
 
