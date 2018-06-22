@@ -37,6 +37,12 @@
       </table>
     </section>
     <section name="Release Notes of 2.x">
+      <subsection name="2.0.1">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-183'>HIPFORGE-183</a>] -         [Gallery Magick] Extract and store image metadata extractable through identify command
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.0.0">
         <ul>
           <li>
