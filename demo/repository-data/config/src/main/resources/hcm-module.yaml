@@ -1,5 +1,0 @@
-group: 
-  name: gallery-magick-demo
-  after: hippo-cms
-project: gallery-magick-demo
-module: gallery-magick-demo-repository-data-config

@@ -1,4 +1,0 @@
-definitions:
-  config:
-    /hippo:configuration/hippo:workflows/gallery/image-gallery/frontend:renderer:
-      gallery.processor.id: service.magick.command.gallery.processor
