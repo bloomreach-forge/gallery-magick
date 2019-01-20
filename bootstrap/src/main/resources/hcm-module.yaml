@@ -1,5 +1,5 @@
-group: 
-  name: hippo-forge
-  after: hippo-cms
-project: gallery-magick
+group: hippo-cms
+project:
+    name: gallery-magick
+    after: [hippo-repository, hippo-cms]
 module: gallery-magick-bootstrap

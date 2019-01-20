@@ -27,6 +27,10 @@
           </th>
         </tr>
         <tr>
+          <td>3.x</td>
+          <td>13.x</td>
+        </tr>
+        <tr>
           <td>2.x</td>
           <td>12.x</td>
         </tr>
@@ -35,6 +39,14 @@
           <td>10.x, 11.x</td>
         </tr>
       </table>
+    </section>
+    <section name="Release Notes of 3.x">
+      <subsection name="3.0.0">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-253'>HIPFORGE-253</a>] -         [Gallery Magick] Upgrade for v13 compatibility
+          </li>
+        </ul>
+      </subsection>
     </section>
     <section name="Release Notes of 2.x">
       <subsection name="2.0.1">

@@ -1,6 +1,0 @@
-definitions:
-  config:
-    /hippo:namespaces/gallerymagickdemo:
-      jcr:primaryType: hipposysedit:namespace
-      jcr:mixinTypes: ['mix:referenceable']
-      jcr:uuid: fe1c8ec9-fe73-4047-a3fa-284efaaaf6ba

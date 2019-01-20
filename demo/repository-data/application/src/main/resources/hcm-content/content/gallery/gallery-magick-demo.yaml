@@ -1,0 +1,7 @@
+/content/gallery/gallerymagickdemo:
+  jcr:primaryType: hippogallery:stdImageGallery
+  jcr:mixinTypes: ['hippo:named', 'mix:referenceable']
+  jcr:uuid: dfd203e5-3a9c-430f-b68e-38eddfd31de4
+  hippo:name: Gallery Magick Image Processing Demo
+  hippostd:foldertype: [new-image-folder]
+  hippostd:gallerytype: ['hippogallery:imageset']

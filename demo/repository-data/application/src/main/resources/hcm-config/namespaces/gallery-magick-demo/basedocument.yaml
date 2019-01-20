@@ -1,0 +1,15 @@
+definitions:
+  config:
+    /hippo:namespaces/gallerymagickdemo/basedocument:
+      jcr:primaryType: hipposysedit:templatetype
+      jcr:mixinTypes: ['mix:referenceable']
+      jcr:uuid: 553747f5-264d-453f-b5c8-06d298fe39a3
+      /hipposysedit:nodetype:
+        jcr:primaryType: hippo:handle
+        jcr:mixinTypes: ['mix:referenceable']
+        jcr:uuid: 2e51faf5-dbac-419b-8e53-811376488eb0
+        /hipposysedit:nodetype:
+          jcr:primaryType: hipposysedit:nodetype
+          jcr:mixinTypes: ['hipposysedit:remodel']
+          hipposysedit:supertype: ['hippo:document', 'hippostdpubwf:document', 'hippostd:publishableSummary']
+          hipposysedit:uri: http://www.gallerymagickdemo.com/gallerymagickdemo/nt/1.0

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.onehippo.forge.gallery-magick</groupId>
+    <artifactId>gallery-magick-demo</artifactId>
+    <version>3.0.0</version>
+  </parent>
+  <artifactId>gallery-magick-demo-cms-dependencies</artifactId>
+  <packaging>pom</packaging>
+  <name>Gallery Magick Image Processing Demo CMS Dependencies</name>
+  <description>Gallery Magick Image Processing Demo CMS Dependencies</description>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.onehippo.forge.gallery-magick</groupId>
+      <artifactId>gallery-magick-bootstrap</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.forge.gallery-magick</groupId>
+      <artifactId>gallery-magick-cms</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.forge.gallery-magick</groupId>
+      <artifactId>gallery-magick-demo-repository-data-application</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-package-cms-dependencies</artifactId>
+      <type>pom</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-plugin-gallerypicker</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-plugin-resourcebundle-editor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-plugin-selections-addon-cms</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-plugin-selections-addon-repository</artifactId>
+    </dependency>
+  </dependencies>
+</project>

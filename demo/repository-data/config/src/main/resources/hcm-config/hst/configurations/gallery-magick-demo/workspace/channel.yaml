@@ -1,8 +1,0 @@
-definitions:
-  config:
-    /hst:hst/hst:configurations/gallerymagickdemo/hst:workspace/hst:channel:
-      jcr:primaryType: hst:channel
-      hst:name: Gallery Magick Image Processing Demo
-      hst:type: website
-      /hst:channelinfo:
-        jcr:primaryType: hst:channelinfo
