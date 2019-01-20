@@ -122,6 +122,7 @@
       <AppenderRef ref="messages"/>
     </Logger>
 
+    <Logger name="org.onehippo.forge.gallerymagick" level="debug"/>
     <!-- project logging -->
     <Logger name="org.onehippo.forge.gallerymagick.demo" level="debug"/>
 
