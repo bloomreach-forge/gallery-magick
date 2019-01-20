@@ -1,0 +1,5 @@
+definitions:
+  namespace:
+    gallerymagickdemo:
+      uri: http://www.gallerymagickdemo.com/gallerymagickdemo/nt/1.0
+      cnd: namespaces/gallery-magick-demo.cnd

@@ -1,0 +1,5 @@
+group: 
+  name: gallery-magick-demo
+project: gallery-magick-demo
+module:
+  name: gallery-magick-demo-repository-data-webfiles

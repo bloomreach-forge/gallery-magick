@@ -1,0 +1,6 @@
+definitions:
+  config:
+    /hst:hst/hst:configurations/gallerymagickdemo/hst:catalog:
+      jcr:primaryType: hst:catalog
+      /gallerymagickdemo-catalog:
+        jcr:primaryType: hst:containeritempackage
