@@ -15,6 +15,7 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -48,6 +49,7 @@ public class ScalrProcessorUtilsTest extends AbstractMagickCommandTest {
         String sourceFileName;
         String sourceExtension;
         String targetFileName;
+        ImageDimension dimension;
 
         for (File sourceFile : getTestImageFiles()) {
             sourceFileName = sourceFile.getName();
@@ -57,11 +59,39 @@ public class ScalrProcessorUtilsTest extends AbstractMagickCommandTest {
             long sourceLength = sourceFile.length();
             File targetFile = new File("target/testScalrProcessorResizeImage-" + targetFileName);
 
+            targetFile.delete();
             ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"));
 
             assertTrue(targetFile.isFile());
             assertTrue(targetFile.length() > 0L);
             assertTrue(targetFile.length() < sourceLength);
+
+            targetFile.delete();
+            ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x0"));
+            dimension = ScalrProcessorUtils.identifyDimension(targetFile);
+
+            assertTrue(targetFile.isFile());
+            assertTrue(targetFile.length() > 0L);
+            assertTrue(targetFile.length() < sourceLength);
+            assertEquals(120, dimension.getWidth());
+
+            targetFile.delete();
+            ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x120"));
+            dimension = ScalrProcessorUtils.identifyDimension(targetFile);
+
+            assertTrue(targetFile.isFile());
+            assertTrue(targetFile.length() > 0L);
+            assertTrue(targetFile.length() < sourceLength);
+            assertEquals(120, dimension.getHeight());
+
+            targetFile.delete();
+            ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x0"));
+            dimension = ScalrProcessorUtils.identifyDimension(targetFile);
+            ImageDimension sourceDimension = ScalrProcessorUtils.identifyDimension(sourceFile);
+
+            assertTrue(targetFile.isFile());
+            assertTrue(targetFile.length() > 0L);
+            assertEquals(sourceDimension, dimension);
         }
     }
 
