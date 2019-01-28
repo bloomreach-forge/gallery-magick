@@ -121,7 +121,7 @@ public class GraphicsMagickCommandUtils {
 
         cmd.addArgument(sourceFile.getCanonicalPath());
         cmd.addArgument("-resize");
-        cmd.addArgument(dimension.toString());
+        cmd.addArgument(dimension.toCommandArgument());
 
         if (extraOptions != null) {
             for (String extraOption : extraOptions) {
