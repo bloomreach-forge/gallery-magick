@@ -31,6 +31,7 @@ import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
 
@@ -117,8 +118,19 @@ public class ScalrProcessorUtils {
             }
 
             BufferedImage sourceImage = reader.read(0);
-            BufferedImage resizedImage = Scalr.resize(sourceImage, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC,
-                    dimension.getWidth(), dimension.getHeight());
+            BufferedImage resizedImage;
+            if (dimension.getHeight() == 0 && dimension.getWidth() == 0) {
+                resizedImage = sourceImage;
+            } else {
+                Scalr.Mode mode = Scalr.Mode.AUTOMATIC;
+                if (dimension.getWidth() == 0) {
+                    mode = Scalr.Mode.FIT_TO_HEIGHT;
+                } else if (dimension.getHeight() == 0) {
+                    mode = Scalr.Mode.FIT_TO_WIDTH;
+                }
+                resizedImage = Scalr.resize(sourceImage, Scalr.Method.QUALITY, mode,
+                        dimension.getWidth(), dimension.getHeight());
+            }
 
             final ImageWriteParam writeParam = writer.getDefaultWriteParam();
 

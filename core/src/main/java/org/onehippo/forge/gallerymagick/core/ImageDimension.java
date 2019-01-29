@@ -84,6 +84,27 @@ public class ImageDimension implements Serializable {
         return new StringBuilder(20).append(width).append('x').append(height).toString();
     }
 
+    /**
+     * @return String representation for ImageMagick/GraphicsMagick command line usage.
+     * A width or height of 0 means "unbounded", and results in a bounding box that does not restrict scaling in either
+     * the width or height, respectively.
+     * When both width and height are 0 or less, the image is not scaled at all but merely copied.
+     */
+    public String toCommandArgument() {
+        StringBuilder arg = new StringBuilder(20);
+        if (width == 0 && height == 0) { //no resize
+            arg.append("100%");
+        }
+        if (width > 0) {
+            arg.append(width);
+        }
+        if (height > 0) {
+            arg.append('x').append(height);
+        }
+
+        return arg.toString();
+    }
+
     public static ImageDimension from(final int width, final int height) {
         if (width < 0 || height < 0) {
             throw new IllegalArgumentException("Invalid width or height.");
