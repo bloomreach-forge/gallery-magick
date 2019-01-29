@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.onehippo.forge.gallery-magick</groupId>
     <artifactId>gallery-magick-demo</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.0.2</version>
   </parent>
   <artifactId>gallery-magick-demo-cms</artifactId>
   <packaging>war</packaging>
