@@ -22,12 +22,12 @@ import org.slf4j.LoggerFactory;
 
 abstract public class AbstractImageMagickCommandTest extends AbstractMagickCommandTest {
 
-    private static Logger log = LoggerFactory.getLogger(GraphicsMagickCommandUtilsTest.class);
+    private static Logger log = LoggerFactory.getLogger(AbstractImageMagickCommandTest.class);
 
     private static boolean _convertCommandAvailable;
 
     static {
-        final String executableFromSysProp = GraphicsMagickCommand.getExecutableFromSystemProperty();
+        final String executableFromSysProp = ImageMagickCommand.getExecutableFromSystemProperty("convert");
 
         if (executableFromSysProp != null) {
             _convertCommandAvailable = new File(executableFromSysProp).exists();
@@ -39,6 +39,9 @@ abstract public class AbstractImageMagickCommandTest extends AbstractMagickComma
                 _convertCommandAvailable = true;
             }
             if (!_convertCommandAvailable && new File("/usr/local/bin/convert").isFile()) {
+                _convertCommandAvailable = true;
+            }
+            if (!_convertCommandAvailable && new File("/opt/local/bin/convert").isFile()) {
                 _convertCommandAvailable = true;
             }
         }

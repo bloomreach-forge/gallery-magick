@@ -41,6 +41,9 @@ abstract public class AbstractGraphicsMagickCommandTest extends AbstractMagickCo
             if (!_gmCommandAvailable && new File("/usr/local/bin/gm").isFile()) {
                 _gmCommandAvailable = true;
             }
+            if (!_gmCommandAvailable && new File("/opt/local/bin/gm").isFile()) {
+                _gmCommandAvailable = true;
+            }
         }
     }
 

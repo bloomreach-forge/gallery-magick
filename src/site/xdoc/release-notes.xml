@@ -41,6 +41,12 @@
       </table>
     </section>
     <section name="Release Notes of 3.x">
+      <subsection name="3.0.1">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-273'>HIPFORGE-273</a>] -         [Gallery Magick] Make the handling of zero dimensions same as Hippo Gallery's default behavior
+          </li>
+        </ul>
+      </subsection>
       <subsection name="3.0.0">
         <ul>
           <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-253'>HIPFORGE-253</a>] -         [Gallery Magick] Upgrade for v13 compatibility
@@ -49,6 +55,12 @@
       </subsection>
     </section>
     <section name="Release Notes of 2.x">
+      <subsection name="2.0.2">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-273'>HIPFORGE-273</a>] -         [Gallery Magick] Make the handling of zero dimensions same as Hippo Gallery's default behavior
+          </li>
+        </ul>
+      </subsection>
       <subsection name="2.0.1">
         <ul>
           <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-183'>HIPFORGE-183</a>] -         [Gallery Magick] Extract and store image metadata extractable through identify command
