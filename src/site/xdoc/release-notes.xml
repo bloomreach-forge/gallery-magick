@@ -41,6 +41,12 @@
       </table>
     </section>
     <section name="Release Notes of 3.x">
+      <subsection name="3.0.2">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-291'>HIPFORGE-291</a>] -         [Gallery Magick] Add -size option and +profile option for better performance
+          </li>
+        </ul>
+      </subsection>
       <subsection name="3.0.1">
         <ul>
           <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-273'>HIPFORGE-273</a>] -         [Gallery Magick] Make the handling of zero dimensions same as Hippo Gallery's default behavior
