@@ -18,6 +18,9 @@ package org.onehippo.forge.gallerymagick.core.command;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
@@ -120,13 +123,26 @@ public class ImageMagickCommandUtils {
         }
 
         cmd.addArgument(sourceFile.getCanonicalPath());
+        final String dimensionArg = dimension.toCommandArgument();
         cmd.addArgument("-resize");
-        cmd.addArgument(dimension.toCommandArgument());
+        cmd.addArgument(dimensionArg);
 
-        if (extraOptions != null) {
-            for (String extraOption : extraOptions) {
-                cmd.addArgument(extraOption);
+        final List<String> extraOptionList = (extraOptions != null) ? Arrays.asList(extraOptions) : Collections.emptyList();
+
+        for (String extraOption : extraOptionList) {
+            cmd.addArgument(extraOption);
+        }
+
+        if (dimension.getWidth() > 0 || dimension.getHeight() > 0) {
+            if (!extraOptionList.contains("-size")) {
+                cmd.addArgument("-size");
+                cmd.addArgument(dimensionArg);
             }
+        }
+
+        if (!extraOptionList.contains("+profile") && !extraOptionList.contains("-profile")) {
+            cmd.addArgument("+profile");
+            cmd.addArgument("*");
         }
 
         cmd.addArgument(targetFile.getCanonicalPath());

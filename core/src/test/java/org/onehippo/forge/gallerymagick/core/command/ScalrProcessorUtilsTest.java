@@ -15,9 +15,6 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
@@ -25,6 +22,9 @@ import org.junit.Test;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ScalrProcessorUtilsTest extends AbstractMagickCommandTest {
 
@@ -50,23 +50,23 @@ public class ScalrProcessorUtilsTest extends AbstractMagickCommandTest {
         String sourceExtension;
         String targetFileName;
         ImageDimension dimension;
+        long sourceLength;
+        File targetFile;
 
         for (File sourceFile : getTestImageFiles()) {
             sourceFileName = sourceFile.getName();
             sourceExtension = FilenameUtils.getExtension(sourceFileName);
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
-            long sourceLength = sourceFile.length();
-            File targetFile = new File("target/testScalrProcessorResizeImage-" + targetFileName);
-
-            targetFile.delete();
+            sourceLength = sourceFile.length();
+            targetFile = new File("target/testScalrProcessorResizeImage-120x120-" + targetFileName);
             ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"));
 
             assertTrue(targetFile.isFile());
             assertTrue(targetFile.length() > 0L);
             assertTrue(targetFile.length() < sourceLength);
 
-            targetFile.delete();
+            targetFile = new File("target/testScalrProcessorResizeImage-120x0-" + targetFileName);
             ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x0"));
             dimension = ScalrProcessorUtils.identifyDimension(targetFile);
 
@@ -75,7 +75,7 @@ public class ScalrProcessorUtilsTest extends AbstractMagickCommandTest {
             assertTrue(targetFile.length() < sourceLength);
             assertEquals(120, dimension.getWidth());
 
-            targetFile.delete();
+            targetFile = new File("target/testScalrProcessorResizeImage-0x120-" + targetFileName);
             ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x120"));
             dimension = ScalrProcessorUtils.identifyDimension(targetFile);
 
@@ -84,7 +84,7 @@ public class ScalrProcessorUtilsTest extends AbstractMagickCommandTest {
             assertTrue(targetFile.length() < sourceLength);
             assertEquals(120, dimension.getHeight());
 
-            targetFile.delete();
+            targetFile = new File("target/testScalrProcessorResizeImage-0x0-" + targetFileName);
             ScalrProcessorUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x0"));
             dimension = ScalrProcessorUtils.identifyDimension(targetFile);
             ImageDimension sourceDimension = ScalrProcessorUtils.identifyDimension(sourceFile);
