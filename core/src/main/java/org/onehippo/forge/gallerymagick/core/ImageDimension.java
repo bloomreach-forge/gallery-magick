@@ -17,9 +17,9 @@ package org.onehippo.forge.gallerymagick.core;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Image Dimension.

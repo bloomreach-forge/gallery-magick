@@ -15,14 +15,14 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class ImageMagickCommandTest extends AbstractImageMagickCommandTest {
 
@@ -36,18 +36,22 @@ public class ImageMagickCommandTest extends AbstractImageMagickCommandTest {
         String sourceFileName;
         String sourceExtension;
         String targetFileName;
+        long sourceLength;
+        File targetFile;
 
         for (File sourceFile : getTestImageFiles()) {
             sourceFileName = sourceFile.getName();
             sourceExtension = FilenameUtils.getExtension(sourceFileName);
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
-            long sourceLength = sourceFile.length();
-            File targetFile = new File("target/testImageMagickConvert-" + targetFileName);
+            sourceLength = sourceFile.length();
+            targetFile = new File("target/testImageMagickConvert-120x120-" + targetFileName);
 
             ImageMagickCommand cmd = new ImageMagickCommand(null, "convert");
             cmd.setWorkingDirectory(new File("target"));
             cmd.addArgument(sourceFile.getCanonicalPath());
+            cmd.addArgument("-size");
+            cmd.addArgument("120x120");
             cmd.addArgument("-resize");
             cmd.addArgument("120x120");
             cmd.addArgument("+profile");

@@ -15,9 +15,6 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 
 import org.apache.commons.io.FilenameUtils;
@@ -27,6 +24,9 @@ import org.junit.Test;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest {
 
@@ -55,23 +55,23 @@ public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest 
         String sourceExtension;
         String targetFileName;
         ImageDimension dimension;
+        long sourceLength;
+        File targetFile;
 
         for (File sourceFile : getTestImageFiles()) {
             sourceFileName = sourceFile.getName();
             sourceExtension = FilenameUtils.getExtension(sourceFileName);
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
-            long sourceLength = sourceFile.length();
-            File targetFile = new File("target/testImageMagickResizeImage-" + targetFileName);
-
-            targetFile.delete();
+            sourceLength = sourceFile.length();
+            targetFile = new File("target/testImageMagickResizeImage-120x120-" + targetFileName);
             ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"), "+profile", "*");
 
             assertTrue(targetFile.isFile());
             assertTrue(targetFile.length() > 0L);
             assertTrue(targetFile.length() < sourceLength);
 
-            targetFile.delete();
+            targetFile = new File("target/testImageMagickResizeImage-120x0-" + targetFileName);
             ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x0"), "+profile", "*");
             dimension = ImageMagickCommandUtils.identifyDimension(targetFile);
 
@@ -80,7 +80,7 @@ public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest 
             assertTrue(targetFile.length() < sourceLength);
             assertEquals(120, dimension.getWidth());
 
-            targetFile.delete();
+            targetFile = new File("target/testImageMagickResizeImage-0x120-" + targetFileName);
             ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x120"), "+profile", "*");
             dimension = ImageMagickCommandUtils.identifyDimension(targetFile);
 
@@ -89,7 +89,7 @@ public class ImageMagickCommandUtilsTest extends AbstractImageMagickCommandTest 
             assertTrue(targetFile.length() < sourceLength);
             assertEquals(120, dimension.getHeight());
 
-            targetFile.delete();
+            targetFile = new File("target/testImageMagickResizeImage-0x0-" + targetFileName);
             ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x0"), "+profile", "*");
             dimension = ImageMagickCommandUtils.identifyDimension(targetFile);
             ImageDimension sourceDimension = ImageMagickCommandUtils.identifyDimension(sourceFile);
