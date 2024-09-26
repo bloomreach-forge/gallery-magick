@@ -9,7 +9,7 @@
 <div id="overview"><a href="../../../../../../../../../../target/site/apidocs/org/onehippo/forge/gallerymagick/cms/plugins/gallery/processor/MagickCommandGalleryProcessorPlugin.html">View Javadoc</a></div><pre>
 
 <a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright 2016-2016 Hippo B.V. (<a href="http://www.onehippo.com)" target="alexandria_uri">http://www.onehippo.com)</a></em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Copyright 2024 Bloomreach B.V. (<a href="http://www.bloomreach.com)" target="alexandria_uri">http://www.bloomreach.com)</a></em>
 <a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment"> * </em>
 <a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> * Licensed under the Apache License, Version 2.0 (the "License");</em>
 <a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> * you may not use this file except in compliance with the License.</em>
@@ -67,7 +67,7 @@
 <a class="jxr_linenumber" name="57" href="#57">57</a>              <strong class="jxr_keyword">if</strong> (StringUtils.isNotBlank(nodeName)) {
 <a class="jxr_linenumber" name="58" href="#58">58</a>                  <strong class="jxr_keyword">int</strong> width = childConfig.getAsInteger(<span class="jxr_string">"width"</span>, 0);
 <a class="jxr_linenumber" name="59" href="#59">59</a>                  <strong class="jxr_keyword">int</strong> height = childConfig.getAsInteger(<span class="jxr_string">"height"</span>, 0);
-<a class="jxr_linenumber" name="60" href="#60">60</a>                  <strong class="jxr_keyword">final</strong> ScalingParameters parameters = <strong class="jxr_keyword">new</strong> ScalingParameters(width, height, false);
+<a class="jxr_linenumber" name="60" href="#60">60</a>                  <strong class="jxr_keyword">final</strong> ScalingParameters parameters = <strong class="jxr_keyword">new</strong> ScalingParameters.Builder(width, height).build();
 <a class="jxr_linenumber" name="61" href="#61">61</a>                  log.debug(<span class="jxr_string">"Scaling parameters for {}: {}"</span>, nodeName, parameters);
 <a class="jxr_linenumber" name="62" href="#62">62</a>                  initScalingParametersMap.put(nodeName, parameters);
 <a class="jxr_linenumber" name="63" href="#63">63</a>              }
