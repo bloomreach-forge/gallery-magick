@@ -5,13 +5,12 @@
   <parent>
     <groupId>org.onehippo.forge.gallery-magick</groupId>
     <artifactId>gallery-magick-demo</artifactId>
-    <version>3.0.2</version>
+    <version>4.0.0</version>
   </parent>
   <artifactId>gallery-magick-demo-cms-dependencies</artifactId>
   <packaging>pom</packaging>
   <name>Gallery Magick Image Processing Demo CMS Dependencies</name>
   <description>Gallery Magick Image Processing Demo CMS Dependencies</description>
-
   <dependencies>
 
     <dependency>

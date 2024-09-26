@@ -1,0 +1,6 @@
+site: gallery-magick-demo
+group: gallery-magick-demo
+project: gallery-magick-demo
+module:
+  name: gallery-magick-demo-repository-data-site-development
+  after: gallery-magick-demo-repository-data-site

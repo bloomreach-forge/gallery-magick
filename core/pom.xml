@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2016 Hippo B.V. (http://www.onehippo.com)
+  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.onehippo.forge.gallery-magick</groupId>
     <artifactId>gallery-magick</artifactId>
-    <version>3.0.2</version>
+    <version>4.0.0</version>
   </parent>
 
   <name>Gallery Magick Image Processing Core</name>

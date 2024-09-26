@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.onehippo.forge.gallery-magick</groupId>
     <artifactId>gallery-magick-demo-site</artifactId>
-    <version>3.0.2</version>
+    <version>4.0.0</version>
   </parent>
   <artifactId>gallery-magick-demo-webapp</artifactId>
   <packaging>war</packaging>
@@ -26,12 +26,11 @@
     <dependency>
       <groupId>org.onehippo.forge.gallery-magick</groupId>
       <artifactId>gallery-magick-demo-components</artifactId>
-      <version>3.0.2</version>
+      <version>4.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.onehippo.cms7.hst.toolkit-resources.addon</groupId>
       <artifactId>hst-addon-hcm-site</artifactId>
-      <version>${hippo.hst.version}</version>
     </dependency>
   </dependencies>
 
@@ -53,7 +52,7 @@
     <plugins>
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
+        <artifactId>cargo-maven3-plugin</artifactId>
         <configuration>
           <configuration>
             <type>runtime</type>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC
-  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2016 Hippo
+    Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -31,7 +28,7 @@
       </p>
       <p>
         Gallery Image Processing modules provide an image file processing library
-        and Hippo CMS Plugins,
+        and CMS Plugins,
         which in the end <strong>execute</strong> commands (such as <code>gm convert</code> or <code>convert</code>) of
         either <a href="http://www.graphicsmagick.org/">GraphicsMagick</a>
         or <a href="http://www.imagemagick.org/">ImageMagick</a> to manipulate image files.

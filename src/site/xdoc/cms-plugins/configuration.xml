@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC
-  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2016 Hippo
+    Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -64,7 +61,7 @@
         </p>
 
         <p>
-          Like the default Hippo Gallery Processor, there are image variant nodes defined
+          Like the default Gallery Processor, there are image variant nodes defined
           under <code>/hippo:configuration/hippo:frontend/cms/cms-services/magickCommandGalleryProcessorService</code>.
           And there are two image variant definition nodes by default: <code>hippogallery:original</code> and <code>hippogallery:thumbnail</code>.
           The former one is for the original image and the latter is for thumbnail image variant.

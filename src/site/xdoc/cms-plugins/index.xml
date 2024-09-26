@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
-    Copyright 2016 Hippo Licensed under the Apache License, Version 2.0
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+    Licensed under the Apache License, Version 2.0
     (the "License"); you may not use this file except in compliance with
     the License. You may obtain a copy of the License at
 
@@ -9,8 +12,7 @@
     OR CONDITIONS OF ANY KIND, either express or implied. See the
     License for the specific language governing permissions and
     limitations under the License.
-  --><!DOCTYPE document PUBLIC "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+  -->
 <document>
   <properties>
     <title>Gallery Magick Image CMS Plugins</title>
@@ -19,7 +21,7 @@
     <section name="Gallery Magick Image CMS Plugins">
       <subsection name="Introduction">
         <p>
-          Gallery Image Processing CMS Plugins provides plugins for Hippo CMS Authoring application,
+          Gallery Image Processing CMS Plugins provides plugins for brXM CMS Authoring application,
           using <a href="../core/index.html">Gallery Image Processing Core Library</a>.
         </p>
         <p>
@@ -29,7 +31,7 @@
           <li>
             <strong>MagickCommandGalleryProcessorPlugin</strong> : GalleryProcess service plugin
             which reads configurations, instantiates <strong>MagickCommandGalleryProcessor</strong>
-            and register it as a <code>GalleryProcessor</code> service component for Hippo CMS Authoring application.
+            and register it as a <code>GalleryProcessor</code> service component for the CMS application.
           </li>
           <li>
             <strong>MagickCommandGalleryProcessor</strong> : <code>GalleryProcessor</code> service component implementation.

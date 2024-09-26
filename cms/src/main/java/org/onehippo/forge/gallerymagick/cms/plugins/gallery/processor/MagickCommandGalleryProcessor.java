@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2016 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
 
     private static final String GALLERY_MAGICK_METADATA_PROP_NAME = "gallerymagick.metadata";
 
-    private static ThreadLocal<File> tlSourceDataFile = new ThreadLocal<>();
+    private static final ThreadLocal<File> tlSourceDataFile = new ThreadLocal<>();
 
     private final Map<String, ScalingParameters> scalingParametersMap = new HashMap<>();
 
