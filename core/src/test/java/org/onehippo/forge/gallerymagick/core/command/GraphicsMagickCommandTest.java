@@ -15,7 +15,9 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assume;
@@ -25,6 +27,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest {
+    private static final Path targetDirectory = Paths.get( "target");
 
     @Before
     public void before() throws Exception {
@@ -37,31 +40,33 @@ public class GraphicsMagickCommandTest extends AbstractGraphicsMagickCommandTest
         String sourceExtension;
         String targetFileName;
         long sourceLength;
-        File targetFile;
+        Path targetFile;
+        long targetLength;
 
-        for (File sourceFile : getTestImageFiles()) {
-            sourceFileName = sourceFile.getName();
+        for (Path sourceFile : getTestImageFiles()) {
+            sourceFileName = sourceFile.getFileName().toString();
             sourceExtension = FilenameUtils.getExtension(sourceFileName);
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
 
-            sourceLength = sourceFile.length();
-            targetFile = new File("target/testGraphicsMagickConvert-120x120-" + targetFileName);
+            sourceLength = Files.size(sourceFile);
+            targetFile = Files.createTempFile(targetDirectory,  "testGraphicsMagickResizeImage-120x120-",  targetFileName);
 
             GraphicsMagickCommand cmd = new GraphicsMagickCommand(null, "convert");
-            cmd.setWorkingDirectory(new File("target"));
-            cmd.addArgument(sourceFile.getCanonicalPath());
+            cmd.setWorkingDirectory(Paths.get("target"));
+            cmd.addArgument(sourceFile.toRealPath().toString());
             cmd.addArgument("-size");
             cmd.addArgument("120x120");
             cmd.addArgument("-resize");
             cmd.addArgument("120x120");
             cmd.addArgument("+profile");
             cmd.addArgument("*");
-            cmd.addArgument(targetFile.getCanonicalPath());
+            cmd.addArgument(targetFile.toRealPath().toString());
             cmd.execute();
+            targetLength = Files.size(targetFile);
 
-            assertTrue(targetFile.isFile());
-            assertTrue(targetFile.length() > 0L);
-            assertTrue(targetFile.length() < sourceLength);
+            assertTrue(Files.exists(targetFile));
+            assertTrue(targetLength > 0L);
+            assertTrue(targetLength < sourceLength);
         }
     }
 

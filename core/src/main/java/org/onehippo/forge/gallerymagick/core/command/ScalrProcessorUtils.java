@@ -18,6 +18,7 @@ package org.onehippo.forge.gallerymagick.core.command;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Iterator;
 
 import javax.imageio.IIOImage;
@@ -49,9 +50,9 @@ public class ScalrProcessorUtils {
      * @return Detects the {@code sourceFile} and returns the size dimension from it
      * @throws IOException if IO exception occurs
      */
-    public static ImageDimension identifyDimension(File sourceFile) throws IOException {
+    public static ImageDimension identifyDimension(Path sourceFile) throws IOException {
         ImageDimension dimension = null;
-        String extension = FilenameUtils.getExtension(sourceFile.getName());
+        String extension = FilenameUtils.getExtension(sourceFile.getFileName().toString());
         Iterator<ImageReader> it = ImageIO.getImageReadersBySuffix(extension);
 
         if (!it.hasNext()) {
@@ -82,7 +83,7 @@ public class ScalrProcessorUtils {
      * @param dimension image dimension
      * @throws IOException if IO exception occurs
      */
-    public static void resizeImage(File sourceFile, File targetFile, ImageDimension dimension) throws IOException {
+    public static void resizeImage(Path sourceFile, Path targetFile, ImageDimension dimension) throws IOException {
         resizeImage(sourceFile, targetFile, dimension, (String[]) null);
     }
 
@@ -95,7 +96,7 @@ public class ScalrProcessorUtils {
      * @param extraOptions extra command line options
      * @throws IOException if IO exception occurs
      */
-    public static void resizeImage(File sourceFile, File targetFile, ImageDimension dimension, String... extraOptions)
+    public static void resizeImage(Path sourceFile, Path targetFile, ImageDimension dimension, String... extraOptions)
             throws IOException {
         if (dimension == null) {
             throw new IllegalArgumentException("Invalid dimension: " + dimension);
@@ -111,7 +112,7 @@ public class ScalrProcessorUtils {
                 throw new IllegalArgumentException("Unsupported image file name extension for reading: " + sourceFile);
             }
 
-            writer = getImageWriter(targetFile);
+            writer = getImageWriter(targetFile.toFile());
 
             if (writer == null) {
                 throw new IllegalArgumentException("Unsupported image file name extension for writing: " + targetFile);
@@ -162,14 +163,14 @@ public class ScalrProcessorUtils {
      * @return an {@link ImageReader} instance
      * @throws IOException if IOException occurs
      */
-    private static ImageReader getImageReader(File sourceFile) throws IOException {
+    private static ImageReader getImageReader(Path sourceFile) throws IOException {
         ImageReader reader = null;
-        String extension = FilenameUtils.getExtension(sourceFile.getName());
+        String extension = FilenameUtils.getExtension(sourceFile.getFileName().toString());
         Iterator<ImageReader> it = ImageIO.getImageReadersBySuffix(extension);
 
         if (it.hasNext()) {
             reader = it.next();
-            ImageInputStream input = new FileImageInputStream(sourceFile);
+            ImageInputStream input = new FileImageInputStream(sourceFile.toFile());
             reader.setInput(input);
         }
 

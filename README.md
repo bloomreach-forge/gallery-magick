@@ -20,7 +20,7 @@ The output is in the ```target/site/``` directory by default. You can open ```ta
 
 # Documentation (GitHub Pages)
 
-Documentation is available at [https://bloomreach-forge.github.io/content-export-import/](https://bloomreach-forge.github.io/content-export-import/).
+Documentation is available at [https://bloomreach-forge.github.io/gallery-magick/index.html](https://bloomreach-forge.github.io/gallery-magick/index.html).
 
 You can generate the GitHub pages only from ```master``` branch by this command:
 

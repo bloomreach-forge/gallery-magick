@@ -15,7 +15,10 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
-import java.io.File;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assume;
@@ -31,6 +34,7 @@ import static org.junit.Assert.assertTrue;
 public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickCommandTest {
 
     private static Logger log = LoggerFactory.getLogger(GraphicsMagickCommandUtilsTest.class);
+    private static final Path targetDirectory = Paths.get( "target");
 
     @Before
     public void before() throws Exception {
@@ -41,7 +45,7 @@ public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickComman
     public void testGraphicsMagickIdentifyDimension() throws Exception {
         ImageDimension dimension;
 
-        for (File sourceFile : getTestImageFiles()) {
+        for (Path sourceFile : getTestImageFiles()) {
             dimension = GraphicsMagickCommandUtils.identifyDimension(sourceFile);
             log.debug("Dimension of {} : {}", sourceFile, dimension);
             assertTrue(dimension.getWidth() > 0);
@@ -56,46 +60,51 @@ public class GraphicsMagickCommandUtilsTest extends AbstractGraphicsMagickComman
         String targetFileName;
         ImageDimension dimension;
         long sourceLength;
-        File targetFile;
+        Path targetFile;
+        long targetLength;
 
-        for (File sourceFile : getTestImageFiles()) {
-            sourceFileName = sourceFile.getName();
+        for (Path sourceFile : getTestImageFiles()) {
+            sourceFileName = sourceFile.getFileName().toString();
             sourceExtension = FilenameUtils.getExtension(sourceFileName);
             targetFileName = FilenameUtils.getBaseName(sourceFileName) + "-thumbnail." + sourceExtension;
+            sourceLength = Files.size(sourceFile);
 
-            sourceLength = sourceFile.length();
-            targetFile = new File("target/testGraphicsMagickResizeImage-120x120-" + targetFileName);
+            targetFile = Files.createTempFile(targetDirectory,  "testGraphicsMagickResizeImage-120x120",  targetFileName);
             GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x120"), "+profile", "*");
+            targetLength = Files.size(targetFile);
 
-            assertTrue(targetFile.isFile());
-            assertTrue(targetFile.length() > 0L);
-            assertTrue(targetFile.length() < sourceLength);
+            assertTrue(Files.exists(targetFile));
+            assertTrue(targetLength > 0L);
+            assertTrue(targetLength < sourceLength);
 
-            targetFile = new File("target/testGraphicsMagickResizeImage-120x0-" + targetFileName);
+            targetFile = Files.createTempFile(targetDirectory,  "testGraphicsMagickResizeImage-120x0",  targetFileName);
             GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("120x0"), "+profile", "*");
             dimension = GraphicsMagickCommandUtils.identifyDimension(targetFile);
+            targetLength = Files.size(targetFile);
 
-            assertTrue(targetFile.isFile());
-            assertTrue(targetFile.length() > 0L);
-            assertTrue(targetFile.length() < sourceLength);
+            assertTrue(Files.exists(targetFile));
+            assertTrue(targetLength > 0L);
+            assertTrue(targetLength < sourceLength);
             assertEquals(120, dimension.getWidth());
 
-            targetFile = new File("target/testGraphicsMagickResizeImage-0x120-" + targetFileName);
+            targetFile = Files.createTempFile(targetDirectory,  "testGraphicsMagickResizeImage-0x120",  targetFileName);
             GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x120"), "+profile", "*");
             dimension = GraphicsMagickCommandUtils.identifyDimension(targetFile);
+            targetLength = Files.size(targetFile);
 
-            assertTrue(targetFile.isFile());
-            assertTrue(targetFile.length() > 0L);
-            assertTrue(targetFile.length() < sourceLength);
+            assertTrue(Files.exists(targetFile));
+            assertTrue(targetLength > 0L);
+            assertTrue(targetLength < sourceLength);
             assertEquals(120, dimension.getHeight());
 
-            targetFile = new File("target/testGraphicsMagickResizeImage-0x0-" + targetFileName);
+            targetFile = Files.createTempFile(targetDirectory,  "testGraphicsMagickResizeImage-0x0",  targetFileName);
             GraphicsMagickCommandUtils.resizeImage(sourceFile, targetFile, ImageDimension.from("0x0"), "+profile", "*");
             dimension = GraphicsMagickCommandUtils.identifyDimension(targetFile);
             ImageDimension sourceDimension = GraphicsMagickCommandUtils.identifyDimension(sourceFile);
+            targetLength = Files.size(targetFile);
 
-            assertTrue(targetFile.isFile());
-            assertTrue(targetFile.length() > 0L);
+            assertTrue(Files.exists(targetFile));
+            assertTrue(targetLength > 0L);
             assertEquals(sourceDimension, dimension);
         }
     }
