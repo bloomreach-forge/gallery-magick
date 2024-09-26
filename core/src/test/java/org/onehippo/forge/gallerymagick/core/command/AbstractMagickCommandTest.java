@@ -15,30 +15,32 @@
  */
 package org.onehippo.forge.gallerymagick.core.command;
 
-import java.io.File;
+
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * AbstractMagickCommandTest.
  */
-abstract public class AbstractMagickCommandTest {
+public abstract class AbstractMagickCommandTest {
 
     protected static final String [] DEFAULT_TEST_IMAGE_FILE_EXTENSIONS = { "jpg", "png", "gif", "bmp", "tiff" };
 
-    private List<File> testImageFiles;
+    private List<Path> testImageFiles;
 
     protected String [] getTestImageFileExtensions() {
         return DEFAULT_TEST_IMAGE_FILE_EXTENSIONS;
     }
 
-    protected List<File> getTestImageFiles() throws URISyntaxException {
+    protected List<Path> getTestImageFiles() throws URISyntaxException {
         if (testImageFiles == null) {
             testImageFiles = new ArrayList<>();
 
             for (String extension : getTestImageFileExtensions()) {
-                testImageFiles.add(new File(AbstractMagickCommandTest.class.getResource("/hippo." + extension).toURI()));
+                testImageFiles.add(Paths.get(AbstractMagickCommandTest.class.getResource("/hippo." + extension).toURI()));
             }
         }
 
