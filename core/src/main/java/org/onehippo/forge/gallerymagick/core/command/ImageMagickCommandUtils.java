@@ -18,11 +18,14 @@ package org.onehippo.forge.gallerymagick.core.command;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
 
 /**
@@ -40,21 +43,21 @@ public class ImageMagickCommandUtils {
      * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public static String identifyAllMetadata(File sourceFile) throws MagickExecuteException, IOException {
+    public static String identifyAllMetadata(Path sourceFile) throws IOException {
         ImageMagickCommand cmd = new ImageMagickCommand(null, "identify");
 
-        final File tempFolder = getTempFolder();
+        final Path tempFolder = getTempFolder();
 
         if (tempFolder != null) {
             cmd.setWorkingDirectory(tempFolder);
         }
 
         cmd.addArgument("-verbose");
-        cmd.addArgument(sourceFile.getCanonicalPath());
+        cmd.addArgument(sourceFile.toRealPath().toString());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream(8192);
         cmd.execute(baos);
-        return StringUtils.trim(baos.toString("UTF-8"));
+        return org.apache.commons.lang3.StringUtils.trim(baos.toString(StandardCharsets.UTF_8));
     }
 
     /**
@@ -64,10 +67,10 @@ public class ImageMagickCommandUtils {
      * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public static ImageDimension identifyDimension(File sourceFile) throws MagickExecuteException, IOException {
+    public static ImageDimension identifyDimension(Path sourceFile) throws IOException {
         ImageMagickCommand cmd = new ImageMagickCommand(null, "identify");
 
-        final File tempFolder = getTempFolder();
+        final Path tempFolder = getTempFolder();
 
         if (tempFolder != null) {
             cmd.setWorkingDirectory(tempFolder);
@@ -75,11 +78,11 @@ public class ImageMagickCommandUtils {
 
         cmd.addArgument("-format");
         cmd.addArgument("%wx%h");
-        cmd.addArgument(sourceFile.getCanonicalPath());
+        cmd.addArgument(sourceFile.toRealPath().toString());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream(40);
         cmd.execute(baos);
-        String output = StringUtils.trim(baos.toString("UTF-8"));
+        String output = StringUtils.trim(baos.toString(StandardCharsets.UTF_8));
 
         return ImageDimension.from(output);
     }
@@ -93,8 +96,8 @@ public class ImageMagickCommandUtils {
      * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public static void resizeImage(File sourceFile, File targetFile, ImageDimension dimension)
-            throws MagickExecuteException, IOException {
+    public static void resizeImage(Path sourceFile, Path targetFile, ImageDimension dimension)
+            throws IOException {
         resizeImage(sourceFile, targetFile, dimension, (String []) null);
     }
 
@@ -108,21 +111,20 @@ public class ImageMagickCommandUtils {
      * @throws MagickExecuteException if execution exception occurs
      * @throws IOException if IO exception occurs
      */
-    public static void resizeImage(File sourceFile, File targetFile, ImageDimension dimension, String ... extraOptions)
-            throws MagickExecuteException, IOException {
+    public static void resizeImage(Path sourceFile, Path targetFile, ImageDimension dimension, String... extraOptions) throws IOException {
         if (dimension == null) {
             throw new IllegalArgumentException("Invalid dimension: " + dimension);
         }
 
         ImageMagickCommand cmd = new ImageMagickCommand(null, "convert");
 
-        final File tempFolder = getTempFolder();
+        final Path tempFolder = getTempFolder();
 
         if (tempFolder != null) {
             cmd.setWorkingDirectory(tempFolder);
         }
 
-        cmd.addArgument(sourceFile.getCanonicalPath());
+        cmd.addArgument(sourceFile.toRealPath().toString());
         final String dimensionArg = dimension.toCommandArgument();
         cmd.addArgument("-resize");
         cmd.addArgument(dimensionArg);
@@ -145,7 +147,7 @@ public class ImageMagickCommandUtils {
             cmd.addArgument("*");
         }
 
-        cmd.addArgument(targetFile.getCanonicalPath());
+        cmd.addArgument(targetFile.toRealPath().toString());
 
         cmd.execute();
     }
@@ -154,12 +156,12 @@ public class ImageMagickCommandUtils {
      * Returns the temporary folder file.
      * @return the temporary foler file
      */
-    private static File getTempFolder() {
-        File tempFolder = null;
+    private static Path getTempFolder() {
+        Path tempFolder = null;
         final String tmpDirPath = System.getProperty("java.io.tmpdir");
 
-        if (StringUtils.isNotBlank(tmpDirPath)) {
-            tempFolder = new File(tmpDirPath);
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(tmpDirPath)) {
+            tempFolder = Paths.get(tmpDirPath);
         }
 
         return tempFolder;

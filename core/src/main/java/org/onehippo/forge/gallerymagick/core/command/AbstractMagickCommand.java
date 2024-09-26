@@ -20,6 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,14 +36,14 @@ import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Abstract *Magick Command.
  */
-abstract public class AbstractMagickCommand {
+public abstract class AbstractMagickCommand {
 
     private static final Logger log = LoggerFactory.getLogger(AbstractMagickCommand.class);
 
@@ -62,7 +65,7 @@ abstract public class AbstractMagickCommand {
     /**
      * Working directory of a command execution.
      */
-    private File workingDirectory;
+    private Path workingDirectory;
 
     /**
      * Command executable. e.g, <code>gm</code>, <code>/usr/bin/gm</code> or <code>/usr/local/bin/gm</code>.
@@ -93,7 +96,7 @@ abstract public class AbstractMagickCommand {
      * Returns working directory.
      * @return working directory
      */
-    public File getWorkingDirectory() {
+    public Path getWorkingDirectory() {
         return workingDirectory;
     }
 
@@ -101,7 +104,7 @@ abstract public class AbstractMagickCommand {
      * Sets working directory
      * @param workingDirectory working directory
      */
-    public void setWorkingDirectory(File workingDirectory) {
+    public void setWorkingDirectory(Path workingDirectory) {
         this.workingDirectory = workingDirectory;
     }
 
@@ -175,14 +178,18 @@ abstract public class AbstractMagickCommand {
      */
     public void execute(final OutputStream stdOut) throws IOException {
         CommandLine cmdLine = createCommandLine();
-        ByteArrayOutputStream errStream = null;
         int exitValue = 0;
         DefaultExecuteResultHandler resultHandler = null;
 
-        try {
-            errStream = new ByteArrayOutputStream(512);
+        try (ByteArrayOutputStream errStream = new ByteArrayOutputStream(512)) {
 
-            final DefaultExecutor executor = new DefaultExecutor();
+            DefaultExecutor executor;
+            if (getWorkingDirectory() != null) {
+                executor = DefaultExecutor.builder().setWorkingDirectory(getWorkingDirectory().toFile()).get();
+            } else {
+                executor = DefaultExecutor.builder().get();
+            }
+
             ExecuteStreamHandler streamHandler;
 
             if (stdOut != null) {
@@ -193,45 +200,39 @@ abstract public class AbstractMagickCommand {
 
             executor.setStreamHandler(streamHandler);
 
-            if (getWorkingDirectory() != null) {
-                executor.setWorkingDirectory(getWorkingDirectory());
-            }
-
             long timeout = NumberUtils.toLong(System.getProperty(PROP_TIMEOUT), DEFAULT_COMMAND_TIMEOUT);
 
-            if (timeout > 0) {
-                ExecuteWatchdog watchdog = new ExecuteWatchdog(DEFAULT_COMMAND_TIMEOUT);
-                executor.setWatchdog(watchdog);
-                resultHandler = new DefaultExecuteResultHandler();
-                executor.execute(cmdLine, resultHandler);
-                log.debug("Executed with watchdog: {}", cmdLine);
-                resultHandler.waitFor();
-            } else {
-                exitValue = executor.execute(cmdLine);
-                log.debug("Executed without watchdog: {}", cmdLine);
+            try {
+                if (timeout > 0) {
+                    ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofMillis(DEFAULT_COMMAND_TIMEOUT)).get();
+                    executor.setWatchdog(watchdog);
+                    resultHandler = new DefaultExecuteResultHandler();
+                    executor.execute(cmdLine, resultHandler);
+                    log.debug("Executed with watchdog: {}", cmdLine);
+                    resultHandler.waitFor();
+                } else {
+                    exitValue = executor.execute(cmdLine);
+                    log.debug("Executed without watchdog: {}", cmdLine);
+                }
+            } catch (ExecuteException e) {
+                if (resultHandler != null) {
+                    exitValue = resultHandler.getExitValue();
+                }
+                if (e.getCause() == null) {
+                    throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, e), exitValue);
+                } else {
+                    throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, e), exitValue, e.getCause());
+                }
+            } catch (InterruptedException e) {
+                log.error("InterruptedException: ", e);
+                Thread.currentThread().interrupt();
             }
-        } catch (ExecuteException | InterruptedException e) {
-            if (resultHandler != null) {
-                exitValue = resultHandler.getExitValue();
-            }
-            if (e.getCause() == null) {
-                throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, e), exitValue);
-            } else {
-                throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, e), exitValue, e.getCause());
-            }
-        } finally {
-            IOUtils.closeQuietly(errStream);
         }
     }
 
-    private String getExecutionErrorMessage(final CommandLine cmdLine, final ByteArrayOutputStream errStream,
-            final Exception e) throws UnsupportedEncodingException {
-        StringBuilder sbMsg = new StringBuilder(256);
-        sbMsg.append(StringUtils.trim(errStream.toString("UTF-8")));
-        sbMsg.append(' ').append(cmdLine.toString());
-        sbMsg.append(". ").append(e.getMessage());
-        return sbMsg.toString();
-    }
+        private String getExecutionErrorMessage(final CommandLine cmdLine, final ByteArrayOutputStream errStream, final Exception e) {
+            return org.apache.commons.lang3.StringUtils.trim(errStream.toString(StandardCharsets.UTF_8)) + ' ' + cmdLine.toString() + ". " + e.getMessage();
+        }
 
     /**
      * Create a {@link CommandLine} from executable and arguments.

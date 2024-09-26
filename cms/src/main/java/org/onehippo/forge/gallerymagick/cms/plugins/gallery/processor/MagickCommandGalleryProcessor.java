@@ -22,6 +22,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +36,7 @@ import javax.jcr.RepositoryException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hippoecm.frontend.editor.plugins.resource.MimeTypeHelper;
 import org.hippoecm.frontend.editor.plugins.resource.ResourceHelper;
 import org.hippoecm.frontend.plugins.gallery.imageutil.ImageOperation;
@@ -65,7 +69,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
 
     private static final String GALLERY_MAGICK_METADATA_PROP_NAME = "gallerymagick.metadata";
 
-    private static final ThreadLocal<File> tlSourceDataFile = new ThreadLocal<>();
+    private static ThreadLocal<Path> tlSourceDataFile = new ThreadLocal<>();
 
     private final Map<String, ScalingParameters> scalingParametersMap = new HashMap<>();
 
@@ -80,44 +84,44 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     }
 
     @Override
-    public void initGalleryNode(Node node, InputStream data, String mimeType, String fileName)
-            throws RepositoryException {
+    public void initGalleryNode(Node node, InputStream data, String mimeType, String fileName) throws RepositoryException {
         node.setProperty(HippoGalleryNodeType.IMAGE_SET_FILE_NAME, fileName);
     }
 
     @Override
-    public void makeImage(Node node, InputStream data, String mimeType, String fileName)
-            throws GalleryException, RepositoryException {
-        File sourceFile = null;
-        InputStream sourceFileInput = null;
+    public void makeImage(Node node, InputStream data, String mimeType, String fileName) throws GalleryException, RepositoryException {
+        Path sourceFile = null;
 
         try {
             sourceFile = saveOriginalImageDataToFile(data, fileName);
             extractAndSaveImageMetadata(node, sourceFile);
-            sourceFileInput = new FileInputStream(sourceFile);
-            tlSourceDataFile.set(sourceFile);
-            super.makeImage(node, sourceFileInput, mimeType, fileName);
+
+            try (InputStream sourceFileInput = Files.newInputStream(sourceFile, StandardOpenOption.READ)) {
+                tlSourceDataFile.set(sourceFile);
+                super.makeImage(node, sourceFileInput, mimeType, fileName);
+            }
         } catch (IOException e) {
             throw new GalleryException(e.toString(), e);
         } finally {
             tlSourceDataFile.remove();
 
-            IOUtils.closeQuietly(sourceFileInput);
             IOUtils.closeQuietly(data);
 
             if (sourceFile != null) {
-                log.debug("Deleting the original image file at '{}'.", sourceFile);
-                sourceFile.delete();
+                try {
+                    Files.delete(sourceFile);
+                } catch (IOException e) {
+                    log.error("Failed to delete an image file due to IO error.", e);
+                }
             }
         }
     }
 
     @Override
-    public void initGalleryResource(final Node node, final InputStream data, final String mimeType,
-            final String fileName, final Calendar lastModified) throws RepositoryException {
+    public void initGalleryResource(final Node node, final InputStream data, final String mimeType, final String fileName, final Calendar lastModified)
+            throws RepositoryException {
         node.setProperty("jcr:mimeType", mimeType);
         node.setProperty("jcr:lastModified", lastModified);
-
         final String nodeName = node.getName();
 
         final ScalingParameters parameters = getScalingParametersMap().get(nodeName);
@@ -134,7 +138,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         }
 
         boolean sourceFileCreated = false;
-        File sourceFile = tlSourceDataFile.get();
+        Path sourceFile = tlSourceDataFile.get();
 
         if (sourceFile == null) {
             // sourceFile can be null sometimes when a user clicks on 'Restore' button to restore thumbnail in UI.
@@ -142,25 +146,22 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
                 sourceFile = saveOriginalImageDataToFile(data, fileName);
                 sourceFileCreated = true;
             } catch (IOException e) {
-                throw new RuntimeException(e.toString(), e);
+                throw new MagickRuntimeException(e.getMessage(), e);
             }
         }
 
-        File targetFile = null;
-        File targetTempFile = null;
+        Path targetFile = null;
+        Path targetTempFile = null;
 
         if (MimeTypeHelper.isImageMimeType(mimeType)) {
 
             if (parameters != null && parameters.getWidth() > 0 && parameters.getHeight() > 0) {
                 try {
-                    targetTempFile = File.createTempFile(
-                            MAGICK_COMMAND_TEMP_FILE_PREFIX + "_" + StringUtils.replace(nodeName, ":", "_"),
+                    targetTempFile = Files.createTempFile(MAGICK_COMMAND_TEMP_FILE_PREFIX + "_" + org.apache.commons.lang3.StringUtils.replace(nodeName, ":", "_"),
                             "." + FilenameUtils.getExtension(fileName));
 
-                    ImageDimension dimension = ImageDimension.from(parameters.getWidth(),
-                            parameters.getHeight());
-                    log.debug("Resizing the original image file ('{}') to '{}' with dimension, {}.", sourceFile,
-                            targetTempFile, dimension);
+                    ImageDimension dimension = ImageDimension.from(parameters.getWidth(), parameters.getHeight());
+                    log.debug("Resizing the original image file ('{}') to '{}' with dimension, {}.", sourceFile, targetTempFile, dimension);
                     resizeImage(sourceFile, targetTempFile, dimension);
                     targetFile = targetTempFile;
                     targetTempFile = null;
@@ -168,91 +169,72 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
                     log.warn("Scaling failed, using original image instead", e);
                 }
             } else {
-                log.debug(
-                        "No scaling parameters specified for {} or width or height is zero or negative. So use original image",
-                        nodeName);
+                log.debug("No scaling parameters specified for {} or width or height is zero or negative. So use original image", nodeName);
             }
         } else {
             log.debug("Unknown image MIME type: {}, using raw data", mimeType);
         }
 
-        ImageDimension dimension = null;
-        InputStream imageFileIn = null;
-        BufferedInputStream imageBufIn = null;
-        Binary imageBinary = null;
-
         try {
-            if (targetFile != null) {
-                dimension = identifyDimension(targetFile);
-                imageFileIn = new FileInputStream(targetFile);
-            } else {
-                dimension = identifyDimension(sourceFile);
-                imageFileIn = new FileInputStream(sourceFile);
+            Path fileToProcess = (targetFile != null) ? targetFile : sourceFile;
+            ImageDimension dimension = identifyDimension(fileToProcess);
+
+            try (InputStream imageFileIn = Files.newInputStream(fileToProcess); BufferedInputStream imageBufIn = new BufferedInputStream(imageFileIn)) {
+                Binary imageBinary = ResourceHelper.getValueFactory(node).createBinary(imageBufIn);
+
+                log.debug("Storing an image binary at '{}' from file at '{}'.", node.getPath(), fileToProcess);
+
+                node.setProperty("jcr:data", imageBinary);
+                node.setProperty(HippoGalleryNodeType.IMAGE_WIDTH, dimension.getWidth());
+                node.setProperty(HippoGalleryNodeType.IMAGE_HEIGHT, dimension.getHeight());
+
+                if (imageBinary != null) {
+                    imageBinary.dispose();
+                }
             }
-
-            imageBufIn = new BufferedInputStream(imageFileIn);
-            imageBinary = ResourceHelper.getValueFactory(node).createBinary(imageBufIn);
-
-            log.debug("Storing an image binary at '{}' from file at '{}'.", node.getPath(),
-                    targetFile != null ? targetFile : sourceFile);
-
-            node.setProperty("jcr:data", imageBinary);
-            node.setProperty(HippoGalleryNodeType.IMAGE_WIDTH, (long) dimension.getWidth());
-            node.setProperty(HippoGalleryNodeType.IMAGE_HEIGHT, (long) dimension.getHeight());
         } catch (IOException e) {
             log.error("Failed to store an image variant due to IO error.", e);
         } finally {
             try {
-                if (imageBinary != null) {
-                    imageBinary.dispose();
+                if (targetTempFile != null) {
+                    Files.delete(targetTempFile);
                 }
-            } catch (Exception ignore) {
-            }
 
-            IOUtils.closeQuietly(imageBufIn);
-            IOUtils.closeQuietly(imageFileIn);
+                if (targetFile != null) {
+                    Files.delete(targetFile);
+                }
 
-            if (targetTempFile != null) {
-                log.debug("Deleting the temporary resized target image file at '{}'.", targetTempFile);
-                targetTempFile.delete();
-            }
-
-            if (targetFile != null) {
-                log.debug("Deleting the resized target image file at '{}'.", targetFile);
-                targetFile.delete();
-            }
-
-            if (sourceFileCreated && sourceFile != null) {
-                log.debug("Deleting the original source image file at '{}'.", sourceFile);
-                sourceFile.delete();
+                if (sourceFileCreated) {
+                    Files.delete(sourceFile);
+                }
+            } catch (IOException e) {
+                log.error("Failed to delete an image file due to IO error.", e);
             }
         }
     }
 
     @Override
-    public Dimension getDesiredResourceDimension(Node resource) throws GalleryException, RepositoryException {
-        String nodeName = resource.getName();
-        ScalingParameters params = scalingParametersMap.get(nodeName);
-
-        if (params != null) {
-            int width = params.getWidth();
-            int height = params.getHeight();
-            return new Dimension(width, height);
+    public Dimension getDesiredResourceDimension(Node resource) throws RepositoryException {
+        final String nodeName = resource.getName();
+        final ScalingParameters parameters = scalingParametersMap.get(nodeName);
+        if (parameters != null) {
+            return new Dimension(parameters.getWidth(), parameters.getHeight());
         } else {
+            log.warn("No scaling parameters found for: {}.", nodeName);
             return null;
         }
     }
 
     @Override
-    public Map<String, ScalingParameters> getScalingParametersMap() throws RepositoryException {
+    public Map<String, ScalingParameters> getScalingParametersMap() {
         return scalingParametersMap;
     }
 
     protected boolean isImageMagickImageProcessor() {
-        return StringUtils.equalsIgnoreCase("ImageMagick", magickImageProcessor);
+        return org.apache.commons.lang.StringUtils.equalsIgnoreCase("ImageMagick", magickImageProcessor);
     }
 
-    protected void resizeImage(File sourceFile, File targetFile, ImageDimension dimension) throws MagickExecuteException, IOException {
+    protected void resizeImage(Path sourceFile, Path targetFile, ImageDimension dimension) throws IOException {
         if (isImageMagickImageProcessor()) {
             ImageMagickCommandUtils.resizeImage(sourceFile, targetFile, dimension);
         } else {
@@ -260,7 +242,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         }
     }
 
-    protected String identifyAllMetadata(File sourceFile) throws MagickExecuteException, IOException {
+    protected String identifyAllMetadata(Path sourceFile) throws IOException {
         if (isImageMagickImageProcessor()) {
             return ImageMagickCommandUtils.identifyAllMetadata(sourceFile);
         } else {
@@ -268,7 +250,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         }
     }
 
-    protected ImageDimension identifyDimension(File sourceFile) throws MagickExecuteException, IOException {
+    protected ImageDimension identifyDimension(Path sourceFile) throws IOException {
         if (isImageMagickImageProcessor()) {
             return ImageMagickCommandUtils.identifyDimension(sourceFile);
         } else {
@@ -276,7 +258,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         }
     }
 
-    protected void extractAndSaveImageMetadata(Node node, File sourceFile) {
+    protected void extractAndSaveImageMetadata(Node node, Path sourceFile) {
         String nodePath = null;
 
         try {
@@ -288,25 +270,14 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
                 node.setProperty(GALLERY_MAGICK_METADATA_PROP_NAME, StringUtils.defaultString(imageMetadata));
             }
         } catch (Exception e) {
-            log.error("Failed to extract image metadata or failed to store the metadata in '{}' property at '{}'.",
-                    GALLERY_MAGICK_METADATA_PROP_NAME, nodePath, e);
+            log.error("Failed to extract image metadata or failed to store the metadata in '{}' property at '{}'.", GALLERY_MAGICK_METADATA_PROP_NAME, nodePath,
+                    e);
         }
     }
 
-    private File saveOriginalImageDataToFile(final InputStream dataIput, final String fileName) throws IOException {
-        File sourceFile = null;
-        FileOutputStream fos = null;
-
-        try {
-            sourceFile = File.createTempFile(MAGICK_COMMAND_TEMP_FILE_PREFIX,
-                    "." + FilenameUtils.getExtension(fileName));
-            fos = new FileOutputStream(sourceFile);
-            log.debug("Storing original image source file ('{}') to '{}'.", fileName, sourceFile);
-            IOUtils.copy(dataIput, fos);
-        } finally {
-            IOUtils.closeQuietly(fos);
-        }
-
+    private Path saveOriginalImageDataToFile(final InputStream dataInput, final String fileName) throws IOException {
+        Path sourceFile = Files.createTempFile(MAGICK_COMMAND_TEMP_FILE_PREFIX, "." + FilenameUtils.getExtension(fileName));
+        Files.copy(dataInput, sourceFile, StandardCopyOption.REPLACE_EXISTING);
         return sourceFile;
     }
 }
