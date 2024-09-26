@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2016 Hippo B.V. (http://www.onehippo.com)
+ * Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public class MagickCommandGalleryProcessorPlugin extends Plugin {
             if (StringUtils.isNotBlank(nodeName)) {
                 int width = childConfig.getAsInteger("width", 0);
                 int height = childConfig.getAsInteger("height", 0);
-                final ScalingParameters parameters = new ScalingParameters(width, height, false);
+                final ScalingParameters parameters = new ScalingParameters.Builder(width, height).build();
                 log.debug("Scaling parameters for {}: {}", nodeName, parameters);
                 initScalingParametersMap.put(nodeName, parameters);
             }

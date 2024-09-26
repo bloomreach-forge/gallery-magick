@@ -12,3 +12,4 @@ definitions:
           jcr:primaryType: hst:mount
           hst:homepage: root
           hst:mountpoint: /hst:gallerymagickdemo/hst:sites/gallerymagickdemo
+          hst:pagemodelapi: resourceapi

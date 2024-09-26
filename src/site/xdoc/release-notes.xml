@@ -1,5 +1,8 @@
-<?xml version="1.0"?><!--
-    Copyright 2015 Hippo Licensed under the Apache License, Version 2.0
+<?xml version="1.0"?>
+<!--
+    Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+
+    Licensed under the Apache License, Version 2.0
     (the "License"); you may not use this file except in compliance with
     the License. You may obtain a copy of the License at
 
@@ -9,8 +12,7 @@
     OR CONDITIONS OF ANY KIND, either express or implied. See the
     License for the specific language governing permissions and
     limitations under the License.
-  --><!DOCTYPE document PUBLIC "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+  -->
 <document>
   <properties>
     <title>Release Notes</title>
@@ -23,8 +25,12 @@
             Plugin Version
           </th>
           <th>
-            Hippo CMS Release Version
+            brXM Release Version
           </th>
+        </tr>
+        <tr>
+          <td>4.x</td>
+          <td>16.x</td>
         </tr>
         <tr>
           <td>3.x</td>
@@ -39,6 +45,14 @@
           <td>10.x, 11.x</td>
         </tr>
       </table>
+    </section>
+    <section name="Release Notes of 4.x">
+      <subsection name="4.0.0">
+        <ul>
+          <li>[<a href='https://issues.onehippo.com/browse/FORGE-556'>FORGE-556</a>] - Upgrade plugin to v16
+          </li>
+        </ul>
+      </subsection>
     </section>
     <section name="Release Notes of 3.x">
       <subsection name="3.0.2">

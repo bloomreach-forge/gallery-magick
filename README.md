@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/bloomreach-forge/gallery-magick.svg?branch=develop)](https://travis-ci.org/bloomreach-forge/gallery-magick)
-
-
 # Gallery Magick Image Processing
 
 Gallery Magick Image Processing provides an image file processing library and CMS plugins to manipulate image files, 

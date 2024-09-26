@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC
-  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2016 Hippo
+    Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -40,9 +37,9 @@
       <!-- SNIP -->
 
       <repository>
-        <id>hippo-maven2-forge</id>
-        <name>Hippo Maven 2 Forge Repository</name>
-        <url>http://maven.onehippo.com/maven2-forge/</url>
+        <id>bloomreach-maven2-forge</id>
+        <name>Bloomreach Maven 2 Forge Repository</name>
+        <url>https://maven.bloomreach.com/repository/maven2-forge/</url>
       </repository>
 
       <!-- SNIP -->
@@ -86,7 +83,7 @@
     ]]></source>
         </div>
         <p>
-          And add the following dependency reference into your a web application (e.g, cms/) subproject.
+          And add the following dependency reference into the pom.xml of the CMS module.
         </p>
         <div class="brush: xml">
           <source><![CDATA[

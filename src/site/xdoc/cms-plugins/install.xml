@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE document PUBLIC
-  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
-  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2016-2017 Hippo
+    Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -40,9 +37,9 @@
       <!-- SNIP -->
 
       <repository>
-        <id>hippo-maven2-forge</id>
-        <name>Hippo Maven 2 Forge Repository</name>
-        <url>http://maven.onehippo.com/maven2-forge/</url>
+        <id>bloomreach-maven2-forge</id>
+        <name>Bloomreach Maven 2 Forge Repository</name>
+        <url>https://maven.bloomreach.com/repository/maven2-forge/</url>
       </repository>
 
       <!-- SNIP -->
@@ -95,7 +92,7 @@
     ]]></source>
         </div>
         <p>
-          Add the following dependencies to either <code>cms-dependencies/pom.xml</code> in Hippo CMS v13
+          Add the following dependencies to either <code>cms-dependencies/pom.xml</code> in brXM v13 and higher
           or <code>cms/pom.xml</code> in the earlier versions.
         </p>
         <div class="brush: xml">
@@ -121,13 +118,12 @@
         </div>
         <p>
           <strong>gallery-magick-bootstrap</strong> module registers a new Gallery Processor with ID,
-          <code>service.magick.command.gallery.processor</code>, in your Hippo Repository.
+          <code>service.magick.command.gallery.processor</code>, in your repository.
           It doesn't replace the default Gallery Processor (ID: <code>service.gallery.processor</code>).
-          Because this bootstrap module doesn't change any Gallery Processor reference confgurations automatically,
+          Because this bootstrap module doesn't change any Gallery Processor reference configurations automatically,
           it would not make any changes on your system yet.
           To replace all the Gallery Processor reference configurations in your system,
-          you should include more property setting bootstrap initialize items in your project
-          (typically in <code>bootstrap/configuration/src/main/resources/hippoecm-extension.xml</code>)
+          you should include more configuration data items in your project
           as explained in the next section.
         </p>
       </subsection>

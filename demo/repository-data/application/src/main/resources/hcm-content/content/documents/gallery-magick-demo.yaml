@@ -1,8 +1,6 @@
 /content/documents/gallerymagickdemo:
-  .meta:order-before: administration
   jcr:primaryType: hippostd:folder
   jcr:mixinTypes: ['hippo:named', 'hippotranslation:translated', 'mix:referenceable']
-  jcr:uuid: 4ae83252-0582-45ab-ac54-0d93bddd0dab
   hippo:name: Gallery Magick Image Processing Demo
   hippostd:foldertype: [new-translated-folder, new-document]
   hippotranslation:id: 996bcac5-86cf-49b5-a7a3-16a74863e814
