@@ -35,10 +35,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hippoecm.frontend.editor.plugins.resource.MimeTypeHelper;
 import org.hippoecm.frontend.editor.plugins.resource.ResourceHelper;
+import org.hippoecm.frontend.plugins.gallery.imageutil.ImageOperation;
+import org.hippoecm.frontend.plugins.gallery.imageutil.ImageOperationResult;
+import org.hippoecm.frontend.plugins.gallery.imageutil.ScaleImageOperationFactory;
 import org.hippoecm.frontend.plugins.gallery.imageutil.ScalingParameters;
 import org.hippoecm.frontend.plugins.gallery.model.GalleryException;
 import org.hippoecm.frontend.plugins.gallery.model.GalleryProcessor;
 import org.hippoecm.frontend.plugins.gallery.processor.AbstractGalleryProcessor;
+import org.hippoecm.frontend.plugins.gallery.util.ImageGalleryUtils;
 import org.hippoecm.repository.HippoStdNodeType;
 import org.hippoecm.repository.gallery.HippoGalleryNodeType;
 import org.onehippo.forge.gallerymagick.core.ImageDimension;
@@ -115,6 +119,20 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         node.setProperty("jcr:lastModified", lastModified);
 
         final String nodeName = node.getName();
+
+        final ScalingParameters parameters = getScalingParametersMap().get(nodeName);
+        if (MimeTypeHelper.isSvgMimeType(mimeType)) {
+            try {
+                final ImageOperation operation = ScaleImageOperationFactory.getOperation(parameters, mimeType);
+                final ImageOperationResult result = operation.run(data, mimeType);
+                ImageGalleryUtils.saveImageNode(node, result.getData(), result.getWidth(), result.getHeight());
+            } catch (GalleryException e) {
+                log.warn("Scaling failed, using original image instead", e);
+                ImageGalleryUtils.saveImageNode(node, data, 0, 0);
+            }
+            return;
+        }
+
         boolean sourceFileCreated = false;
         File sourceFile = tlSourceDataFile.get();
 
@@ -132,16 +150,15 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         File targetTempFile = null;
 
         if (MimeTypeHelper.isImageMimeType(mimeType)) {
-            final ScalingParameters scalingParameters = getScalingParametersMap().get(nodeName);
 
-            if (scalingParameters != null && scalingParameters.getWidth() > 0 && scalingParameters.getHeight() > 0) {
+            if (parameters != null && parameters.getWidth() > 0 && parameters.getHeight() > 0) {
                 try {
                     targetTempFile = File.createTempFile(
                             MAGICK_COMMAND_TEMP_FILE_PREFIX + "_" + StringUtils.replace(nodeName, ":", "_"),
                             "." + FilenameUtils.getExtension(fileName));
 
-                    ImageDimension dimension = ImageDimension.from(scalingParameters.getWidth(),
-                            scalingParameters.getHeight());
+                    ImageDimension dimension = ImageDimension.from(parameters.getWidth(),
+                            parameters.getHeight());
                     log.debug("Resizing the original image file ('{}') to '{}' with dimension, {}.", sourceFile,
                             targetTempFile, dimension);
                     resizeImage(sourceFile, targetTempFile, dimension);
