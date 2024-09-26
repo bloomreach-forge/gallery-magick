@@ -63,7 +63,7 @@
     <!--***START temporary override of versions*** -->
     <!-- ***END temporary override of versions*** -->
     <forge.gallery-magick.version>${project.version}</forge.gallery-magick.version>
-    <essentials.version>16.0.0</essentials.version>
+    <essentials.version>${hippo.release.version}</essentials.version>
 
     <development-module-deploy-dir>shared/lib</development-module-deploy-dir>
 
