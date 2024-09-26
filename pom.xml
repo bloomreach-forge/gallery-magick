@@ -27,7 +27,7 @@
   <description>Gallery Magick Image Processing</description>
   <groupId>org.onehippo.forge.gallery-magick</groupId>
   <artifactId>gallery-magick</artifactId>
-  <version>3.0.3-SNAPSHOT</version>
+  <version>4.0.0</version>
   <packaging>pom</packaging>
   <url>https://github.com/bloomreach-forge/gallery-magick</url>
 
