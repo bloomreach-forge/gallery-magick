@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.onehippo.forge.gallery-magick</groupId>
     <artifactId>gallery-magick-demo</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
   </parent>
 
   <name>Gallery Magick Image Processing Demo Repository Data</name>
