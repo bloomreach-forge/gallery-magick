@@ -16,7 +16,7 @@
 package org.onehippo.forge.gallerymagick.core.command;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Encapsulation of <a href="http://www.graphicsmagick.org/">Graphics Magick Command Utilities</a>.
