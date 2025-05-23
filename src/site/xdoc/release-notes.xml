@@ -47,6 +47,13 @@
       </table>
     </section>
     <section name="Release Notes of 4.x">
+      <subsection name="4.1.0">
+        <p class="smallinfo">Release Date: 23 May 2025</p>
+        <ul>
+          <li>[<a href='https://bloomreach.atlassian.net/browse/FORGE-566'>FORGE-566</a>] - Move from commons-lang to org.apache.commons
+          </li>
+        </ul>
+      </subsection>
       <subsection name="4.0.0">
         <ul>
           <li>[<a href='https://issues.onehippo.com/browse/FORGE-556'>FORGE-556</a>] - Upgrade plugin to v16
