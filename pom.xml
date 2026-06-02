@@ -20,21 +20,21 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>16.3.0</version>
+    <version>17.0.0</version>
   </parent>
 
   <name>Gallery Magick Image Processing</name>
   <description>Gallery Magick Image Processing</description>
   <groupId>org.onehippo.forge.gallery-magick</groupId>
   <artifactId>gallery-magick</artifactId>
-  <version>4.1.1-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>https://github.com/bloomreach-forge/gallery-magick</url>
 
   <properties>
     <imgscalr-lib.version>4.2</imgscalr-lib.version>
-    <commons-exec.version>1.3</commons-exec.version>
-    <maven.compiler.release>17</maven.compiler.release>
+    <commons-exec.version>1.4</commons-exec.version>
+    <maven.compiler.release>21</maven.compiler.release>
 
     <plugin.jxr.version>2.3</plugin.jxr.version>
   </properties>
