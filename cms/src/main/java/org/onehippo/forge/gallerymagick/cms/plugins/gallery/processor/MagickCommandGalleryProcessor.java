@@ -132,7 +132,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         File targetTempFile = null;
 
         if (MimeTypeHelper.isImageMimeType(mimeType)) {
-            final ScalingParameters scalingParameters = getScalingParametersMap().get(nodeName);
+            final ScalingParameters scalingParameters = getScalingParameters(node);
 
             if (scalingParameters != null && scalingParameters.getWidth() > 0 && scalingParameters.getHeight() > 0) {
                 try {
@@ -226,9 +226,18 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         }
     }
 
-    @Override
-    public Map<String, ScalingParameters> getScalingParametersMap() throws RepositoryException {
+    public Map<String, ScalingParameters> getScalingParametersMap() {
         return scalingParametersMap;
+    }
+
+    @Override
+    public ScalingParameters getScalingParameters(final Node variantNode) {
+        try {
+            return scalingParametersMap.get(variantNode.getName());
+        } catch (RepositoryException e) {
+            log.warn("Unable to get variant node name for scaling parameters", e);
+            return null;
+        }
     }
 
     protected boolean isImageMagickImageProcessor() {
