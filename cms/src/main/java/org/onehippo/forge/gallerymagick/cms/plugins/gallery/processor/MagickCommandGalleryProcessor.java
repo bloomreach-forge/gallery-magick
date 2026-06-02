@@ -159,25 +159,25 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
             log.debug("Unknown image MIME type: {}, using raw data", mimeType);
         }
 
-        ImageDimension dimension = null;
+        final File imageFile = targetFile != null ? targetFile : sourceFile;
+        ImageDimension dimension;
+        try {
+            dimension = identifyDimension(imageFile);
+        } catch (IOException | IllegalArgumentException e) {
+            log.warn("Failed to identify image dimension for '{}', storing with 0x0: {}", imageFile, e.getMessage());
+            dimension = ImageDimension.from(0, 0);
+        }
+
         InputStream imageFileIn = null;
         BufferedInputStream imageBufIn = null;
         Binary imageBinary = null;
 
         try {
-            if (targetFile != null) {
-                dimension = identifyDimension(targetFile);
-                imageFileIn = new FileInputStream(targetFile);
-            } else {
-                dimension = identifyDimension(sourceFile);
-                imageFileIn = new FileInputStream(sourceFile);
-            }
-
+            imageFileIn = new FileInputStream(imageFile);
             imageBufIn = new BufferedInputStream(imageFileIn);
             imageBinary = ResourceHelper.getValueFactory(node).createBinary(imageBufIn);
 
-            log.debug("Storing an image binary at '{}' from file at '{}'.", node.getPath(),
-                    targetFile != null ? targetFile : sourceFile);
+            log.debug("Storing an image binary at '{}' from file at '{}'.", node.getPath(), imageFile);
 
             node.setProperty("jcr:data", imageBinary);
             node.setProperty(HippoGalleryNodeType.IMAGE_WIDTH, (long) dimension.getWidth());
