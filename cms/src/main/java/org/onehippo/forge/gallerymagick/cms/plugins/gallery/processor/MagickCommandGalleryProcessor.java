@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+ * Copyright 2026 Bloomreach B.V. (http://www.bloomreach.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -132,7 +132,7 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
         File targetTempFile = null;
 
         if (MimeTypeHelper.isImageMimeType(mimeType)) {
-            final ScalingParameters scalingParameters = getScalingParametersMap().get(nodeName);
+            final ScalingParameters scalingParameters = getScalingParameters(node);
 
             if (scalingParameters != null && scalingParameters.getWidth() > 0 && scalingParameters.getHeight() > 0) {
                 try {
@@ -159,25 +159,25 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
             log.debug("Unknown image MIME type: {}, using raw data", mimeType);
         }
 
-        ImageDimension dimension = null;
+        final File imageFile = targetFile != null ? targetFile : sourceFile;
+        ImageDimension dimension;
+        try {
+            dimension = identifyDimension(imageFile);
+        } catch (IOException | IllegalArgumentException e) {
+            log.warn("Failed to identify image dimension for '{}', storing with 0x0: {}", imageFile, e.getMessage());
+            dimension = ImageDimension.from(0, 0);
+        }
+
         InputStream imageFileIn = null;
         BufferedInputStream imageBufIn = null;
         Binary imageBinary = null;
 
         try {
-            if (targetFile != null) {
-                dimension = identifyDimension(targetFile);
-                imageFileIn = new FileInputStream(targetFile);
-            } else {
-                dimension = identifyDimension(sourceFile);
-                imageFileIn = new FileInputStream(sourceFile);
-            }
-
+            imageFileIn = new FileInputStream(imageFile);
             imageBufIn = new BufferedInputStream(imageFileIn);
             imageBinary = ResourceHelper.getValueFactory(node).createBinary(imageBufIn);
 
-            log.debug("Storing an image binary at '{}' from file at '{}'.", node.getPath(),
-                    targetFile != null ? targetFile : sourceFile);
+            log.debug("Storing an image binary at '{}' from file at '{}'.", node.getPath(), imageFile);
 
             node.setProperty("jcr:data", imageBinary);
             node.setProperty(HippoGalleryNodeType.IMAGE_WIDTH, (long) dimension.getWidth());
@@ -227,8 +227,13 @@ public class MagickCommandGalleryProcessor extends AbstractGalleryProcessor {
     }
 
     @Override
-    public Map<String, ScalingParameters> getScalingParametersMap() throws RepositoryException {
-        return scalingParametersMap;
+    public ScalingParameters getScalingParameters(final Node variantNode) {
+        try {
+            return scalingParametersMap.get(variantNode.getName());
+        } catch (RepositoryException e) {
+            log.warn("Unable to get variant node name for scaling parameters", e);
+            return null;
+        }
     }
 
     protected boolean isImageMagickImageProcessor() {

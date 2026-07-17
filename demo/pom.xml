@@ -5,14 +5,14 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>16.0.0</version>
+    <version>17.1.1</version>
   </parent>
 
   <name>Gallery Magick Image Processing Demo</name>
   <description>Gallery Magick Image Processing Demo</description>
   <groupId>org.onehippo.forge.gallery-magick</groupId>
   <artifactId>gallery-magick-demo</artifactId>
-  <version>4.1.0</version>
+  <version>5.0.0</version>
   <packaging>pom</packaging>
 
   <!--
@@ -423,7 +423,7 @@
       <dependencies>
         <dependency>
           <groupId>org.apache.logging.log4j</groupId>
-          <artifactId>log4j-slf4j-impl</artifactId>
+          <artifactId>log4j-slf4j2-impl</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>
@@ -471,7 +471,7 @@
       <dependencies>
         <dependency>
           <groupId>org.apache.logging.log4j</groupId>
-          <artifactId>log4j-slf4j-impl</artifactId>
+          <artifactId>log4j-slf4j2-impl</artifactId>
           <scope>provided</scope>
         </dependency>
         <dependency>

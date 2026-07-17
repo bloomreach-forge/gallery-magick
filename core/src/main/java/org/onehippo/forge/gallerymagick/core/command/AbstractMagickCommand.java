@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+ * Copyright 2026 Bloomreach B.V. (http://www.bloomreach.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -206,6 +206,16 @@ abstract public class AbstractMagickCommand {
                 executor.execute(cmdLine, resultHandler);
                 log.debug("Executed with watchdog: {}", cmdLine);
                 resultHandler.waitFor();
+                final ExecuteException handlerException = resultHandler.getException();
+                if (handlerException != null) {
+                    exitValue = resultHandler.getExitValue();
+                    final Throwable cause = handlerException.getCause();
+                    if (cause == null) {
+                        throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, handlerException), exitValue);
+                    } else {
+                        throw new MagickExecuteException(getExecutionErrorMessage(cmdLine, errStream, handlerException), exitValue, cause);
+                    }
+                }
             } else {
                 exitValue = executor.execute(cmdLine);
                 log.debug("Executed without watchdog: {}", cmdLine);
