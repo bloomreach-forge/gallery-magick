@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2024 Bloomreach B.V. (http://www.bloomreach.com)
+  Copyright 2026 Bloomreach B.V. (http://www.bloomreach.com)
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,21 +20,21 @@
   <parent>
     <groupId>org.onehippo.cms7</groupId>
     <artifactId>hippo-cms7-release</artifactId>
-    <version>16.3.0</version>
+    <version>17.1.1</version>
   </parent>
 
   <name>Gallery Magick Image Processing</name>
   <description>Gallery Magick Image Processing</description>
   <groupId>org.onehippo.forge.gallery-magick</groupId>
   <artifactId>gallery-magick</artifactId>
-  <version>4.1.1-SNAPSHOT</version>
+  <version>5.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <url>https://github.com/bloomreach-forge/gallery-magick</url>
 
   <properties>
     <imgscalr-lib.version>4.2</imgscalr-lib.version>
-    <commons-exec.version>1.3</commons-exec.version>
-    <maven.compiler.release>17</maven.compiler.release>
+    <commons-exec.version>1.6.0</commons-exec.version>
+    <maven.compiler.release>21</maven.compiler.release>
 
     <plugin.jxr.version>2.3</plugin.jxr.version>
   </properties>
@@ -57,7 +57,7 @@
 
   <issueManagement>
     <system>Jira</system>
-    <url>https://issues.onehippo.com/browse/FORGE</url>
+    <url>https://bloomreach.atlassian.net/browse/FORGE</url>
   </issueManagement>
 
   <licenses>
@@ -151,7 +151,7 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
+        <version>${slf4j2.version}</version>
         <scope>provided</scope>
       </dependency>
 
@@ -197,12 +197,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
+        <version>${slf4j2.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-slf4j-impl</artifactId>
+        <artifactId>log4j-slf4j2-impl</artifactId>
         <version>${log4j2.version}</version>
         <scope>test</scope>
       </dependency>
@@ -229,7 +229,7 @@
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
+        <version>${junit4.version}</version>
         <scope>test</scope>
       </dependency>
 
